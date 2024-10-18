@@ -1,0 +1,70 @@
+{
+  "project_info": {
+    "project_number": "473077239498",
+    "project_id": "yohire-a7f13",
+    "storage_bucket": "yohire-a7f13.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:473077239498:android:88565669b4f7442bd9ee33",
+        "android_client_info": {
+          "package_name": "com.yohiresoftwares.yohirejobs"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "473077239498-g6h05gub72b8brnt7mq7kam1v0q9k3id.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.yohiresoftwares.yohirejobs",
+            "certificate_hash": "dcb5e0882acb674f449d6b7890f4f1cf9ba33e1c"
+          }
+        },
+        {
+          "client_id": "473077239498-i6djq1lq6ipqgl6glp06urk9ndf8ro41.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.yohiresoftwares.yohirejobs",
+            "certificate_hash": "dd129bdba46b0eb05bae3dd3ba6933afca1f3dad"
+          }
+        },
+        {
+          "client_id": "473077239498-re0sff663gr389kudn8j0j3avpqvctd2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.yohiresoftwares.yohirejobs",
+            "certificate_hash": "5fca0a3f27717503dd68f05457b2e66064c1430a"
+          }
+        },
+        {
+          "client_id": "473077239498-k22cjt192t1bfrvm4ophoroqicq7hjg6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbTMpKoa6h4sOflFhnpa9uHl-HlUQ0gsk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "473077239498-k22cjt192t1bfrvm4ophoroqicq7hjg6.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "473077239498-vi4s4hh74mo088mo9e3otdrb66fh5hhe.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.yohiresoftwares.yohirejobs"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
