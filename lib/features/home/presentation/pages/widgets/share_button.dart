@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:openbn/core/services/file_convert_service.dart';
+import 'package:openbn/core/utils/shared_services/functions/file_convert_service.dart';
 import 'package:openbn/features/home/domain/entities/job_entity.dart';
 import 'package:share_plus/share_plus.dart';
 

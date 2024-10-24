@@ -9,7 +9,7 @@ class AuthUsecase implements Usecase<AuthEntity, dynamic> {
 
   AuthUsecase(this.authRepository);
   @override
-  Future<Either<Faliure, AuthEntity>> call(params) async {
+  Future<Either<Failure, AuthEntity>> call(params) async {
     return await authRepository.signIn();
   }
 }

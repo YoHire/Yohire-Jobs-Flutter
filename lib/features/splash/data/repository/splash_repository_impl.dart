@@ -6,7 +6,7 @@ import 'package:openbn/init_dependencies.dart';
 
 class SplashRepositoryImpl implements SplashRepository {
   @override
-  Either<Faliure, bool> checkLoginStatus() {
+  Either<Failure, bool> checkLoginStatus() {
     try {
       final bool data;
       final storage = serviceLocator<GetStorage>();
@@ -23,7 +23,7 @@ class SplashRepositoryImpl implements SplashRepository {
       }
       return Right(data);
     } catch (e) {
-      return Left(Faliure(message: e.toString()));
+      return Left(Failure(message: e.toString()));
     }
   }
 }

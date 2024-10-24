@@ -9,7 +9,7 @@ class CreateGuestUserUsecase implements Usecase<void, List<JobRoleEntity>> {
 
   CreateGuestUserUsecase(this.prefrenceRepository);
   @override
-  Future<Either<Faliure, void>> call(params) async {
+  Future<Either<Failure, void>> call(params) async {
     return await prefrenceRepository.createGuestUser(
         data: params.map((e) {
       return e.toData();

@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,7 +22,6 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
 
     final result = await _splashUsecase('');
     result.fold((failure) {
-      log(failure.toString());
     }, (success) {
       if (success == false) {
         emit(SplashLoggedOut());

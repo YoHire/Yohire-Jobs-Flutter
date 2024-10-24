@@ -1,8 +1,9 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 import 'package:openbn/core/error/exception.dart';
-import 'package:openbn/core/services/dio_interceptor_handler.dart';
+import 'package:openbn/core/utils/shared_services/refresh_token/dio_interceptor_handler.dart';
 import 'package:openbn/core/utils/urls.dart';
 import 'package:openbn/init_dependencies.dart';
 
@@ -20,6 +21,7 @@ class JobrolesRemoteDataSourceImpl implements JobrolesRemoteDataSource {
       final data = await dio.get('${URL.RANDOM_JOB_ROLES}$industry');
       return data.data;
     } catch (e) {
+      log(e.toString());
       throw ServerException(e.toString());
     }
   }

@@ -1,6 +1,6 @@
-class Faliure {
+class Failure {
   final String message;
 
-  Faliure({this.message='An Unexpected Error Occured'});
+  Failure({this.message='An Unexpected Error Occured'});
   
 }

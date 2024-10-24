@@ -9,7 +9,7 @@ class SplashUsecase implements Usecase<bool,dynamic>{
 
   SplashUsecase(this.splashRepository);
   @override
-  Future<Either<Faliure, bool>> call(params) async{
+  Future<Either<Failure, bool>> call(params) async{
     return splashRepository.checkLoginStatus();
   }
 

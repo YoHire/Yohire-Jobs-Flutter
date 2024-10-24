@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:openbn/core/utils/constants/constants.dart';
 import 'package:openbn/core/utils/snackbars/show_snackbar.dart';
 import 'package:openbn/core/widgets/button.dart';
 import 'package:openbn/core/widgets/theme_gap.dart';
+import 'package:openbn/core/widgets/yohire_logo_widget.dart';
 import 'package:openbn/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:openbn/init_dependencies.dart';
 
@@ -19,14 +21,27 @@ class GoogleAuthPage extends StatelessWidget {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthSuccess) {
-          if(state.user.isExistingUser){
-          GoRouter.of(context).go('/navigation_bar');
-          }else{
+          showSimpleSnackBar(
+              position: SnackBarPosition.BOTTOM,
+              isError: false,
+              context: context,
+              text: 'Authenticated as ${state.user.email}');
+          if (state.user.isNewUser) {
             GoRouter.of(context).go('/otp_page');
+          } else {
+            showSimpleSnackBar(
+                position: SnackBarPosition.BOTTOM,
+                isError: false,
+                context: context,
+                text: 'Welcome back ${state.user.email}');
+            GoRouter.of(context).go('/navigation_bar');
           }
         } else if (state is AuthError) {
           showSimpleSnackBar(
-              context: context, text: state.message, bgcolor: Colors.red);
+              position: SnackBarPosition.BOTTOM,
+              isError: true,
+              context: context,
+              text: state.message);
         }
       },
       child: Scaffold(
@@ -42,21 +57,18 @@ class GoogleAuthPage extends StatelessWidget {
                         onPressed: () {},
                         icon: const Icon(Icons.support))),
                 SizedBox(height: MediaQuery.of(context).size.height / 2 - 150),
-                Column(
-                  children: [
-                    Image.asset('assets/icon/logo-main.png',
-                        width: MediaQuery.of(context).size.width > 500
-                            ? 500
-                            : 200),
-                    const ThemeGap(5),
-                    Text(
-                      'Your gateway to global opportunities',
-                      style: textTheme.bodySmall,
-                    ),
-                  ],
-                ),
+                const YohireLogoWidget(),
                 const Spacer(),
-                ThemedButton(text: 'Continue as Guest', onPressed: () {}),
+                Hero(
+                  tag: 'nav-tag',
+                  child: ThemedButton(
+                    text: 'Continue as Guest',
+                    onPressed: () {
+                      GoRouter.of(context).go('/navigation_bar');
+                    },
+                    loading: false,
+                  ),
+                ),
                 Text(
                   'or',
                   style: textTheme.bodySmall,
@@ -73,7 +85,9 @@ class GoogleAuthPage extends StatelessWidget {
                     const Expanded(
                         child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: Divider(),
+                      child: Divider(
+                        thickness: 0.4,
+                      ),
                     )),
                     IconButton(
                         style: const ButtonStyle(
@@ -90,7 +104,9 @@ class GoogleAuthPage extends StatelessWidget {
                     const Expanded(
                         child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: Divider(),
+                      child: Divider(
+                        thickness: 0.4,
+                      ),
                     )),
                   ],
                 ),
@@ -100,15 +116,15 @@ class GoogleAuthPage extends StatelessWidget {
                   child: RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
-                      style: textTheme.labelSmall,
+                      style: textTheme.labelMedium,
                       children: [
                         const TextSpan(
                           text: 'By signing in you accept our ',
                         ),
                         TextSpan(
                           text: 'terms & conditions',
-                          style: const TextStyle(
-                              color: Color.fromARGB(255, 0, 82, 149)),
+                          style:
+                              const TextStyle(color: ThemeColors.primaryBlue),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
                               // Get.to(() => const TermsAndConditions());
@@ -116,12 +132,11 @@ class GoogleAuthPage extends StatelessWidget {
                         ),
                         const TextSpan(
                           text: ' and ',
-                          style: TextStyle(color: Colors.black),
                         ),
                         TextSpan(
                           text: 'privacy policy',
-                          style: const TextStyle(
-                              color: Color.fromARGB(255, 0, 82, 149)),
+                          style:
+                              const TextStyle(color: ThemeColors.primaryBlue),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
                               // Get.to(() => const PrivacyPolicyScreen());

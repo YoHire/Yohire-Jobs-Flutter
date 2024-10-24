@@ -38,7 +38,7 @@ class PrefrenceBloc extends Bloc<PrefrenceEvent, PrefrenceState> {
       (failure) {
         emit(PrefrenceError(message: 'Failed to fetch job roles'));
       },
-      (success) {
+      (success) async {
         allJobRoles = success
             .map((jobRole) => JobRoleViewModel(
                   id: jobRole.id,
@@ -56,22 +56,27 @@ class PrefrenceBloc extends Bloc<PrefrenceEvent, PrefrenceState> {
   Future<void> _searchJobRoles(
       SearchJobRoles event, Emitter<PrefrenceState> emit) async {
     emit(PrefrenceLoading());
-    final result = await _searchJobRolesUsecase(event.keyword);
-    result.fold(
-      (failure) {
-        emit(PrefrenceError(message: 'Failed to search job roles'));
-      },
-      (success) {
-        allJobRoles = success
-            .map((jobRole) => JobRoleViewModel(
-                  id: jobRole.id,
-                  name: jobRole.name!,
-                  industry: jobRole.industry!,
-                ))
-            .toList();
-        emit(SearchedPrefrences(jobRoles: allJobRoles));
-      },
-    );
+    if (event.keyword.isNotEmpty) {
+      final result = await _searchJobRolesUsecase(event.keyword);
+      result.fold(
+        (failure) {
+          emit(PrefrenceError(message: 'Failed to search job roles'));
+        },
+        (success) {
+          allJobRoles = success
+              .map((jobRole) => JobRoleViewModel(
+                    id: jobRole.id,
+                    name: jobRole.name!,
+                    industry: jobRole.industry!,
+                  ))
+              .toList();
+          emit(SearchedPrefrences(jobRoles: allJobRoles));
+        },
+      );
+    } else {
+      emit(PrefrenceLoaded(
+          jobRoles: allJobRoles, selectedJobRoles: selectedJobRoles));
+    }
   }
 
   Future<void> _createGuestUser(

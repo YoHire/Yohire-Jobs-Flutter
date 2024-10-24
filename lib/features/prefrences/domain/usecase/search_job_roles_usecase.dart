@@ -10,7 +10,7 @@ class SearchJobRolesUsecase implements Usecase<List<JobRoleEntity>,String>{
 
   SearchJobRolesUsecase(this.prefrenceRepository);
   @override
-  Future<Either<Faliure, List<JobRoleEntity>>> call(String params) async{
+  Future<Either<Failure, List<JobRoleEntity>>> call(String params) async{
     return await prefrenceRepository.searchJobRoles(keyword: params);
   }
 

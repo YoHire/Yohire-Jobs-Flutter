@@ -17,7 +17,7 @@ class HomeRepositoryImpl implements HomeRepository {
   final storage = serviceLocator<GetStorage>();
 
   @override
-  Future<Either<Faliure, List<JobEntity>>> getAllJobs() async {
+  Future<Either<Failure, List<JobEntity>>> getAllJobs() async {
     try {
       final data =
           await dataSource.getAllJobs(isLogged: storage.read('isLogged')==true?true:false);
@@ -29,7 +29,7 @@ class HomeRepositoryImpl implements HomeRepository {
           .map((json) => JobModel.fromJson(json, false, {}, ''))
           .toList());
     } catch (e) {
-      return Left(Faliure(message: e.toString()));
+      return Left(Failure(message: e.toString()));
     }
   }
 }

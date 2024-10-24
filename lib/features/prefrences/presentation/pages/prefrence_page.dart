@@ -56,11 +56,7 @@ class PrefrencesScreenState extends State<PrefrencesScreen> {
                 controller: textEditingController,
                 prefixIcon: const Icon(Icons.search),
                 onChanged: (val) {
-                  if (val.isEmpty) {
-                    _toggleJobRole(context, null);
-                  } else {
-                    _searchJobRoles(context, val);
-                  }
+                  _searchJobRoles(context, val);
                 },
               ),
               const ThemeGap(20),
@@ -69,7 +65,7 @@ class PrefrencesScreenState extends State<PrefrencesScreen> {
                   listener: (context, state) {
                     if (state is CreatedGuestUser) {
                       context.read<HomeBloc>().add(HomeInitEvent());
-                      GoRouter.of(context).go('/navigation_bar');
+                      GoRouter.of(context).go('/getting-jobs-loader/navigation_bar');
                     }
                   },
                   builder: (context, state) {
@@ -96,6 +92,7 @@ class PrefrencesScreenState extends State<PrefrencesScreen> {
       floatingActionButton: BlocBuilder<PrefrenceBloc, PrefrenceState>(
         builder: (context, state) {
           return CustomFloatingActionButton(
+              loading: state is PrefrenceLoading,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30)),
               onPressed: () {
@@ -149,6 +146,7 @@ class PrefrencesScreenState extends State<PrefrencesScreen> {
         double width = 100 + (70 * (index % 3));
 
         return SkeletonLoader(
+          isJob: false,
           height: 50,
           width: width,
         );

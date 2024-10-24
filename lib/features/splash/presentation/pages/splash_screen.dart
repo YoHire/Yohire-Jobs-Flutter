@@ -1,9 +1,8 @@
 // ignore_for_file: library_private_types_in_public_api
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:openbn/core/widgets/yohire_logo_widget.dart';
 import 'package:openbn/features/home/presentation/bloc/home_bloc.dart';
 import 'package:openbn/features/prefrences/presentation/bloc/prefrence_bloc.dart';
 import 'package:openbn/features/prefrences/presentation/bloc/prefrence_event.dart';
@@ -42,7 +41,6 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
     return BlocListener<SplashBloc, SplashState>(
       listener: (context, state) {
         if (state is SplashLoggedIn) {
@@ -56,32 +54,8 @@ class _SplashScreenState extends State<SplashScreen>
       child: Scaffold(
         body: FadeTransition(
           opacity: _animation,
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CachedNetworkImage(
-                  imageUrl: '',
-                  width: 250,
-                  errorWidget: (context, url, error) {
-                    return Image.asset(
-                      'assets/icon/logo-main.png',
-                      width: 250,
-                    );
-                  },
-                  placeholder: (BuildContext ctx, String str) {
-                    return Image.asset(
-                      'assets/icon/logo-main.png',
-                      width: 250,
-                    );
-                  },
-                ),
-                Text(
-                  'Your gateway to global opportunities',
-                  style: textTheme.labelMedium,
-                ),
-              ],
-            ),
+          child: const Center(
+            child: YohireLogoWidget(),
           ),
         ),
       ),

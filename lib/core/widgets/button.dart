@@ -3,10 +3,17 @@ import 'package:openbn/core/theme/app_text_styles.dart';
 
 class ThemedButton extends StatelessWidget {
   final String text;
+  final bool loading;
   OutlinedBorder? shape;
   void Function()? onPressed;
   bool disabled;
-   ThemedButton({super.key, required this.text,this.shape,this.disabled = false,required this.onPressed});
+  ThemedButton(
+      {super.key,
+      required this.text,
+      required this.loading,
+      this.shape,
+      this.disabled = false,
+      required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -17,11 +24,19 @@ class ThemedButton extends StatelessWidget {
         shape: shape,
         backgroundColor: colorScheme.primary,
         foregroundColor: colorScheme.onPrimary,
-        padding:const  EdgeInsets.only(right: 10,left: 10)
       ),
-      
       onPressed: onPressed,
-      child: Text(text,style: MyTextStyle.chipTextWhite,),
+      child: loading
+          ? const SizedBox(
+              height: 20,
+              width: 20,
+              child: CircularProgressIndicator(
+                color: Colors.white,
+              ))
+          : Text(
+              text,
+              style: MyTextStyle.chipTextWhite,
+            ),
     );
   }
 }

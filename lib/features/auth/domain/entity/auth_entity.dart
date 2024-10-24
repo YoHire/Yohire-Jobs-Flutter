@@ -1,6 +1,6 @@
 class AuthEntity {
-  final bool isExistingUser;
+  final bool isNewUser;
   final String email;
 
-  AuthEntity({required this.isExistingUser, required this.email});
+  AuthEntity({required this.isNewUser, required this.email});
 }

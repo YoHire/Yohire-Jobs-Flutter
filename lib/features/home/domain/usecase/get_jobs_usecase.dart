@@ -10,7 +10,7 @@ class GetAllJobsUsecase implements Usecase<List<JobEntity>,String>{
   GetAllJobsUsecase(this.homeRepository);
 
   @override
-  Future<Either<Faliure, List<JobEntity>>> call(String params) async{
+  Future<Either<Failure, List<JobEntity>>> call(String params) async{
     return await homeRepository.getAllJobs();
   }
 

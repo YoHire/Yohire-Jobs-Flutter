@@ -5,105 +5,105 @@ class MyTextStyle {
   static TextStyle displayLarge = TextStyle(
     fontSize: 30,
     fontWeight: FontWeight.w900,
-    fontFamily: FontFamily.OPEN_SANS_BOLD,
+    fontFamily: FontFamily.defaultBoldFont,
     letterSpacing: 0.9,
   );
 
   static TextStyle displayMedium = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.w600,
-    fontFamily: FontFamily.OPEN_SANS_REGULAR,
+    fontFamily: FontFamily.defaultRegularFont,
     letterSpacing: 0.9,
   );
 
   static TextStyle displaySmall = TextStyle(
     fontSize: 10,
     fontWeight: FontWeight.w600,
-    fontFamily: FontFamily.OPEN_SANS_LIGHT,
+    fontFamily: FontFamily.defaultLightFont,
     letterSpacing: 0.9,
   );
 
   static TextStyle headLineLarge = TextStyle(
     fontSize: 25,
     fontWeight: FontWeight.w900,
-    fontFamily: FontFamily.OPEN_SANS_BOLD,
+    fontFamily: FontFamily.defaultBoldFont,
     letterSpacing: 0.9,
   );
 
   static TextStyle headLineMedium = TextStyle(
     fontSize: 15,
     fontWeight: FontWeight.w600,
-    fontFamily: FontFamily.OPEN_SANS_REGULAR,
+    fontFamily: FontFamily.defaultRegularFont,
     letterSpacing: 0.9,
   );
 
   static TextStyle headLineSmall = TextStyle(
     fontSize: 10,
     fontWeight: FontWeight.w600,
-    fontFamily: FontFamily.OPEN_SANS_LIGHT,
+    fontFamily: FontFamily.defaultLightFont,
     letterSpacing: 0.9,
   );
 
   static TextStyle titleLarge = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.w900,
-    fontFamily: FontFamily.OPEN_SANS_BOLD,
+    fontFamily: FontFamily.defaultBoldFont,
     letterSpacing: 0.9,
   );
 
   static TextStyle titleMedium = TextStyle(
     fontSize: 15,
     fontWeight: FontWeight.w600,
-    fontFamily: FontFamily.OPEN_SANS_REGULAR,
+    fontFamily: FontFamily.defaultRegularFont,
     letterSpacing: 0.9,
   );
 
   static TextStyle titleSmall = TextStyle(
     fontSize: 10,
     fontWeight: FontWeight.w600,
-    fontFamily: FontFamily.OPEN_SANS_LIGHT,
+    fontFamily: FontFamily.defaultLightFont,
     letterSpacing: 0.9,
   );
 
   static TextStyle bodyLarge = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.w900,
-    fontFamily: FontFamily.OPEN_SANS_REGULAR,
+    fontFamily: FontFamily.defaultRegularFont,
     letterSpacing: 0.9,
   );
 
   static TextStyle bodyMedium = TextStyle(
     fontSize: 15,
     fontWeight: FontWeight.w600,
-    fontFamily: FontFamily.OPEN_SANS_REGULAR,
+    fontFamily: FontFamily.defaultRegularFont,
     letterSpacing: 0.9,
   );
 
   static TextStyle bodySmall = TextStyle(
     fontSize: 10,
     fontWeight: FontWeight.w600,
-    fontFamily: FontFamily.OPEN_SANS_LIGHT,
+    fontFamily: FontFamily.defaultLightFont,
     letterSpacing: 0.9,
   );
 
   static TextStyle labelLarge = TextStyle(
     fontSize: 17,
     fontWeight: FontWeight.w600,
-    fontFamily: FontFamily.OPEN_SANS_LIGHT,
+    fontFamily: FontFamily.defaultLightFont,
     letterSpacing: 0.9,
   );
 
   static TextStyle labelMedium = TextStyle(
     fontSize: 12,
-    fontWeight: FontWeight.w500,
-    fontFamily: FontFamily.OPEN_SANS_LIGHT,
+    fontWeight: FontWeight.w600,
+    fontFamily: FontFamily.defaultLightFont,
     letterSpacing: 0.9,
   );
 
   static TextStyle labelSmall = TextStyle(
     fontSize: 10,
     fontWeight: FontWeight.w500,
-    fontFamily: FontFamily.OPEN_SANS_LIGHT,
+    fontFamily: FontFamily.defaultLightFont,
     letterSpacing: 0.9,
   );
 
@@ -111,34 +111,43 @@ class MyTextStyle {
     color: Colors.white,
     fontSize: 12,
     fontWeight: FontWeight.w900,
-    fontFamily: FontFamily.OPEN_SANS_LIGHT,
+    fontFamily: FontFamily.defaultLightFont,
   );
 
   static TextStyle chipTextBlack = TextStyle(
     color: Colors.black,
     fontSize: 12,
     fontWeight: FontWeight.w900,
-    fontFamily: FontFamily.OPEN_SANS_LIGHT,
+    fontFamily: FontFamily.defaultLightFont,
   );
 
   static TextStyle chipSubTextBlack = TextStyle(
     color: Colors.black,
     fontSize: 10,
     fontWeight: FontWeight.w600,
-    fontFamily: FontFamily.OPEN_SANS_LIGHT,
+    fontFamily: FontFamily.defaultLightFont,
   );
 
   static TextStyle chipSubTextWhite = TextStyle(
     color: Colors.white,
     fontSize: 10,
     fontWeight: FontWeight.w600,
-    fontFamily: FontFamily.OPEN_SANS_LIGHT,
+    fontFamily: FontFamily.defaultLightFont,
+  );
+
+
+    static TextStyle snackBarText = TextStyle(
+    fontSize: 12,
+    color: const Color.fromARGB(255, 97, 96, 96),
+    fontWeight: FontWeight.w600,
+    fontFamily: FontFamily.defaultLightFont,
+    letterSpacing: 0.9,
   );
   // static TextStyle blackTextSmall = TextStyle(
   //   color: const Color.fromARGB(255, 0, 0, 0),
   //   fontSize: 14,
   //   fontWeight: FontWeight.w900,
-  //   fontFamily: FontFamily.OPEN_SANS_LIGHT,
+  //   fontFamily: FontFamily.defaultLightFont,
   //   letterSpacing: 0.9,
   // );
 
@@ -146,7 +155,7 @@ class MyTextStyle {
   //   color: const Color.fromARGB(255, 0, 0, 0),
   //   fontSize: 10,
   //   fontWeight: FontWeight.w900,
-  //   fontFamily: FontFamily.OPEN_SANS_LIGHT,
+  //   fontFamily: FontFamily.defaultLightFont,
   //   letterSpacing: 0.9,
   // );
 
@@ -154,7 +163,7 @@ class MyTextStyle {
   //   color: const Color.fromARGB(255, 255, 255, 255),
   //   fontSize: 14,
   //   fontWeight: FontWeight.w900,
-  //   fontFamily: FontFamily.OPEN_SANS_REGULAR,
+  //   fontFamily: FontFamily.defaultRegularFont,
   //   letterSpacing: 0.9,
   // );
 
@@ -162,7 +171,7 @@ class MyTextStyle {
   //   color: const Color.fromARGB(255, 113, 115, 117),
   //   fontSize: 10,
   //   fontWeight: FontWeight.w900,
-  //   fontFamily: FontFamily.OPEN_SANS_LIGHT,
+  //   fontFamily: FontFamily.defaultLightFont,
   //   letterSpacing: 0.9,
   // );
 
@@ -170,7 +179,7 @@ class MyTextStyle {
   //   color: const Color.fromARGB(255, 38, 101, 40),
   //   fontSize: 10,
   //   fontWeight: FontWeight.w900,
-  //   fontFamily: FontFamily.OPEN_SANS_LIGHT,
+  //   fontFamily: FontFamily.defaultLightFont,
   //   letterSpacing: 0.9,
   // );
 
@@ -178,7 +187,7 @@ class MyTextStyle {
   //   color: Colors.red,
   //   fontSize: 10,
   //   fontWeight: FontWeight.w900,
-  //   fontFamily: FontFamily.OPEN_SANS_LIGHT,
+  //   fontFamily: FontFamily.defaultLightFont,
   //   letterSpacing: 0.9,
   // );
 
@@ -186,7 +195,7 @@ class MyTextStyle {
   //   color: const Color.fromARGB(255, 0, 0, 0),
   //   fontSize: 14,
   //   fontWeight: FontWeight.w600,
-  //   fontFamily: FontFamily.OPEN_SANS_LIGHT,
+  //   fontFamily: FontFamily.defaultLightFont,
   //   letterSpacing: 0.9,
   // );
 
@@ -194,7 +203,7 @@ class MyTextStyle {
   //   color: const Color.fromARGB(255, 113, 115, 117),
   //   fontSize: 10,
   //   fontWeight: FontWeight.w600,
-  //   fontFamily: FontFamily.OPEN_SANS_LIGHT,
+  //   fontFamily: FontFamily.defaultLightFont,
   //   letterSpacing: 0.9,
   // );
 
@@ -202,7 +211,7 @@ class MyTextStyle {
   //   color: ThemeColors.primaryBlue,
   //   fontSize: 11,
   //   fontWeight: FontWeight.w900,
-  //   fontFamily: FontFamily.OPEN_SANS_LIGHT,
+  //   fontFamily: FontFamily.defaultLightFont,
   //   letterSpacing: 0.9,
   // );
 
@@ -210,7 +219,7 @@ class MyTextStyle {
   //   color: const Color.fromARGB(255, 113, 115, 117),
   //   fontSize: 11,
   //   fontWeight: FontWeight.w900,
-  //   fontFamily: FontFamily.OPEN_SANS_LIGHT,
+  //   fontFamily: FontFamily.defaultLightFont,
   //   letterSpacing: 0.9,
   // );
 
@@ -218,7 +227,7 @@ class MyTextStyle {
   //   color: const Color.fromARGB(255, 0, 0, 0),
   //   fontSize: 10,
   //   fontWeight: FontWeight.w600,
-  //   fontFamily: FontFamily.OPEN_SANS_LIGHT,
+  //   fontFamily: FontFamily.defaultLightFont,
   //   letterSpacing: 0.9,
   // );
 
@@ -226,7 +235,7 @@ class MyTextStyle {
   //   color: const Color.fromARGB(255, 113, 115, 117),
   //   fontSize: 16,
   //   fontWeight: FontWeight.w700,
-  //   fontFamily: FontFamily.OPEN_SANS_LIGHT,
+  //   fontFamily: FontFamily.defaultLightFont,
   //   letterSpacing: 1,
   // );
 
@@ -234,23 +243,23 @@ class MyTextStyle {
   //     color: const Color.fromARGB(255, 113, 115, 117),
   //     fontSize: 20,
   //     fontWeight: FontWeight.w700,
-  //     fontFamily: FontFamily.OPEN_SANS_LIGHT,
+  //     fontFamily: FontFamily.defaultLightFont,
   //     letterSpacing: 0.9,
   //     height: 1.5);
 
-  // static TextStyle bodySmallRed = TextStyle(
-  //   color: const Color.fromARGB(255, 255, 0, 0),
-  //   fontSize: 16,
-  //   fontWeight: FontWeight.w700,
-  //   fontFamily: FontFamily.OPEN_SANS_LIGHT,
-  //   letterSpacing: 0.9,
-  // );
+  static TextStyle bodySmallRed = TextStyle(
+    color: const Color.fromARGB(255, 255, 0, 0),
+    fontSize: 16,
+    fontWeight: FontWeight.w700,
+    fontFamily: FontFamily.defaultLightFont,
+    letterSpacing: 0.9,
+  );
 
   // static TextStyle headlineSmall = TextStyle(
   //   color: const Color.fromARGB(255, 0, 0, 0),
   //   fontSize: 15,
   //   fontWeight: FontWeight.w800,
-  //   fontFamily: FontFamily.OPEN_SANS_BOLD,
+  //   fontFamily: FontFamily.defaultBoldFont,
   //   letterSpacing: 0.9,
   // );
 
@@ -258,7 +267,7 @@ class MyTextStyle {
   //   color: const Color.fromARGB(255, 0, 0, 0),
   //   fontSize: 20,
   //   fontWeight: FontWeight.w800,
-  //   fontFamily: FontFamily.OPEN_SANS_BOLD,
+  //   fontFamily: FontFamily.defaultBoldFont,
   //   letterSpacing: 0.9,
   // );
 
@@ -266,7 +275,7 @@ class MyTextStyle {
   //   color: const Color.fromARGB(255, 0, 0, 0),
   //   fontSize: 20,
   //   fontWeight: FontWeight.w800,
-  //   fontFamily: FontFamily.OPEN_SANS_BOLD,
+  //   fontFamily: FontFamily.defaultBoldFont,
   //   letterSpacing: 0.9,
   // );
 
@@ -274,7 +283,7 @@ class MyTextStyle {
   //   color: const Color.fromARGB(255, 0, 0, 0),
   //   fontSize: 15,
   //   fontWeight: FontWeight.w800,
-  //   fontFamily: FontFamily.OPEN_SANS_BOLD,
+  //   fontFamily: FontFamily.defaultBoldFont,
   //   letterSpacing: 0.9,
   // );
 
@@ -282,7 +291,7 @@ class MyTextStyle {
   //   color: const Color.fromARGB(255, 0, 0, 0),
   //   fontSize: 30,
   //   fontWeight: FontWeight.w800,
-  //   fontFamily: FontFamily.OPEN_SANS_BOLD,
+  //   fontFamily: FontFamily.defaultBoldFont,
   //   letterSpacing: 0.9,
   // );
 
@@ -290,7 +299,7 @@ class MyTextStyle {
   //   color: const Color.fromARGB(255, 0, 0, 0),
   //   fontSize: 20,
   //   fontWeight: FontWeight.w800,
-  //   fontFamily: FontFamily.OPEN_SANS_BOLD,
+  //   fontFamily: FontFamily.defaultBoldFont,
   //   letterSpacing: 0.9,
   // );
 
@@ -298,14 +307,14 @@ class MyTextStyle {
   //   color: const Color.fromARGB(255, 0, 0, 0),
   //   fontSize: 35,
   //   fontWeight: FontWeight.w900,
-  //   fontFamily: FontFamily.OPEN_SANS_BOLD,
+  //   fontFamily: FontFamily.defaultBoldFont,
   //   letterSpacing: 0.9,
   // );
   // static TextStyle successText = TextStyle(
   //   color: const Color.fromARGB(255, 0, 0, 0),
   //   fontSize: 20,
   //   fontWeight: FontWeight.w600,
-  //   fontFamily: FontFamily.OPEN_SANS_BOLD,
+  //   fontFamily: FontFamily.defaultBoldFont,
   //   letterSpacing: 0.9,
   // );
 
@@ -313,7 +322,7 @@ class MyTextStyle {
   //   color: const Color.fromARGB(255, 0, 0, 0),
   //   fontSize: 25,
   //   fontWeight: FontWeight.w900,
-  //   fontFamily: FontFamily.OPEN_SANS_BOLD,
+  //   fontFamily: FontFamily.defaultBoldFont,
   //   letterSpacing: 0.9,
   // );
 
@@ -321,7 +330,7 @@ class MyTextStyle {
   //   color: const Color.fromARGB(255, 0, 0, 0),
   //   fontSize: 34,
   //   fontWeight: FontWeight.w900,
-  //   fontFamily: FontFamily.OPEN_SANS_BOLD,
+  //   fontFamily: FontFamily.defaultBoldFont,
   //   letterSpacing: 0.9,
   // );
 
@@ -329,7 +338,7 @@ class MyTextStyle {
   //   color: const Color.fromARGB(255, 0, 0, 0),
   //   fontSize: 15,
   //   fontWeight: FontWeight.w600,
-  //   fontFamily: FontFamily.OPEN_SANS_REGULAR,
+  //   fontFamily: FontFamily.defaultRegularFont,
   //   letterSpacing: 0.9,
   // );
 
@@ -337,7 +346,7 @@ class MyTextStyle {
   //   color: const Color.fromARGB(255, 0, 0, 0),
   //   fontSize: 17,
   //   fontWeight: FontWeight.w700,
-  //   fontFamily: FontFamily.OPEN_SANS_REGULAR,
+  //   fontFamily: FontFamily.defaultRegularFont,
   //   letterSpacing: 0.9,
   // );
 
@@ -348,7 +357,7 @@ class MyTextStyle {
   //   color: const Color.fromARGB(255, 0, 0, 0),
   //   fontSize: 15,
   //   fontWeight: FontWeight.w600,
-  //   fontFamily: FontFamily.OPEN_SANS_LIGHT,
+  //   fontFamily: FontFamily.defaultLightFont,
   //   letterSpacing: 0.9,
   // );
 
@@ -356,7 +365,7 @@ class MyTextStyle {
   //   color: const Color.fromARGB(255, 0, 0, 0),
   //   fontSize: 10,
   //   fontWeight: FontWeight.w600,
-  //   fontFamily: FontFamily.OPEN_SANS_BOLD,
+  //   fontFamily: FontFamily.defaultBoldFont,
   //   letterSpacing: 0.9,
   // );
 
@@ -364,7 +373,7 @@ class MyTextStyle {
   //   color: const Color.fromARGB(255, 0, 0, 0),
   //   fontSize: 15,
   //   fontWeight: FontWeight.w900,
-  //   fontFamily: FontFamily.OPEN_SANS_LIGHT,
+  //   fontFamily: FontFamily.defaultLightFont,
   //   letterSpacing: 0.9,
   // );
 
@@ -372,7 +381,7 @@ class MyTextStyle {
   //   color: const Color.fromARGB(255, 0, 0, 0),
   //   fontSize: 12,
   //   fontWeight: FontWeight.w900,
-  //   fontFamily: FontFamily.OPEN_SANS_BOLD,
+  //   fontFamily: FontFamily.defaultBoldFont,
   //   letterSpacing: 0.9,
   // );
 
@@ -380,7 +389,7 @@ class MyTextStyle {
   //   color: const Color.fromARGB(255, 0, 0, 0),
   //   fontSize: 12,
   //   fontWeight: FontWeight.w900,
-  //   fontFamily: FontFamily.OPEN_SANS_LIGHT,
+  //   fontFamily: FontFamily.defaultLightFont,
   //   letterSpacing: 0.9,
   // );
 
@@ -388,7 +397,7 @@ class MyTextStyle {
   //   color: const Color.fromARGB(255, 255, 0, 0),
   //   fontSize: 15,
   //   fontWeight: FontWeight.w900,
-  //   fontFamily: FontFamily.OPEN_SANS_BOLD,
+  //   fontFamily: FontFamily.defaultBoldFont,
   //   letterSpacing: 0.9,
   // );
 
@@ -396,7 +405,7 @@ class MyTextStyle {
   //   color: const Color.fromARGB(255, 255, 255, 255),
   //   fontSize: 15,
   //   fontWeight: FontWeight.w700,
-  //   fontFamily: FontFamily.OPEN_SANS_LIGHT,
+  //   fontFamily: FontFamily.defaultLightFont,
   //   letterSpacing: 0.9,
   // );
 
@@ -404,7 +413,7 @@ class MyTextStyle {
   //   color: const Color.fromARGB(255, 255, 255, 255),
   //   fontSize: 13,
   //   fontWeight: FontWeight.w800,
-  //   fontFamily: FontFamily.OPEN_SANS_BOLD,
+  //   fontFamily: FontFamily.defaultBoldFont,
   //   letterSpacing: 0.9,
   // );
 
@@ -412,7 +421,7 @@ class MyTextStyle {
   //   color: const Color.fromARGB(255, 255, 255, 255),
   //   fontSize: 17,
   //   fontWeight: FontWeight.w900,
-  //   fontFamily: FontFamily.OPEN_SANS_BOLD,
+  //   fontFamily: FontFamily.defaultBoldFont,
   //   letterSpacing: 0.9,
   // );
 
@@ -420,7 +429,7 @@ class MyTextStyle {
   //   color: const Color.fromARGB(255, 255, 255, 255),
   //   fontSize: 10,
   //   fontWeight: FontWeight.w800,
-  //   fontFamily: FontFamily.OPEN_SANS_BOLD,
+  //   fontFamily: FontFamily.defaultBoldFont,
   //   letterSpacing: 0.9,
   // );
 }

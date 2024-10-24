@@ -1,6 +1,6 @@
 // ignore_for_file: constant_identifier_names, non_constant_identifier_names
 import 'package:flutter/material.dart';
-import 'package:openbn/core/utils/remote_config_service.dart';
+import 'package:openbn/core/utils/shared_services/remote_config/remote_config_service.dart';
 
 class ThemeColors {
   static const primaryBlue = Color(0xFF194092);
@@ -29,10 +29,10 @@ class FileAnnotations {
 
 class FontFamily {
   static final remoteConfig = FirebaseRemoteConfigService();
-  static String fontName = 'OpenSans';
-  static String OPEN_SANS_BOLD = '$fontName-Bold';
-  static String OPEN_SANS_REGULAR = '$fontName-Regular';
-  static String OPEN_SANS_LIGHT = '$fontName-Light';
+  static String fontName = 'Montserrat';
+  static String defaultBoldFont = '$fontName-Bold';
+  static String defaultRegularFont = '$fontName-Regular';
+  static String defaultLightFont = '$fontName-Light';
 }
 
 class FirebaseRemoteConfigKeys {
@@ -98,6 +98,23 @@ enum InvitationStatus {
   final String value;
 
   const InvitationStatus(this.value);
+}
+
+enum SnackBarPosition {
+  BOTTOM,
+  TOP,
+  MIDDLE;
+
+}
+
+enum OtpStatus {
+  AUTO('Phone Number Automatically Verified'),
+  FAILED('Phone Number Verification Failed'),
+  SUCCESS('Otp sent successfully');
+
+  final String value;
+
+  const OtpStatus(this.value);
 }
 
 enum LoaderType { jobLoader, normalLoader, profileLoader }

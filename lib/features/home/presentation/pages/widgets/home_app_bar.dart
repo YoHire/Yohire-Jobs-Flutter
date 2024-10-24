@@ -44,14 +44,18 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
                 storage.read('isLogged') == true
                     ? bellIcon(context)
-                    : ThemedButton(
-                        onPressed: () {
-                          GoRouter.of(context).go('/auth');
-                        },
-                        text: 'Login/Register',
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(7)),
-                      )
+                    : Hero(
+                      tag: 'nav-tag',
+                      child: ThemedButton(
+                        loading: false,
+                          onPressed: () {
+                            GoRouter.of(context).go('/auth');
+                          },
+                          text: 'Login/Register',
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(7)),
+                        ),
+                    )
               ],
             ),
             Row(

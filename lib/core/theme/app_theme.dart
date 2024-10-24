@@ -72,8 +72,8 @@ class MyTheme {
       secondary: Color(
           0xFF43A047), // A brighter green for secondary actions in dark mode
       onSecondary: Color(0xFF121212), // Black text/icons on secondary for contrast
-      error: Color(0xFF121212), // A brighter red for errors in dark mode
-      onError: Color(0xFF121212), // Black text/icons on error color
+      error: Colors.red, // A brighter red for errors in dark mode
+      onError: Colors.white, // Black text/icons on error color
       surface: Color(0xFF121212), // Dark surface color for cards and dialogs
       onSurface: Colors.white, // White text/icons on background
     ),

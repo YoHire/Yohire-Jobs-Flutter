@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:openbn/core/services/date_services.dart';
+import 'package:openbn/core/utils/shared_services/functions/date_services.dart';
 import 'package:openbn/core/widgets/theme_gap.dart';
 import 'package:openbn/features/home/domain/entities/job_entity.dart';
 import 'package:openbn/features/home/presentation/pages/widgets/save_button.dart';
@@ -55,7 +55,7 @@ class JobCardWidget extends StatelessWidget {
                     width: MediaQuery.of(context).size.width * 0.75,
                     child: Text(
                       job.title,
-                      style: textTheme.labelLarge,
+                      style: textTheme.bodyLarge,
                     ),
                   ),
                   SizedBox(
@@ -72,25 +72,28 @@ class JobCardWidget extends StatelessWidget {
                       style: textTheme.labelMedium,
                     ),
                   ),
-                  Wrap(
-                    children: List.generate(job.hilights.length, (index1) {
-                      return Padding(
-                        padding: const EdgeInsets.only(right: 5, top: 5),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: const Color.fromARGB(64, 0, 255, 8)),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: 15, right: 15, top: 5, bottom: 5),
-                            child: Text(
-                              job.hilights[index1],
-                              style: textTheme.labelSmall,
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width*0.8,
+                    child: Wrap(
+                      children: List.generate(job.hilights.length, (index1) {
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 5, top: 5),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: const Color.fromARGB(64, 0, 255, 8)),
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 15, right: 15, top: 5, bottom: 5),
+                              child: Text(
+                                job.hilights[index1],
+                                style: textTheme.labelSmall,
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    }),
+                        );
+                      }),
+                    ),
                   ),
                   const ThemeGap(20),
                   Text(

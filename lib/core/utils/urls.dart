@@ -1,11 +1,11 @@
 // ignore_for_file: non_constant_identifier_names
-
-import 'package:openbn/core/utils/remote_config_service.dart';
+import 'package:openbn/core/utils/shared_services/remote_config/remote_config_service.dart';
 
 final remoteConfig = FirebaseRemoteConfigService();
 const String baseUrl = "http://192.168.29.221:3000/api/v1";
 // const String baseUrl = "https://www.20heads.com/api/v1";
 // const String baseUrl = "http://localhost:3000/api/v1";
+// String baseUrl = "https://api.yohire.in/api/v1";
 // String baseUrl = remoteConfig.getString(FirebaseRemoteConfigKeys.api_url);
 // const String baseUrl = "https://api.yohire.in/api/v1";
 // const String baseUrl = "https://f1b7-150-129-100-250.ngrok-free.pp/api/v1";
