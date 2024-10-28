@@ -6,6 +6,7 @@ import 'package:openbn/core/widgets/timer/bloc/timer_bloc.dart';
 import 'package:openbn/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:openbn/features/home/presentation/bloc/home_bloc.dart';
 import 'package:openbn/features/prefrences/presentation/bloc/prefrence_bloc.dart';
+import 'package:openbn/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:openbn/features/splash/presentation/bloc/splash_bloc.dart';
 import 'package:openbn/features/username/presentation/bloc/username_bloc.dart';
 import 'package:openbn/init_dependencies.dart';
@@ -35,6 +36,9 @@ void main() async {
       ),
       BlocProvider(
         create: (context) => serviceLocator<TimerBloc>(),
+      ),
+      BlocProvider(
+        create: (context) => serviceLocator<ProfileBloc>(),
       ),
     ],
     child: const MyApp(),

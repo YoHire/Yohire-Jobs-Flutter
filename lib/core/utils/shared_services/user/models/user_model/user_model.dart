@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:hive/hive.dart';
+import 'package:openbn/core/utils/shared_services/user/models/education_model/education_model.dart';
 part 'user_model.g.dart';
 
 @HiveType(typeId: 0)
@@ -21,19 +22,37 @@ class UserModel extends HiveObject {
   final String? email;
 
   @HiveField(5)
-  final bool? completedProfile;
-
-  @HiveField(6)
   final String? gender;
 
-  @HiveField(7)
+  @HiveField(6)
   final String? resume;
 
-  @HiveField(8)
+  @HiveField(7)
   final String? createdAt;
 
-  @HiveField(9)
+  @HiveField(8)
   final String? updatedAt;
+
+  @HiveField(9)
+  final String? bio;
+
+  @HiveField(10)
+  final String? height;
+
+  @HiveField(11)
+  final String? weight;
+
+  @HiveField(12)
+  final String? address;
+
+  @HiveField(13)
+  final String? dateOfBirth;
+
+  @HiveField(14)
+  final List<EducationModel> education;
+
+  @HiveField(15)
+  final String? profileImage;
 
   UserModel({
     required this.id,
@@ -41,26 +60,41 @@ class UserModel extends HiveObject {
     required this.surname,
     required this.mobile,
     required this.email,
-    required this.completedProfile,
     required this.gender,
     required this.resume,
     required this.createdAt,
     required this.updatedAt,
+    required this.education,
+    required this.bio,
+    required this.height,
+    required this.weight,
+    required this.address,
+    required this.dateOfBirth,
+    required this.profileImage,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
-    log(json.toString());
     return UserModel(
       id: json['id'],
       username: json['username'] ?? '',
       surname: json['surname'] ?? '',
+      profileImage: json['profileImage'],
       mobile: json['mobile'],
       email: json['email'],
-      completedProfile: json['completedProfile'],
       gender: json['gender'] ?? '',
       resume: json['resumeLink'] ?? '',
       createdAt: json['createdAt'],
+      bio: json['bio'] ?? '',
+      height: json['height'] ?? '',
+      dateOfBirth: json['dateOfBirth'] ?? '',
+      address: json['address'] ?? '',
+      weight: json['weight'] ?? '',
       updatedAt: json['updatedAt'],
+      education: json['education'] != null
+          ? (json['education'] as List)
+              .map((e) => EducationModel.fromJson(e as Map<String, dynamic>))
+              .toList()
+          : [],
     );
   }
 
@@ -70,7 +104,6 @@ class UserModel extends HiveObject {
         'surname': surname,
         'mobile': mobile,
         'email': email,
-        'completedProfile': completedProfile,
         'gender': gender,
         'resume': resume,
         'createdAt': createdAt,

@@ -185,4 +185,15 @@ class DateServices {
 
     return age;
   }
+
+
+  static String convertDateFormat(String dateString) {
+  // Parse the input date format
+  final inputFormat = DateFormat('dd/MM/yyyy');
+  final dateTime = inputFormat.parse(dateString);
+
+  // Format to the desired output ISO format
+  final outputFormat = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+  return outputFormat.format(dateTime);
+}
 }

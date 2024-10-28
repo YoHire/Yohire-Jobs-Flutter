@@ -45,7 +45,7 @@ class _SplashScreenState extends State<SplashScreen>
       listener: (context, state) {
         if (state is SplashLoggedIn) {
           context.read<HomeBloc>().add(HomeInitEvent());
-          GoRouter.of(context).go('/navigation_bar');
+          GoRouter.of(context).go('/navigation-bar');
         } else if (state is SplashLoggedOut) {
           context.read<PrefrenceBloc>().add(PrefrenceFetch(industry: 'none'));
           GoRouter.of(context).go('/prefrences');

@@ -1,7 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:go_router/go_router.dart';
+import 'package:openbn/core/navigation/app_router.dart';
+import 'package:openbn/core/utils/shared_services/firebase_storage/firebase_storage.dart';
+import 'package:openbn/core/utils/shared_services/push_notification/push_notification_service.dart';
 import 'package:openbn/core/utils/shared_services/refresh_token/dio_interceptor_handler.dart';
+import 'package:openbn/core/utils/shared_services/user/user_api_services.dart';
 import 'package:openbn/core/utils/shared_services/user/user_storage_services.dart';
 import 'package:openbn/core/widgets/timer/bloc/timer_bloc.dart';
 import 'package:openbn/features/auth/data/datasource/auth_datasource.dart';
@@ -25,6 +32,11 @@ import 'package:openbn/features/prefrences/domain/usecase/create_guest_user.dart
 import 'package:openbn/features/prefrences/domain/usecase/job_roles_usecase.dart';
 import 'package:openbn/features/prefrences/domain/usecase/search_job_roles_usecase.dart';
 import 'package:openbn/features/prefrences/presentation/bloc/prefrence_bloc.dart';
+import 'package:openbn/features/profile/data/datasource/profile_datasource.dart';
+import 'package:openbn/features/profile/data/repository/profile_repository_impl.dart';
+import 'package:openbn/features/profile/domain/repository/profile_repository.dart';
+import 'package:openbn/features/profile/domain/usecase/update_personal_details_usecase.dart';
+import 'package:openbn/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:openbn/features/splash/data/repository/splash_repository_impl.dart';
 import 'package:openbn/features/splash/domain/repository/splash_repository.dart';
 import 'package:openbn/features/splash/domain/usecases/splash_usecase.dart';
@@ -37,21 +49,28 @@ import 'package:openbn/features/username/presentation/bloc/username_bloc.dart';
 import 'package:openbn/firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 
 final serviceLocator = GetIt.instance;
 
 Future<void> initDependencies() async {
+  await _initFirebase();
+  _initRouter();
   _initSplash();
   _initPrefrences();
   _initDioInterceptor();
+  _initFirebaseStorage();
   _initHome();
-  _initFirebaseMessaging();
+  await _initFirebaseMessaging();
   _initAuth();
+  _initProfile();
   __initUserNameServices();
   await _initGetStorage();
-  await _setupUserServices();
   _initTimer();
+  await __initUserApiServices();
+  await _setupUserServices();
+}
+
+Future<void> _initFirebase() async {
   final firebase = await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -122,6 +141,17 @@ _initAuth() {
       sendOtpUsecase: serviceLocator()));
 }
 
+_initProfile() {
+  serviceLocator
+      .registerFactory<ProfileDatasource>(() => ProfileDatasourceImpl());
+  serviceLocator.registerFactory<ProfileRepository>(
+      () => ProfileRepositoryImpl(serviceLocator()));
+  serviceLocator
+      .registerFactory(() => UpdatePersonalDetailsUsecase(serviceLocator()));
+  serviceLocator.registerLazySingleton(
+      () => ProfileBloc(updatePersonalDetailsUsecase: serviceLocator()));
+}
+
 __initUserNameServices() {
   serviceLocator.registerFactory<UsernameRemoteDatasource>(
       () => UsernameRemoteDatasourceImpl());
@@ -132,17 +162,33 @@ __initUserNameServices() {
       () => UsernameBloc(usernameUpdateUsecase: serviceLocator()));
 }
 
-_initFirebaseMessaging() {
+Future<void> _initFirebaseMessaging() async {
   serviceLocator.registerLazySingleton(() => FirebaseMessaging.instance);
+  serviceLocator.registerFactory(() => NotificationService());
+  final service = serviceLocator<NotificationService>();
+  await service.initialize();
+}
+
+_initFirebaseStorage() {
+  serviceLocator.registerLazySingleton(() => FirebaseStorage.instance);
+  serviceLocator.registerLazySingleton(() => FileUploadService());
 }
 
 Future<void> _setupUserServices() async {
-  final userStorage = UserStorageService();
-  await userStorage.init();
-
-  serviceLocator.registerSingleton<UserStorageService>(userStorage);
+  serviceLocator.registerLazySingleton<UserStorageService>(() => UserStorageService());
+  await serviceLocator<UserStorageService>().init();
+  await serviceLocator<UserStorageService>().updateUser();
 }
 
 _initTimer() {
   serviceLocator.registerLazySingleton(() => TimerBloc());
+}
+
+void _initRouter() {
+  serviceLocator.registerSingleton<GoRouter>(AppRouter.router);
+}
+
+__initUserApiServices() async {
+  serviceLocator.registerFactory<UserApiServices>(() => UserApiServices());
+  await serviceLocator<UserApiServices>().getUser();
 }

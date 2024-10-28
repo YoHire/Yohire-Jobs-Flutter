@@ -7,7 +7,7 @@ class MyTheme {
     brightness: Brightness.light,
     primaryColor: const Color(0xFF194092), // A deep blue color
     hintColor: const Color(0xFF194092),
-    scaffoldBackgroundColor: Colors.white,
+    scaffoldBackgroundColor: const Color(0xFFfafafa),
     textTheme: TextTheme(
       displayLarge: MyTextStyle.displayLarge,
       displayMedium: MyTextStyle.displayMedium,

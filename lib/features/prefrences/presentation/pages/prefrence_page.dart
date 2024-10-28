@@ -65,7 +65,7 @@ class PrefrencesScreenState extends State<PrefrencesScreen> {
                   listener: (context, state) {
                     if (state is CreatedGuestUser) {
                       context.read<HomeBloc>().add(HomeInitEvent());
-                      GoRouter.of(context).go('/getting-jobs-loader/navigation_bar');
+                      GoRouter.of(context).go('/getting-jobs-loader/navigation-bar');
                     }
                   },
                   builder: (context, state) {

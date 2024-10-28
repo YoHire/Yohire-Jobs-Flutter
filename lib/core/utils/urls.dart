@@ -2,7 +2,7 @@
 import 'package:openbn/core/utils/shared_services/remote_config/remote_config_service.dart';
 
 final remoteConfig = FirebaseRemoteConfigService();
-const String baseUrl = "http://192.168.29.221:3000/api/v1";
+const String baseUrl = "http://192.168.29.222:3000/api/v1";
 // const String baseUrl = "https://www.20heads.com/api/v1";
 // const String baseUrl = "http://localhost:3000/api/v1";
 // String baseUrl = "https://api.yohire.in/api/v1";
@@ -52,7 +52,7 @@ abstract class URL {
   static String FILTER_JOBS = "$baseUrl/users/filter";
   static String LANGUAGES = "$baseUrl/recruiter/languages/";
   static String GET_JOB_BY_ID = "$baseUrl/users/jobs/fetch/";
-  static String UPDATE_PERSONAL_INFO = "$baseUrl/users/personal-info-update/";
+  static String UPDATE_PERSONAL_INFO = "$baseUrl/users/personal-info-update";
   static String NOTIFICATION = "$baseUrl/users/notifications/";
   static String SEEN_NOTIFICATION = "$baseUrl/users/seen-notification/";
   static String UPLOAD_RESUME = "$baseUrl/users/resume-upload/";

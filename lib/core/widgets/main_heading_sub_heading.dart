@@ -5,6 +5,7 @@ Widget leftHeadingWithSub(
     {required BuildContext context,required String heading, required String subHeading}) {
       final textTheme = Theme.of(context).textTheme;
   return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Align(
           alignment: Alignment.centerLeft,

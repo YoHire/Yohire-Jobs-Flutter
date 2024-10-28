@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:openbn/core/utils/constants/constants.dart';
 import 'package:openbn/core/utils/snackbars/show_snackbar.dart';
-import 'package:openbn/core/validators/name_validator.dart';
+import 'package:openbn/core/validators/text_validators.dart';
 import 'package:openbn/core/widgets/button.dart';
 import 'package:openbn/core/widgets/main_heading_sub_heading.dart';
 import 'package:openbn/core/widgets/text_field.dart';
@@ -54,7 +54,7 @@ class _UsernameEnterViewState extends State<UsernameEnterView> {
               position: SnackBarPosition.BOTTOM,
               isError: true);
         } else if (state is UsernameSaved) {
-          GoRouter.of(context).go('/getting-jobs-loader/navigation_bar');
+          GoRouter.of(context).go('/getting-jobs-loader/navigation-bar');
         }
       },
       child: Scaffold(
@@ -76,7 +76,7 @@ class _UsernameEnterViewState extends State<UsernameEnterView> {
                       hint: 'username',
                       controller: _usernameController,
                       prefixIcon: const Icon(Icons.account_box_rounded),
-                      validator: (value) => nameValidator(value),
+                      validator: (value) =>TextValidators.nameValidator(value),
                     ),
                     Lottie.asset('assets/lottie/username.json', repeat: false),
                     BlocBuilder<UsernameBloc, UsernameState>(

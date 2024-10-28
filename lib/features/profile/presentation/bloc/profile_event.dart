@@ -1,8 +1,9 @@
 part of 'profile_bloc.dart';
 
-sealed class ProfileEvent extends Equatable {
-  const ProfileEvent();
+sealed class ProfileEvent{}
 
-  @override
-  List<Object> get props => [];
+class UpdatePersonalDataEvent extends ProfileEvent{
+  final PersonalDetailsEntity data;
+
+  UpdatePersonalDataEvent({required this.data});
 }

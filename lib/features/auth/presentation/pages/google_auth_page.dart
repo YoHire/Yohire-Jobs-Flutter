@@ -27,14 +27,14 @@ class GoogleAuthPage extends StatelessWidget {
               context: context,
               text: 'Authenticated as ${state.user.email}');
           if (state.user.isNewUser) {
-            GoRouter.of(context).go('/otp_page');
+            GoRouter.of(context).go('/otp-page');
           } else {
             showSimpleSnackBar(
                 position: SnackBarPosition.BOTTOM,
                 isError: false,
                 context: context,
                 text: 'Welcome back ${state.user.email}');
-            GoRouter.of(context).go('/navigation_bar');
+            GoRouter.of(context).go('/navigation-bar');
           }
         } else if (state is AuthError) {
           showSimpleSnackBar(
@@ -64,7 +64,7 @@ class GoogleAuthPage extends StatelessWidget {
                   child: ThemedButton(
                     text: 'Continue as Guest',
                     onPressed: () {
-                      GoRouter.of(context).go('/navigation_bar');
+                      GoRouter.of(context).go('/navigation-bar');
                     },
                     loading: false,
                   ),

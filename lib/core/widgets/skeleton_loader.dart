@@ -66,7 +66,7 @@ class SkeletonLoader extends StatelessWidget {
                 highlightColor: Colors.white,
                 child: Container(
                   height: 10,
-                  width: MediaQuery.of(context).size.width - 200,
+                  width: MediaQuery.of(context).size.width *0.75,
                   decoration: BoxDecoration(
                     color: Colors.grey.shade400,
                     borderRadius: BorderRadius.circular(8.0),

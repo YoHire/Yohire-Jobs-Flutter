@@ -1,10 +1,13 @@
 part of 'profile_bloc.dart';
 
-sealed class ProfileState extends Equatable {
-  const ProfileState();
-  
-  @override
-  List<Object> get props => [];
-}
+sealed class ProfileState {}
 
 final class ProfileInitial extends ProfileState {}
+final class ProfileUpdating extends ProfileState {}
+final class ProfileLoading extends ProfileState {}
+final class UpdateSuccess extends ProfileState {}
+final class UpdateError extends ProfileState {
+  final String message;
+
+  UpdateError({required this.message });
+}

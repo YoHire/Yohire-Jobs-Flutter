@@ -104,7 +104,6 @@ enum SnackBarPosition {
   BOTTOM,
   TOP,
   MIDDLE;
-
 }
 
 enum OtpStatus {
@@ -141,4 +140,43 @@ class ClientIds {
 
 class ClientSecrets {
   static const String GIT_HUB = "d412c3917de136be0756184b3e037c810e2fb3aa";
+}
+
+enum GenderType {
+  Male('Male'),
+  Female('Female'),
+  Others('Others');
+
+  final String value;
+
+  const GenderType(this.value);
+}
+
+enum MaritialStatus {
+  Married('Married'),
+  Single('Single');
+
+  final String value;
+
+  const MaritialStatus(this.value);
+}
+
+enum ProfileSections {
+  PersonalDetails('Personal Details'),
+  AcademicDetails('Academic Details'),
+  ExperienceDetails('Experience Details'),
+  SkillsAndPrefrences('Skills And Prefrences'),
+  Languages('Languages'),
+  Documents('Documents');
+
+  final String value;
+
+  const ProfileSections(this.value);
+}
+
+abstract class ApiKeys {
+  static const PLACES_IOS_KEY = "AIzaSyANJ35OUPR7qXtRCqlYxFD65Aihmw-DrA8";
+  static const PLACES_ANDROID_KEY = "AIzaSyAQVhkbXrJfx83vjHqOrKMqODsLCILUyOE";
+
+  static String places_api_key = "AIzaSyBCeQj1xv23zcjK1VfUKMdcJD8-k1upzuM";
 }

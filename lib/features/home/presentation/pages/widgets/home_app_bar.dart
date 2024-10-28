@@ -75,8 +75,8 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                             blurRadius: 4.0,
                           ),
                         ]),
-                    child: NoBorderTextField(
-                        hint: 'Search', controller: searchController),
+                    // child: NoBorderTextField(
+                    //     hint: 'Search', controller: searchController),
                     // child: TextFormField(
                     //     controller: controller.searchController,
                     //     onChanged: (value) {

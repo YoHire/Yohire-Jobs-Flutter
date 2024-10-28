@@ -22,18 +22,24 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
       surname: fields[2] as String?,
       mobile: fields[3] as String?,
       email: fields[4] as String?,
-      completedProfile: fields[5] as bool?,
-      gender: fields[6] as String?,
-      resume: fields[7] as String?,
-      createdAt: fields[8] as String?,
-      updatedAt: fields[9] as String?,
+      gender: fields[5] as String?,
+      resume: fields[6] as String?,
+      createdAt: fields[7] as String?,
+      updatedAt: fields[8] as String?,
+      education: (fields[14] as List).cast<EducationModel>(),
+      bio: fields[9] as String?,
+      height: fields[10] as String?,
+      weight: fields[11] as String?,
+      address: fields[12] as String?,
+      dateOfBirth: fields[13] as String?,
+      profileImage: fields[15] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, UserModel obj) {
     writer
-      ..writeByte(10)
+      ..writeByte(16)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -45,15 +51,27 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
       ..writeByte(4)
       ..write(obj.email)
       ..writeByte(5)
-      ..write(obj.completedProfile)
-      ..writeByte(6)
       ..write(obj.gender)
-      ..writeByte(7)
+      ..writeByte(6)
       ..write(obj.resume)
-      ..writeByte(8)
+      ..writeByte(7)
       ..write(obj.createdAt)
+      ..writeByte(8)
+      ..write(obj.updatedAt)
       ..writeByte(9)
-      ..write(obj.updatedAt);
+      ..write(obj.bio)
+      ..writeByte(10)
+      ..write(obj.height)
+      ..writeByte(11)
+      ..write(obj.weight)
+      ..writeByte(12)
+      ..write(obj.address)
+      ..writeByte(13)
+      ..write(obj.dateOfBirth)
+      ..writeByte(14)
+      ..write(obj.education)
+      ..writeByte(15)
+      ..write(obj.profileImage);
   }
 
   @override
