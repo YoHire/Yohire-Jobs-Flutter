@@ -18,7 +18,6 @@ class ProfileDatasourceImpl implements ProfileDatasource {
       final data = await dio.put(URL.UPDATE_PERSONAL_INFO, data: body);
       return data.data;
     } catch (e) {
-      log(e.toString());
       throw ServerException(e.toString());
     }
   }

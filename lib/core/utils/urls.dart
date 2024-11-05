@@ -2,7 +2,7 @@
 import 'package:openbn/core/utils/shared_services/remote_config/remote_config_service.dart';
 
 final remoteConfig = FirebaseRemoteConfigService();
-const String baseUrl = "http://192.168.29.222:3000/api/v1";
+const String baseUrl = "http://192.168.29.222:3000/api/v2";
 // const String baseUrl = "https://www.20heads.com/api/v1";
 // const String baseUrl = "http://localhost:3000/api/v1";
 // String baseUrl = "https://api.yohire.in/api/v1";
@@ -28,15 +28,12 @@ abstract class URL {
   static String UPDATE_SKILL = "$baseUrl/users/update-skills/";
   static String UPDATE_PROFILE = "$baseUrl/users/update-user/";
   static String UPDATE_USERNAME = "$baseUrl/users/username";
-  static String FIND_REFFERED_USER = "$baseUrl/users/check-refferal/";
-  static String APPLY_REFFERAL = "$baseUrl/users/refferal";
-  static String APPLY_SPECIAL_REFFERAL = "$baseUrl/users/special-refferal";
   static String USER = "$baseUrl/users/user/";
   static String EDUCATION = "$baseUrl/users/education/";
   static String DELETE_EDUCATION = "$baseUrl/users/delete-education/";
   static String GET_EDUCATION = "$baseUrl/users/education-id/";
   static String UPDATE_EDUCATION = "$baseUrl/users/update-education/";
-  static String ADD_EDUCATION = "$baseUrl/users/add-education/";
+  static String ADD_EDUCATION = "$baseUrl/users/add-education";
   static String EXPERIENCE = "$baseUrl/users/experience/";
   static String DELETE_EXPERIENCE = "$baseUrl/users/delete-experience/";
   static String GET_EXPERIENCE = "$baseUrl/users/experience-id/";
@@ -45,9 +42,6 @@ abstract class URL {
   static String SAVE_JOB = "$baseUrl/users/save";
   static String UNSAVE_JOB = "$baseUrl/users/unsave";
   static String GET_SAVED_JOB = "$baseUrl/users/savedJobs/";
-  static String CREATE_PAYMENT_ORDER = "$baseUrl/payments/create-order";
-  static String DELETE_ORDER_ID = "$baseUrl/users/delete-orderId/";
-  static String APPLY = "$baseUrl/users/apply-coin";
   static String APPLIED_JOBS = "$baseUrl/users/applied/";
   static String FILTER_JOBS = "$baseUrl/users/filter";
   static String LANGUAGES = "$baseUrl/recruiter/languages/";
@@ -60,22 +54,18 @@ abstract class URL {
   static String DUPLICATE_JOB_APPLICATION = "$baseUrl/users/check-duplicate/";
   static String DELETE_ACCOUNT = "$baseUrl/users/delete/";
   static String ALL_JOBS = "$baseUrl/users/prefrence-jobs/";
-  static String APPLY_CASH = "$baseUrl/users/apply-cash";
-  static String SOURCE = "$baseUrl/users/source";
   static String RANDOM_CATEGORIES = "$baseUrl/recruiter/random-categories";
   static String RANDOM_JOB_ROLES = "$baseUrl/recruiter/random-job-roles/";
   static String GUEST_SIGNUP = "$baseUrl/users/guest-signup";
-  static String REFERRED_USERS = "$baseUrl/users/referred-users";
-  static String INTERVIEW_QUESTIONS = "$baseUrl/users/interview-questions/";
-  static String ANSWER_QUESTION = "$baseUrl/users/answer-question";
   static String DELETE_NOTIFICATION = "$baseUrl/users/delete-notifications";
-  static String CASH_TRANSACTIONS = "$baseUrl/users/cash-transactions";
-  static String COIN_TRANSACTIONS = "$baseUrl/users/coin-transactions";
   static String GET_SUB_COURSES = "$baseUrl/recruiter/sub-courses/";
   static String GET_COURSES = "$baseUrl/recruiter/get-courses/";
   static String CHECK_PHONE = "$baseUrl/users/check-phone/";
   static String VERIFY_PHONE = "$baseUrl/auth/verify-phone/";
   static String SOCIAL_LINKS = "$baseUrl/users/create-social-link";
+  static String QUALIFICATIONS_CATEGORY = "$baseUrl/users/qualifications-category";
+  static String QUALIFICATIONS_SUBCATEGORY = "$baseUrl/users/qualifications-subcategory/";
+  static String QUALIFICATIONS_COURSE = "$baseUrl/users/qualifications-course/";
 
   //Yohire Circle API's
   static String CREATE_QUEUE = "$baseUrl/circle/create-queue";

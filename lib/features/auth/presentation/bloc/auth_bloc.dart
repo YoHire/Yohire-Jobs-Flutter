@@ -108,12 +108,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         phone: event.phone));
     result.fold(
       (failure) {
-        log('is a faliure');
-        log(failure.message);
         emit(AuthError(message: failure.message));
       },
       (success) {
-        log('is a success');
         emit(AuthSuccess(
             user: AuthEntity(isNewUser: false, email: success.email)));
       },

@@ -23,7 +23,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         emit(HomeError(message: 'Failed to fetch jobs'));
       },
       (success) {
+        if(success.isEmpty){
+          emit(HomeEmpty(message: 'No jobs were found'));
+        }else{
         emit(HomeLoaded(jobs: success));
+        }
       },
     );
   }

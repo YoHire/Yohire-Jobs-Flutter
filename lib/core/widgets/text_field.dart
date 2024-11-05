@@ -1,9 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
+import 'package:file_picker/file_picker.dart';
 import 'package:openbn/core/utils/constants/constants.dart';
+import 'package:openbn/core/utils/snackbars/show_snackbar.dart';
 
 class CustomTextField extends StatefulWidget {
   final String hint;
@@ -18,6 +21,7 @@ class CustomTextField extends StatefulWidget {
   final String? Function(String?)? validator;
   final bool isDatePicker;
   final bool isLocationPicker;
+  final bool isFilePicker;
   final String? dateFormat;
 
   const CustomTextField({
@@ -34,6 +38,7 @@ class CustomTextField extends StatefulWidget {
     this.keyboardType = TextInputType.text,
     this.isDatePicker = false,
     this.isLocationPicker = false,
+    this.isFilePicker = false,
     this.dateFormat,
   });
 
@@ -83,13 +88,35 @@ class _CustomTextFieldState extends State<CustomTextField> {
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(1900),
-      lastDate:DateTime(2100),
+      lastDate: DateTime(2100),
     );
 
     if (picked != null) {
       final formatter = DateFormat(widget.dateFormat ?? 'yyyy-MM-dd');
       widget.controller.text = formatter.format(picked);
       widget.onChanged?.call(widget.controller.text);
+    }
+  }
+
+  Future<void> _pickFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['pdf', 'jpg', 'png'],
+    );
+
+    if (result != null) {
+      File file = File(result.files.single.path!);
+      int fileSize = await file.length();
+      if (fileSize <= 750 * 1024) {
+        widget.controller.text = file.path;
+        widget.onChanged?.call(widget.controller.text);
+      } else {
+        showSimpleSnackBar(
+            context: context,
+            text: 'File size must be less than 750KB',
+            position: SnackBarPosition.BOTTOM,
+            isError: true);
+      }
     }
   }
 
@@ -125,9 +152,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
           keyboardType: widget.keyboardType,
           maxLength: widget.maxLength,
           maxLines: widget.maxLines,
-          
           controller: widget.controller,
-          readOnly: widget.isDatePicker,
+          readOnly: widget.isDatePicker || widget.isFilePicker,
           style: textTheme.bodyMedium,
           decoration: InputDecoration(
             enabledBorder: widget.border ?? InputBorder.none,
@@ -159,7 +185,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
                         _clearSelection();
                       }
                     }
-                  : null,
+                  : widget.isFilePicker
+                      ? _pickFile
+                      : null,
           onChanged: widget.onChanged,
           validator: widget.validator,
         ),

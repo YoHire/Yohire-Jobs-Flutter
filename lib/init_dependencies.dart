@@ -20,6 +20,13 @@ import 'package:openbn/features/auth/domain/usecase/create_user_usecase.dart';
 import 'package:openbn/features/auth/domain/usecase/sent_otp_usecase.dart';
 import 'package:openbn/features/auth/domain/usecase/verify_otp_usecase.dart';
 import 'package:openbn/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:openbn/features/education/data/datasource/education_remote_datasource.dart';
+import 'package:openbn/features/education/data/repository/education_repository_impl.dart';
+import 'package:openbn/features/education/domain/repository/education_repository.dart';
+import 'package:openbn/features/education/domain/usecase/get_categories_usecase.dart';
+import 'package:openbn/features/education/domain/usecase/get_subcategories_usecase.dart';
+import 'package:openbn/features/education/domain/usecase/save_education_usecase.dart';
+import 'package:openbn/features/education/presentation/bloc/education_bloc.dart';
 import 'package:openbn/features/home/data/datasource/job_api_datasource.dart';
 import 'package:openbn/features/home/data/repository/home_repository_impl.dart';
 import 'package:openbn/features/home/domain/repository/home_repository.dart';
@@ -50,6 +57,8 @@ import 'package:openbn/firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import 'features/education/domain/usecase/get_course_usecase.dart';
+
 final serviceLocator = GetIt.instance;
 
 Future<void> initDependencies() async {
@@ -59,6 +68,7 @@ Future<void> initDependencies() async {
   _initPrefrences();
   _initDioInterceptor();
   _initFirebaseStorage();
+  __initEducationServices();
   _initHome();
   await _initFirebaseMessaging();
   _initAuth();
@@ -162,6 +172,23 @@ __initUserNameServices() {
       () => UsernameBloc(usernameUpdateUsecase: serviceLocator()));
 }
 
+__initEducationServices() {
+  serviceLocator.registerFactory<EducationRemoteDataSource>(
+      () => EducationRemoteDataSourceImpl());
+  serviceLocator.registerFactory<EducationRepository>(
+      () => EducationRepositoryImpl(serviceLocator()));
+  serviceLocator.registerFactory(() => GetCategoriesUseCase(serviceLocator()));
+  serviceLocator.registerFactory(() => SaveEducationUsecase(serviceLocator()));
+  serviceLocator
+      .registerFactory(() => GetSubCategoriesUseCase(serviceLocator()));
+  serviceLocator.registerFactory(() => GetCoursesUseCase(serviceLocator()));
+  serviceLocator.registerFactory(() => EducationBloc(
+    saveEducationUseCase: serviceLocator(),
+      getCoursesUseCase: serviceLocator(),
+      getCategoriesUseCase: serviceLocator(),
+      getSubCategoriesUseCase: serviceLocator()));
+}
+
 Future<void> _initFirebaseMessaging() async {
   serviceLocator.registerLazySingleton(() => FirebaseMessaging.instance);
   serviceLocator.registerFactory(() => NotificationService());
@@ -175,7 +202,8 @@ _initFirebaseStorage() {
 }
 
 Future<void> _setupUserServices() async {
-  serviceLocator.registerLazySingleton<UserStorageService>(() => UserStorageService());
+  serviceLocator
+      .registerLazySingleton<UserStorageService>(() => UserStorageService());
   await serviceLocator<UserStorageService>().init();
   await serviceLocator<UserStorageService>().updateUser();
 }

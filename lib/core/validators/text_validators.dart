@@ -90,6 +90,17 @@ class TextValidators {
     return null;
   }
 
+  static String? completionDateValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Completion date cannot be empty';
+    }
+    // if (!isAtLeast18YearsOld(value)) {
+    //   return 'Please select an age greater than 18 years old';
+    // }
+
+    return null;
+  }
+
   static bool isAtLeast18YearsOld(String dateString) {
     try {
       DateTime parsedDate = DateFormat('dd/MM/yyyy').parse(dateString);
@@ -103,16 +114,40 @@ class TextValidators {
     }
   }
 
-    static String? heightValidator(String? value) {
+  static String? heightValidator(String? value) {
     if (value == null || value.isEmpty) {
       return 'Height cannot be empty';
     }
     return null;
   }
-    static String? weightValidator(String? value) {
+
+  static String? weightValidator(String? value) {
     if (value == null || value.isEmpty) {
       return 'Weight cannot be empty';
     }
+    return null;
+  }
+
+  static String? eduLevelValidator(dynamic value) {
+    if (value == null) {
+      return 'Education level must be selected';
+    }
+
+    return null;
+  }
+
+  static String? courseValidator(dynamic value) {
+    if (value == null) {
+      return 'Please Select a Course';
+    }
+    return null;
+  }
+
+  static String? specializationValidator(dynamic value) {
+    if (value == null) {
+      return 'Please Select a Speicalization';
+    }
+
     return null;
   }
 }

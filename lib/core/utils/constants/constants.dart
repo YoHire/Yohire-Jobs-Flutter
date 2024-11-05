@@ -116,7 +116,7 @@ enum OtpStatus {
   const OtpStatus(this.value);
 }
 
-enum LoaderType { jobLoader, normalLoader, profileLoader }
+enum LoaderType { jobLoader, normalLoader, profileLoader, fileLoader }
 
 enum SocialMedia {
   LINKEDIN('LINKEDIN'),

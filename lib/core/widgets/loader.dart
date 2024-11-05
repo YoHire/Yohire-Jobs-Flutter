@@ -26,6 +26,22 @@ class Loader extends StatelessWidget {
           )
         ],
       );
+    }else if(loaderType == LoaderType.fileLoader){
+      return Stack(
+        children: [
+          Lottie.asset('assets/lottie/file-loading.json',
+              width: 500, height: 500),
+          Padding(
+            padding: const EdgeInsets.only(top: 320),
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: AnimatedTextKit(repeatForever: true, animatedTexts: [
+                TypewriterAnimatedText('Loading File',textStyle: textTheme.labelMedium)
+              ]),
+            ),
+          )
+        ],
+      );
     } else {
       return const CircularProgressIndicator();
     }

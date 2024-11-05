@@ -12,7 +12,10 @@ class HomeLoaded extends HomeState {
   HomeLoaded({required this.jobs});
 }
 
-class HomeEmpty extends HomeState {}
+class HomeEmpty extends HomeState {
+  final String message;
+  HomeEmpty({required this.message});
+}
 
 class HomeError extends HomeState {
   final String message;

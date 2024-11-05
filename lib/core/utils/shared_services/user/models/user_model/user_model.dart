@@ -95,6 +95,7 @@ class UserModel extends HiveObject {
               .map((e) => EducationModel.fromJson(e as Map<String, dynamic>))
               .toList()
           : [],
+          
     );
   }
 

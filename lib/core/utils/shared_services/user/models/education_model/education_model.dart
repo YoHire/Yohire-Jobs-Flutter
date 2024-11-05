@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:openbn/core/utils/shared_services/user/models/course_model/course_model.dart';
 part 'education_model.g.dart';
@@ -56,11 +55,11 @@ class EducationModel {
       userId: json['userId'],
       certificateUrl: json['certificate'] ?? '',
       level: json['level'] ?? '',
-      // courseData: json['qualifications'] == null
-      //     ? CourseModel(id: '', course: '', category: '', subCategory: '')
-      //     : json['qualifications'].isEmpty
-      //         ? CourseModel(id: '', course: '', category: '', subCategory: '')
-      //         : CourseModel.fromJson(json['qualifications'][0])
+      courseData: json['qualifications'] == null
+          ? CourseModel(id: '', course: '', category: '', subCategory: '')
+          : json['qualifications'].isEmpty
+              ? CourseModel(id: '', course: '', category: '', subCategory: '')
+              : CourseModel.fromJson(json['qualifications'][0])
     );
   }
 }

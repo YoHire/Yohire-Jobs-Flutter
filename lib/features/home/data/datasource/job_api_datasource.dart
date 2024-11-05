@@ -31,7 +31,6 @@ class JobRemoteDataSourceImpl implements JobRemoteDataSource {
         return json.decode(data.body);
       }
     } catch (e) {
-      log(e.toString());
       throw ServerException(e.toString());
     }
   }

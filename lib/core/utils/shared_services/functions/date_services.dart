@@ -196,4 +196,22 @@ class DateServices {
   final outputFormat = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
   return outputFormat.format(dateTime);
 }
+
+static DateTime convertStringToDateTime(String dateString) {
+  // Split the string into its components
+  List<String> parts = dateString.split('-');
+  
+  // Check if the string has exactly 3 parts (year, month, day)
+  if (parts.length != 3) {
+    throw const FormatException('Invalid date format. Please use YYYY-MM-DD.');
+  }
+  
+  // Parse the year, month, and day from the string
+  int year = int.parse(parts[0]);
+  int month = int.parse(parts[1]);
+  int day = int.parse(parts[2]);
+  
+  // Create and return a DateTime object
+  return DateTime(year, month, day);
+}
 }

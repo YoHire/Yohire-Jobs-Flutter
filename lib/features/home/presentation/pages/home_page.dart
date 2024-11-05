@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:openbn/core/widgets/placeholders.dart';
 import 'package:openbn/core/widgets/skeleton_loader.dart';
 import 'package:openbn/features/home/presentation/bloc/home_bloc.dart';
 import 'package:openbn/features/home/presentation/pages/widgets/home_app_bar.dart';
@@ -18,11 +19,9 @@ class HomePage extends StatelessWidget {
         } else if (state is HomeLoaded) {
           return _buildJobs(state: state, context: context);
         } else if (state is HomeError) {
-          return Center(
-            child: Text(state.message),
-          );
+          return  AnimatedPlaceholders(text: state.message,isError: true,subText: 'We are trying our best to fix this soon, please try again after sometime.',);
         } else if (state is HomeEmpty) {
-          return const Center(child: Text('No Jobs'));
+          return  AnimatedPlaceholders(text: state.message,isError: false,subText: 'Try changing your job prefrences or search keywords.',);
         } else {
           return const SizedBox();
         }

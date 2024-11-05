@@ -47,7 +47,6 @@ class _SplashScreenState extends State<SplashScreen>
           context.read<HomeBloc>().add(HomeInitEvent());
           GoRouter.of(context).go('/navigation-bar');
         } else if (state is SplashLoggedOut) {
-          context.read<PrefrenceBloc>().add(PrefrenceFetch(industry: 'none'));
           GoRouter.of(context).go('/prefrences');
         }
       },

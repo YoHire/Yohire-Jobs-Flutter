@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:openbn/core/utils/constants/constants.dart';
 import 'package:openbn/core/utils/shared_services/user/user_storage_services.dart';
@@ -75,8 +74,8 @@ class _PersonalDetailsState extends State<PersonalDetails> {
     _heightController.text = data.height ?? '';
     _weightController.text = data.weight ?? '';
     _addressController.text = data.address ?? '';
-    _dateOfBirthController.text =
-        data.dateOfBirth != null ? arrangeDate(data.dateOfBirth!) : '';
+    // _dateOfBirthController.text =
+    //     data.dateOfBirth != null ? arrangeDate(data.dateOfBirth!) : '';
     if (data.gender == 'Male') {
       _selectedGender = GenderType.Male;
     } else if (data.gender == 'Female') {
@@ -87,8 +86,8 @@ class _PersonalDetailsState extends State<PersonalDetails> {
   }
 
   String arrangeDate(String date) {
-    String slicedDate = date.substring(0, 10);
-    return '${slicedDate.substring(8, 10)}/${slicedDate.substring(5, 7)}/${slicedDate.substring(0, 4)}';
+    String slicedDate = date.isNotEmpty ? date.substring(0, 10) : '';
+    return '${slicedDate.substring(8)}/${slicedDate.substring(5, 7)}/${slicedDate.substring(0, 4)}';
   }
 
   @override
@@ -197,7 +196,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                     maxRadius: 80,
                     backgroundImage: _profileImage != null
                         ? FileImage(_profileImage!) as ImageProvider<Object>
-                        : imgUrl != null
+                        : imgUrl != null && imgUrl.isNotEmpty
                             ? CachedNetworkImageProvider(imgUrl)
                             : const AssetImage('assets/images/user.jpeg')
                                 as ImageProvider<Object>,
@@ -394,7 +393,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
       isDatePicker: true,
       dateFormat: "dd/MM/yyyy",
       onChanged: (value) {
-        log("Date of Birth: $value");
+
       },
     );
   }

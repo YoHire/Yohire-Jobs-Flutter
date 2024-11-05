@@ -2,13 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:openbn/core/navigation/app_router.dart';
 import 'package:openbn/core/theme/app_theme.dart';
-import 'package:openbn/core/widgets/timer/bloc/timer_bloc.dart';
 import 'package:openbn/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:openbn/features/home/presentation/bloc/home_bloc.dart';
-import 'package:openbn/features/prefrences/presentation/bloc/prefrence_bloc.dart';
 import 'package:openbn/features/profile/presentation/bloc/profile_bloc.dart';
-import 'package:openbn/features/splash/presentation/bloc/splash_bloc.dart';
-import 'package:openbn/features/username/presentation/bloc/username_bloc.dart';
 import 'package:openbn/init_dependencies.dart';
 import 'features/main_navigation/presentation/bloc/navigation_bloc.dart';
 
@@ -19,10 +15,6 @@ void main() async {
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(
-        create: (context) => serviceLocator<SplashBloc>(),
-      ),
-      BlocProvider(create: (context) => serviceLocator<PrefrenceBloc>()),
-      BlocProvider(
         create: (context) => NavigationBloc(),
       ),
       BlocProvider(
@@ -30,12 +22,6 @@ void main() async {
       ),
       BlocProvider(
         create: (context) => serviceLocator<AuthBloc>(),
-      ),
-      BlocProvider(
-        create: (context) => serviceLocator<UsernameBloc>(),
-      ),
-      BlocProvider(
-        create: (context) => serviceLocator<TimerBloc>(),
       ),
       BlocProvider(
         create: (context) => serviceLocator<ProfileBloc>(),

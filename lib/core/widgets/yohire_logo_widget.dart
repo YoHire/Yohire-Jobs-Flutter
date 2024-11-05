@@ -35,7 +35,7 @@ class YohireLogoWidget extends StatelessWidget {
           bottom: 15,
           right: 90,
           child: Text(
-            'Be in a good company',
+            'Be in good company',
             style: textTheme.bodySmall,
           ),
         )

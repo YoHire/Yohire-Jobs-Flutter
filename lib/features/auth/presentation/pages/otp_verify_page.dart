@@ -6,8 +6,10 @@ import 'package:openbn/core/utils/constants/constants.dart';
 import 'package:openbn/core/utils/snackbars/show_snackbar.dart';
 import 'package:openbn/core/widgets/button.dart';
 import 'package:openbn/core/widgets/theme_gap.dart';
+import 'package:openbn/core/widgets/timer/bloc/timer_bloc.dart';
 import 'package:openbn/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:openbn/features/auth/presentation/widgets/otp_enter_widget.dart';
+import 'package:openbn/init_dependencies.dart';
 
 class OtpVerifyPage extends StatefulWidget {
   const OtpVerifyPage({super.key});
@@ -147,9 +149,12 @@ class _OtpVerifyPageState extends State<OtpVerifyPage> {
         return DraggableScrollableSheet(
           expand: false,
           builder: (BuildContext context, ScrollController scrollController) {
-            return OtpEnterWidget(
-              state: state,
-              scrollController: scrollController,
+            return BlocProvider(
+              create: (context) => serviceLocator<TimerBloc>(),
+              child: OtpEnterWidget(
+                state: state,
+                scrollController: scrollController,
+              ),
             );
           },
         );

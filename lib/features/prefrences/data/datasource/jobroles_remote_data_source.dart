@@ -21,7 +21,6 @@ class JobrolesRemoteDataSourceImpl implements JobrolesRemoteDataSource {
       final data = await dio.get('${URL.RANDOM_JOB_ROLES}$industry');
       return data.data;
     } catch (e) {
-      log(e.toString());
       throw ServerException(e.toString());
     }
   }

@@ -9,6 +9,7 @@ import 'package:openbn/core/widgets/theme_gap.dart';
 import 'package:openbn/core/widgets/timer/bloc/timer_bloc.dart';
 import 'package:openbn/core/widgets/timer/timer_page.dart';
 import 'package:openbn/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:openbn/init_dependencies.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class OtpEnterWidget extends StatefulWidget {
@@ -82,7 +83,8 @@ class _OtpEnterWidgetState extends State<OtpEnterWidget> {
                           Navigator.of(context).pop();
                         },
                         style: const ButtonStyle(
-                            padding: WidgetStatePropertyAll(EdgeInsets.all(0))),
+                            padding:
+                                WidgetStatePropertyAll(EdgeInsets.all(0))),
                         child: Text(
                           'Resend OTP',
                           style: textTheme.bodyMedium,
@@ -147,10 +149,8 @@ class _OtpEnterWidgetState extends State<OtpEnterWidget> {
           controller: _otpController,
           keyboardType: TextInputType.number,
           onChanged: (value) {
-            log('Current OTP value: $value');
           },
           beforeTextPaste: (text) {
-            log("Allowing to paste $text");
             return true;
           },
         ),
