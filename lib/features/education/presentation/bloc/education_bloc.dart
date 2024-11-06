@@ -1,6 +1,4 @@
-import 'dart:developer';
 import 'dart:io';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:openbn/features/education/domain/entity/course_entity.dart';
 import 'package:openbn/features/education/domain/entity/education_entity.dart';
@@ -34,7 +32,6 @@ class EducationBloc extends Bloc<EducationEvent, EducationState> {
     on<SubCategorySelected>(_onSubCategorySelected);
     on<SaveEducation>(_onSaveEducation);
     on<SaveSelectedCourse>(_saveSelectedCourse);
-    on<LoadPreviousCourse>(_loadPreviousCourse);
   }
 
   Future<void> _onLoadCategories(
@@ -51,10 +48,33 @@ class EducationBloc extends Bloc<EducationEvent, EducationState> {
         },
         (success) {
           fetchedCategories = success;
+          // log(event.previousCourse!.category);
+          //   log(event.previousCourse!.course);
+          //   log(event.previousCourse!.subCategory);
+          //   log(event.previousCourse!.id);
+          // log(':::::::::BASE:::::::::');
+          // for(int i=0;i<fetchedCategories.length;i++){
+          //   // if(fetchedCategories[i].category==event.previousCourse!.category){
+          //   //   log('removed');
+          //   //   fetchedCategories.removeAt(i);
+              
+          //   // }
+          //   log(':::::::::START:::::::::');
+          //   log(fetchedCategories[i].category);
+          //   log(fetchedCategories[i].course);
+          //   log(fetchedCategories[i].subCategory);
+          //   log(fetchedCategories[i].id);
+          //   log(':::::::::STOP:::::::::');
+          // }
           emit(CategoriesLoaded(
             categories: fetchedCategories,
             selectedCategory: null,
           ));
+          // if (event.previousCourse != null) {
+          //   log('kerikknn');
+          //   add(CategorySelected(event.previousCourse!));
+          // }
+
         },
       );
     } catch (e) {
@@ -192,16 +212,6 @@ class EducationBloc extends Bloc<EducationEvent, EducationState> {
   ) async {
     try {
       selectedCourse = event.course;
-    } catch (e) {
-      emit(EducationError(message: e.toString()));
-    }
-  }
-  Future<void> _loadPreviousCourse(
-    LoadPreviousCourse event,
-    Emitter<EducationState> emit,
-  ) async {
-    try {
-      // selectedCourse = event.course;
     } catch (e) {
       emit(EducationError(message: e.toString()));
     }

@@ -7,7 +7,8 @@ import 'package:openbn/features/education/domain/entity/course_entity.dart';
 import 'package:openbn/features/education/presentation/bloc/education_bloc.dart';
 
 class CourseDropdownWidget extends StatefulWidget {
-  const CourseDropdownWidget({super.key});
+  final CourseEntity? data;
+  const CourseDropdownWidget({super.key, this.data});
 
   @override
   State<CourseDropdownWidget> createState() => _CourseDropdownWidgetState();
@@ -19,7 +20,12 @@ class _CourseDropdownWidgetState extends State<CourseDropdownWidget> {
     return BlocBuilder<EducationBloc, EducationState>(
       builder: (context, state) {
         if (state is EducationInitial) {
-          context.read<EducationBloc>().add(LoadCategories());
+          context.read<EducationBloc>().add(LoadCategories(previousCourse: widget.data != null
+                  ? CourseEntity(
+                      id: widget.data!.id,
+                      course: widget.data!.course,
+                      category: widget.data!.category,
+                      subCategory: widget.data!.subCategory):null));
           return const SizedBox.shrink();
         }
 

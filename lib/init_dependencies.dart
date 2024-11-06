@@ -31,7 +31,8 @@ import 'package:openbn/features/home/data/datasource/job_api_datasource.dart';
 import 'package:openbn/features/home/data/repository/home_repository_impl.dart';
 import 'package:openbn/features/home/domain/repository/home_repository.dart';
 import 'package:openbn/features/home/domain/usecase/get_jobs_usecase.dart';
-import 'package:openbn/features/home/presentation/bloc/home_bloc.dart';
+import 'package:openbn/features/home/domain/usecase/get_more_jobs_usecase.dart';
+import 'package:openbn/features/home/presentation/bloc/home_bloc/home_bloc.dart';
 import 'package:openbn/features/prefrences/data/datasource/jobroles_remote_data_source.dart';
 import 'package:openbn/features/prefrences/data/repository/prefrence_repository_impl.dart';
 import 'package:openbn/features/prefrences/domain/repository/prefrence_repository.dart';
@@ -117,8 +118,9 @@ _initHome() {
   serviceLocator.registerFactory<HomeRepository>(
       () => HomeRepositoryImpl(serviceLocator()));
   serviceLocator.registerFactory(() => GetAllJobsUsecase(serviceLocator()));
-  serviceLocator
-      .registerLazySingleton(() => HomeBloc(allJobsUsecase: serviceLocator()));
+  serviceLocator.registerFactory(() => GetMoreJobsUsecase(serviceLocator()));
+  serviceLocator.registerLazySingleton(() => HomeBloc(
+      allJobsUsecase: serviceLocator(), moreJobsUsecase: serviceLocator()));
 }
 
 _initGetStorage() async {
@@ -183,7 +185,7 @@ __initEducationServices() {
       .registerFactory(() => GetSubCategoriesUseCase(serviceLocator()));
   serviceLocator.registerFactory(() => GetCoursesUseCase(serviceLocator()));
   serviceLocator.registerFactory(() => EducationBloc(
-    saveEducationUseCase: serviceLocator(),
+      saveEducationUseCase: serviceLocator(),
       getCoursesUseCase: serviceLocator(),
       getCategoriesUseCase: serviceLocator(),
       getSubCategoriesUseCase: serviceLocator()));

@@ -5,6 +5,7 @@ import 'package:openbn/core/widgets/getting_jobs_loader.dart';
 import 'package:openbn/features/auth/presentation/pages/google_auth_page.dart';
 import 'package:openbn/features/auth/presentation/pages/otp_verify_page.dart';
 import 'package:openbn/features/education/presentation/bloc/education_bloc.dart';
+import 'package:openbn/features/home/presentation/pages/job_details_page.dart';
 import 'package:openbn/features/prefrences/presentation/bloc/prefrence_bloc.dart';
 import 'package:openbn/features/prefrences/presentation/bloc/prefrence_event.dart';
 import 'package:openbn/features/prefrences/presentation/pages/prefrence_page.dart';
@@ -232,6 +233,27 @@ class AppRouter {
             );
           },
         ),
+      ),
+      GoRoute(
+        path: '/job-details/:id',
+        pageBuilder: (context, state) {
+          final id = state.pathParameters['id']!;
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child: JobDetailsScreen(id: id),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              const begin = Offset(1.0, 0.0);
+              const end = Offset.zero;
+              final tween = Tween(begin: begin, end: end);
+              final curveTween = CurveTween(curve: Curves.easeInBack);
+              return SlideTransition(
+                position: animation.drive(curveTween).drive(tween),
+                child: child,
+              );
+            },
+          );
+        },
       ),
     ],
     errorBuilder: (context, state) => Scaffold(

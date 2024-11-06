@@ -138,7 +138,6 @@ class _ProfileSectionPageState extends State<ProfileSectionPage>
       } else {
         isSectionCompleted[1] = false;
       }
-      
     }
   }
 
@@ -166,7 +165,7 @@ class _ProfileSectionPageState extends State<ProfileSectionPage>
   }
 
   AppBar _buildAppBar(BuildContext context) {
-    return customAppBar(route: '/navigation-bar', context: context);
+    return customAppBar(context: context);
   }
 
   Widget _buildHeader(BuildContext context) {

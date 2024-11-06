@@ -165,7 +165,6 @@ class _PersonalDetailsState extends State<PersonalDetails> {
 
   _buildAppBar(BuildContext context) {
     return customAppBar(
-      route: '/profile-section',
       context: context,
       title: 'Personal Details',
     );

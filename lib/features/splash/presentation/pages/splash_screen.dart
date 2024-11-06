@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:openbn/core/widgets/yohire_logo_widget.dart';
-import 'package:openbn/features/home/presentation/bloc/home_bloc.dart';
+import 'package:openbn/features/home/presentation/bloc/home_bloc/home_bloc.dart';
 import 'package:openbn/features/prefrences/presentation/bloc/prefrence_bloc.dart';
 import 'package:openbn/features/prefrences/presentation/bloc/prefrence_event.dart';
 import 'package:openbn/features/splash/presentation/bloc/splash_bloc.dart';

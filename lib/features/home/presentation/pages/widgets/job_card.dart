@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:openbn/core/utils/shared_services/functions/date_services.dart';
 import 'package:openbn/core/widgets/theme_gap.dart';
 import 'package:openbn/features/home/domain/entities/job_entity.dart';
@@ -24,13 +27,7 @@ class JobCardWidget extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
         onTap: () {
-          // Get.to(() => JobDetailsScreen(
-          //       index: index,
-          //       clipArtPath: '',
-          //       data: job,
-          //       isApplied: false,
-          //       heroTag: 'Home',
-          //     ));
+          GoRouter.of(context).push('/job-details/${job.id}');
         },
         child: Container(
           width: MediaQuery.of(context).size.width,

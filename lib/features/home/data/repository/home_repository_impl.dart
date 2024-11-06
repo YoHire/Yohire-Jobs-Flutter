@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:fpdart/fpdart.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:openbn/core/error/faliure.dart';
@@ -19,14 +21,33 @@ class HomeRepositoryImpl implements HomeRepository {
   @override
   Future<Either<Failure, List<JobEntity>>> getAllJobs() async {
     try {
-      final data =
-          await dataSource.getAllJobs(isLogged: storage.read('isLogged')==true?true:false);
+      final data = await dataSource.getAllJobs(
+          isLogged: storage.read('isLogged') == true ? true : false);
 
       List<dynamic> results = data['data'];
 
       return Right(results
           .where((json) => json['status'] == Status.active)
-          .map((json) => JobModel.fromJson(json, false, {}, ''))
+          .map((json) => JobModel.fromJson(json))
+          .toList());
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<JobEntity>>> getMoreJobs(
+      {required int skip}) async {
+    try {
+      final data = await dataSource.getMoreJobs(
+          isLogged: storage.read('isLogged') == true ? true : false,
+          skipCount: skip);
+
+      List<dynamic> results = data['data'];
+
+      return Right(results
+          .where((json) => json['status'] == Status.active)
+          .map((json) => JobModel.fromJson(json))
           .toList());
     } catch (e) {
       return Left(Failure(message: e.toString()));

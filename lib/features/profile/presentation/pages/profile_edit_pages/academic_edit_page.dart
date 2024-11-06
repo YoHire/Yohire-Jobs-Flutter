@@ -103,7 +103,6 @@ class _AcademicEditPageState extends State<AcademicEditPage> {
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return customAppBar(
-      route: _profileRoute,
       context: context,
       title: 'Academic Details',
     );

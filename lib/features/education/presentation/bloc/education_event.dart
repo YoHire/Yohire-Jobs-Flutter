@@ -2,7 +2,11 @@ part of 'education_bloc.dart';
 
 sealed class EducationEvent {}
 
-class LoadCategories extends EducationEvent {}
+class LoadCategories extends EducationEvent {
+  final CourseEntity? previousCourse;
+
+  LoadCategories({ this.previousCourse});
+}
 
 class CategorySelected extends EducationEvent {
   final CourseEntity category;
@@ -27,8 +31,3 @@ class SaveEducation extends EducationEvent {
   SaveEducation({required this.data, this.file});
 }
 
-class LoadPreviousCourse extends EducationEvent{
-  final CourseEntity course;
-
-  LoadPreviousCourse({required this.course});
-}

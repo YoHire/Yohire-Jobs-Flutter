@@ -1,8 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:openbn/core/utils/constants/constants.dart';
+import 'package:openbn/core/widgets/loader.dart';
 import 'package:openbn/core/widgets/placeholders.dart';
 import 'package:openbn/core/widgets/skeleton_loader.dart';
-import 'package:openbn/features/home/presentation/bloc/home_bloc.dart';
+import 'package:openbn/features/home/presentation/bloc/home_bloc/home_bloc.dart';
 import 'package:openbn/features/home/presentation/pages/widgets/home_app_bar.dart';
 import 'package:openbn/features/home/presentation/pages/widgets/job_card.dart';
 
@@ -16,12 +20,21 @@ class HomePage extends StatelessWidget {
       body: BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
         if (state is HomeLoading) {
           return _buildSkeleton();
-        } else if (state is HomeLoaded) {
-          return _buildJobs(state: state, context: context);
+        } else if (state is HomeLoaded || state is MoreJobsLoading) {
+          return _buildJobs(context: context);
         } else if (state is HomeError) {
-          return  AnimatedPlaceholders(text: state.message,isError: true,subText: 'We are trying our best to fix this soon, please try again after sometime.',);
+          return AnimatedPlaceholders(
+            text: state.message,
+            isError: true,
+            subText:
+                'We are trying our best to fix this soon, please try again after sometime.',
+          );
         } else if (state is HomeEmpty) {
-          return  AnimatedPlaceholders(text: state.message,isError: false,subText: 'Try changing your job prefrences or search keywords.',);
+          return AnimatedPlaceholders(
+            text: state.message,
+            isError: false,
+            subText: 'Try changing your job prefrences or search keywords.',
+          );
         } else {
           return const SizedBox();
         }
@@ -29,19 +42,51 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildJobs(
-      {required HomeLoaded state, required BuildContext context}) {
+  Widget _buildJobs({
+    required BuildContext context,
+  }) {
+    ScrollController scrollController = ScrollController();
+
+    scrollController.addListener(() {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+            log('vannn');
+        context.read<HomeBloc>().add(LoadMoreJobs());
+      }
+    });
+
     return RefreshIndicator(
       onRefresh: () async {
         await Future.delayed(const Duration(seconds: 2));
         context.read<HomeBloc>().add(HomeInitEvent());
       },
-      child: ListView.builder(
-          itemCount: state.jobs.length,
-          itemBuilder: (context, index) {
-            return JobCardWidget(
-                context: context, job: state.jobs[index], index: index);
-          }),
+      child: BlocBuilder<HomeBloc, HomeState>(
+        builder: (context, state) {
+          return ListView.builder(
+            controller: scrollController,
+            itemCount: context.read<HomeBloc>().allJobs.length + 1,
+            itemBuilder: (context, index) {
+              if (index == context.read<HomeBloc>().allJobs.length) {
+                if (state is MoreJobsLoading) {
+                  return const Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Loader(loaderType: LoaderType.normalLoader,),
+                    ),
+                  );
+                } else {
+                  return const SizedBox();
+                }
+              }
+              return JobCardWidget(
+                context: context,
+                job: context.read<HomeBloc>().allJobs[index],
+                index: index,
+              );
+            },
+          );
+        },
+      ),
     );
   }
 

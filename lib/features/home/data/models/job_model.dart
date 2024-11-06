@@ -28,12 +28,11 @@ class JobModel extends JobEntity {
       required super.updatedAt,
       required super.description,
       required super.userIds,
-      required super.resumeDownloaded,
       required super.currency,
       required super.testQuestion,
       required super.expiryDate});
 
-  factory JobModel.fromJson(Map<String, dynamic> json, bool resumeDownloaded, Map<String, dynamic> recruiter, String raId) {
+  factory JobModel.fromJson(Map<String, dynamic> json) {
     return JobModel(
       id: json['id'] ?? '',
       recruiterId: json['recruiterId'] ?? '',
@@ -61,13 +60,9 @@ class JobModel extends JobEntity {
       updatedAt: json['updatedAt'],
       description: json['description'] ?? '',
       userIds: [],
-      // userIds: defactorUserId(json['userJobs']??[]),
-      resumeDownloaded: resumeDownloaded,
-      // skills: json['skills']==null?[]:getSkills(json['skills']),
       currency: json['currency'] ?? '',
       testQuestion: json['testQuestion'] ?? [],
       expiryDate: json['expiryDate'] ?? '',
-      // recruiter: recruiter.isEmpty?null: RecruiterModel.fromJson(recruiter,raId)
     );
   }
 }

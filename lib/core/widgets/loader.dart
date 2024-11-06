@@ -20,13 +20,14 @@ class Loader extends StatelessWidget {
             child: Align(
               alignment: Alignment.topCenter,
               child: AnimatedTextKit(repeatForever: true, animatedTexts: [
-                TypewriterAnimatedText('Loading Jobs',textStyle: textTheme.labelMedium)
+                TypewriterAnimatedText('Loading Jobs',
+                    textStyle: textTheme.labelMedium)
               ]),
             ),
           )
         ],
       );
-    }else if(loaderType == LoaderType.fileLoader){
+    } else if (loaderType == LoaderType.fileLoader) {
       return Stack(
         children: [
           Lottie.asset('assets/lottie/file-loading.json',
@@ -36,14 +37,15 @@ class Loader extends StatelessWidget {
             child: Align(
               alignment: Alignment.topCenter,
               child: AnimatedTextKit(repeatForever: true, animatedTexts: [
-                TypewriterAnimatedText('Loading File',textStyle: textTheme.labelMedium)
+                TypewriterAnimatedText('Loading File',
+                    textStyle: textTheme.labelMedium)
               ]),
             ),
           )
         ],
       );
     } else {
-      return const CircularProgressIndicator();
+      return Lottie.asset('assets/lottie/linear-loading.json',width: 150,height: 80);
     }
   }
 }

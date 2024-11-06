@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,6 +15,7 @@ import 'package:openbn/core/widgets/button.dart';
 import 'package:openbn/core/widgets/main_heading_sub_heading.dart';
 import 'package:openbn/core/widgets/text_field.dart';
 import 'package:openbn/core/widgets/theme_gap.dart';
+import 'package:openbn/features/education/domain/entity/course_entity.dart';
 
 // Feature imports
 import 'package:openbn/features/education/domain/entity/education_entity.dart';
@@ -62,10 +62,11 @@ class _EducationPageState extends State<EducationPage> {
     _certificateController.dispose();
   }
 
-  void _assignPreviousValues(){
-    if(widget.data!=null){
+  void _assignPreviousValues() {
+    if (widget.data != null) {
       _institutionController.text = widget.data!.institution;
-      _completionDateController.text = widget.data!.dateOfCompletion.toString();
+      _completionDateController.text =
+          widget.data!.dateOfCompletion.toString().substring(0, 10);
       _certificateController.text = widget.data!.certificateUrl;
     }
   }
@@ -109,7 +110,14 @@ class _EducationPageState extends State<EducationPage> {
   }
 
   void _handleError(BuildContext context, EducationError state) {
-    context.read<EducationBloc>().add(LoadCategories());
+    context.read<EducationBloc>().add(LoadCategories(
+        previousCourse: widget.data != null
+            ? CourseEntity(
+                id: widget.data!.courseData!.id,
+                course: widget.data!.courseData!.course,
+                category: widget.data!.courseData!.category,
+                subCategory: widget.data!.courseData!.subCategory)
+            : null));
     _showSnackBar(context, state.message, true);
   }
 
@@ -173,7 +181,15 @@ class _EducationPageState extends State<EducationPage> {
           children: [
             _buildInstitutionField(),
             const ThemeGap(_gapSize),
-            const CourseDropdownWidget(),
+            CourseDropdownWidget(
+              data: widget.data != null
+                  ? CourseEntity(
+                      id: widget.data!.courseData!.id,
+                      course: widget.data!.courseData!.course,
+                      category: widget.data!.courseData!.category,
+                      subCategory: widget.data!.courseData!.subCategory)
+                  : null,
+            ),
             const ThemeGap(_gapSize),
             _buildCompletionDateField(),
             const ThemeGap(_gapSize),

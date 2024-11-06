@@ -14,7 +14,7 @@ abstract class URL {
   static String AUTH = "$baseUrl/auth";
   static String LOGIN = "$AUTH/user-login";
   static String REFRESH = "$baseUrl/auth/refresh-token";
-  static String JOBS = "$baseUrl/users/jobs";
+  static String JOBS = "$baseUrl/users/jobs/";
   static String MORE_JOBS = "$baseUrl/users/more-jobs/";
   static String SEARCH_JOBS = "$baseUrl/recruiter/search-jobs/";
   static String CATEGORIES = "$baseUrl/recruiter/categories/:ACTIVE";
@@ -45,7 +45,7 @@ abstract class URL {
   static String APPLIED_JOBS = "$baseUrl/users/applied/";
   static String FILTER_JOBS = "$baseUrl/users/filter";
   static String LANGUAGES = "$baseUrl/recruiter/languages/";
-  static String GET_JOB_BY_ID = "$baseUrl/users/jobs/fetch/";
+  static String GET_JOB_BY_ID = "$baseUrl/users/jobs-fetch/";
   static String UPDATE_PERSONAL_INFO = "$baseUrl/users/personal-info-update";
   static String NOTIFICATION = "$baseUrl/users/notifications/";
   static String SEEN_NOTIFICATION = "$baseUrl/users/seen-notification/";

@@ -26,7 +26,6 @@ class JobEntity {
   final String updatedAt;
   final String description;
   final List<String> userIds;
-  final bool resumeDownloaded;
   final String expiryDate;
   // RecruiterModel? recruiter;
   String? source;
@@ -60,8 +59,6 @@ class JobEntity {
       required this.description,
       required this.userIds,
       this.source,
-      // this.recruiter,
-      required this.resumeDownloaded,
       // required this.skills,
       required this.currency,
       required this.testQuestion,

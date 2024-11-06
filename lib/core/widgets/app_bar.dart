@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-AppBar customAppBar({required String route, required BuildContext context,String? title}) {
+AppBar customAppBar({required BuildContext context,String? title}) {
   return AppBar(
     title: Text(title??''),
     leading: IconButton(

@@ -9,7 +9,7 @@ import 'package:openbn/core/widgets/main_heading_sub_heading.dart';
 import 'package:openbn/core/widgets/skeleton_loader.dart';
 import 'package:openbn/core/widgets/text_field.dart';
 import 'package:openbn/core/widgets/theme_gap.dart';
-import 'package:openbn/features/home/presentation/bloc/home_bloc.dart';
+import 'package:openbn/features/home/presentation/bloc/home_bloc/home_bloc.dart';
 import 'package:openbn/features/prefrences/presentation/bloc/prefrence_bloc.dart';
 import 'package:openbn/features/prefrences/presentation/bloc/prefrence_event.dart';
 import 'package:openbn/features/prefrences/presentation/bloc/prefrence_state.dart';
