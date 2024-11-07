@@ -1,9 +1,8 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:openbn/core/utils/constants/constants.dart';
+import 'package:openbn/core/utils/shared_services/models/job_role/job_role_model.dart';
 import 'package:openbn/core/widgets/floating_action_button.dart';
 import 'package:openbn/core/widgets/main_heading_sub_heading.dart';
 import 'package:openbn/core/widgets/skeleton_loader.dart';
@@ -13,7 +12,6 @@ import 'package:openbn/features/home/presentation/bloc/home_bloc/home_bloc.dart'
 import 'package:openbn/features/prefrences/presentation/bloc/prefrence_bloc.dart';
 import 'package:openbn/features/prefrences/presentation/bloc/prefrence_event.dart';
 import 'package:openbn/features/prefrences/presentation/bloc/prefrence_state.dart';
-import 'package:openbn/features/prefrences/presentation/models/job_role_model.dart';
 import 'package:openbn/features/prefrences/presentation/widgets/chips.dart';
 
 class PrefrencesScreen extends StatefulWidget {
@@ -117,8 +115,8 @@ class PrefrencesScreenState extends State<PrefrencesScreen> {
   }
 
   // Function to build job roles
-  Widget _buildJobRoles(BuildContext context, List<JobRoleViewModel> jobRoles,
-      List<JobRoleViewModel> selectedJobRoles) {
+  Widget _buildJobRoles(BuildContext context, List<JobRoleModel> jobRoles,
+      List<JobRoleModel> selectedJobRoles) {
     return SingleChildScrollView(
       child: Wrap(
         spacing: 8.0,
@@ -159,7 +157,7 @@ class PrefrencesScreenState extends State<PrefrencesScreen> {
     );
   }
 
-  void _toggleJobRole(BuildContext context, JobRoleViewModel? jobRole) {
+  void _toggleJobRole(BuildContext context, JobRoleModel? jobRole) {
     context
         .read<PrefrenceBloc>()
         .add(PrefrenceFetch(industry: jobRole!.industry!, jobRole: jobRole));

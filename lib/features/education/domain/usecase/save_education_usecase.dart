@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:fpdart/fpdart.dart';
 import 'package:openbn/core/error/faliure.dart';
 import 'package:openbn/core/usecase/usecase.dart';
-import 'package:openbn/features/education/domain/entity/education_entity.dart';
+import 'package:openbn/core/utils/shared_services/models/education/education_model.dart';
 import 'package:openbn/features/education/domain/repository/education_repository.dart';
 
 class SaveEducationUsecase implements Usecase<void, EducationUseCaseParms> {
@@ -13,13 +13,13 @@ class SaveEducationUsecase implements Usecase<void, EducationUseCaseParms> {
   @override
   Future<Either<Failure, void>> call(EducationUseCaseParms params) async {
     return await repository.saveEducation(
-        params.educationEntity.toData(), params.certificate);
+        params.educationModel, params.certificate);
   }
 }
 
 class EducationUseCaseParms {
-  final EducationEntity educationEntity;
+  final EducationModel educationModel;
   File? certificate;
 
-  EducationUseCaseParms({required this.educationEntity, this.certificate});
+  EducationUseCaseParms({required this.educationModel, this.certificate});
 }

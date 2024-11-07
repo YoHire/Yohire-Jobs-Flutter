@@ -27,12 +27,18 @@ import 'package:openbn/features/education/domain/usecase/get_categories_usecase.
 import 'package:openbn/features/education/domain/usecase/get_subcategories_usecase.dart';
 import 'package:openbn/features/education/domain/usecase/save_education_usecase.dart';
 import 'package:openbn/features/education/presentation/bloc/education_bloc.dart';
+import 'package:openbn/features/home/data/datasource/home_api_datasource.dart';
 import 'package:openbn/features/home/data/datasource/job_api_datasource.dart';
 import 'package:openbn/features/home/data/repository/home_repository_impl.dart';
+import 'package:openbn/features/home/data/repository/job_repository_imp.dart';
 import 'package:openbn/features/home/domain/repository/home_repository.dart';
+import 'package:openbn/features/home/domain/repository/job_repository.dart';
+import 'package:openbn/features/home/domain/usecase/apply_job_usecase.dart';
 import 'package:openbn/features/home/domain/usecase/get_jobs_usecase.dart';
 import 'package:openbn/features/home/domain/usecase/get_more_jobs_usecase.dart';
+import 'package:openbn/features/home/domain/usecase/get_single_job_usecase.dart';
 import 'package:openbn/features/home/presentation/bloc/home_bloc/home_bloc.dart';
+import 'package:openbn/features/home/presentation/bloc/job_bloc/job_bloc.dart';
 import 'package:openbn/features/prefrences/data/datasource/jobroles_remote_data_source.dart';
 import 'package:openbn/features/prefrences/data/repository/prefrence_repository_impl.dart';
 import 'package:openbn/features/prefrences/domain/repository/prefrence_repository.dart';
@@ -71,6 +77,7 @@ Future<void> initDependencies() async {
   _initFirebaseStorage();
   __initEducationServices();
   _initHome();
+  _initJob();
   await _initFirebaseMessaging();
   _initAuth();
   _initProfile();
@@ -114,13 +121,24 @@ _initPrefrences() {
 
 _initHome() {
   serviceLocator
-      .registerFactory<JobRemoteDataSource>(() => JobRemoteDataSourceImpl());
+      .registerFactory<HomeApiDatasource>(() => HomeApiDatasourceImpl());
   serviceLocator.registerFactory<HomeRepository>(
       () => HomeRepositoryImpl(serviceLocator()));
   serviceLocator.registerFactory(() => GetAllJobsUsecase(serviceLocator()));
   serviceLocator.registerFactory(() => GetMoreJobsUsecase(serviceLocator()));
   serviceLocator.registerLazySingleton(() => HomeBloc(
       allJobsUsecase: serviceLocator(), moreJobsUsecase: serviceLocator()));
+}
+
+_initJob() {
+  serviceLocator
+      .registerFactory<JobApiDatasource>(() => JobApiDatasourceImpl());
+  serviceLocator.registerFactory<JobRepository>(
+      () => JobRepositoryImpl(serviceLocator()));
+  serviceLocator.registerFactory(() => GetSingleJobUsecase(serviceLocator()));
+  serviceLocator.registerFactory(() => ApplyJobUsecase(serviceLocator()));
+  serviceLocator.registerFactory(
+      () => JobBloc(singleJobsUsecase: serviceLocator(),applyJobUsecase:serviceLocator()));
 }
 
 _initGetStorage() async {

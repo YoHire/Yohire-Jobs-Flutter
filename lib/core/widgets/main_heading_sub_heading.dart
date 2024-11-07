@@ -14,6 +14,7 @@ Widget leftHeadingWithSub(
             style: textTheme.titleLarge,
             textAlign: TextAlign.left,
           )),
+         const ThemeGap(5),
       Align(
           alignment: Alignment.centerLeft,
           child: Text(

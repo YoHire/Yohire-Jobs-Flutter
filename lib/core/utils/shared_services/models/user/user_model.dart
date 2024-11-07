@@ -1,7 +1,10 @@
-import 'dart:developer';
-
 import 'package:hive/hive.dart';
-import 'package:openbn/core/utils/shared_services/user/models/education_model/education_model.dart';
+import 'package:openbn/core/utils/shared_services/models/documents/document_model.dart';
+import 'package:openbn/core/utils/shared_services/models/education/education_model.dart';
+import 'package:openbn/core/utils/shared_services/models/experience/experience_model.dart';
+import 'package:openbn/core/utils/shared_services/models/job_role/job_role_model.dart';
+import 'package:openbn/core/utils/shared_services/models/language/language_model.dart';
+import 'package:openbn/core/utils/shared_services/models/skill/skill_model.dart';
 part 'user_model.g.dart';
 
 @HiveType(typeId: 0)
@@ -54,6 +57,24 @@ class UserModel extends HiveObject {
   @HiveField(15)
   final String? profileImage;
 
+  @HiveField(16)
+  final List<ExperienceModel> experience;
+
+  @HiveField(17)
+  final List<SkillModel> skills;
+
+  @HiveField(18)
+  final List<JobRoleModel> prefrences;
+
+  @HiveField(19)
+  final List<LanguageModel> languagesSpeak;
+
+  @HiveField(20)
+  final List<LanguageModel> languagesReadAndWrite;
+
+  @HiveField(21)
+  final List<DocumentModel>documents;
+
   UserModel({
     required this.id,
     required this.username,
@@ -65,6 +86,12 @@ class UserModel extends HiveObject {
     required this.createdAt,
     required this.updatedAt,
     required this.education,
+    required this.experience,
+    required this.skills,
+    required this.documents,
+    required this.languagesReadAndWrite,
+    required this.languagesSpeak,
+    required this.prefrences,
     required this.bio,
     required this.height,
     required this.weight,
@@ -95,7 +122,36 @@ class UserModel extends HiveObject {
               .map((e) => EducationModel.fromJson(e as Map<String, dynamic>))
               .toList()
           : [],
-          
+      experience: json['experience'] != null
+          ? (json['experience'] as List)
+              .map((e) => ExperienceModel.fromJson(e as Map<String, dynamic>))
+              .toList()
+          : [],
+      skills: json['skills'] != null
+          ? (json['skills'] as List)
+              .map((e) => SkillModel.fromJson(e as Map<String, dynamic>))
+              .toList()
+          : [],
+      prefrences: json['prefrences'] != null
+          ? (json['prefrences'] as List)
+              .map((e) => JobRoleModel.fromJson(e as Map<String, dynamic>))
+              .toList()
+          : [],
+      documents: json['documents'] != null
+          ? (json['documents'] as List)
+              .map((e) => DocumentModel.fromJson(e as Map<String, dynamic>))
+              .toList()
+          : [],
+      languagesReadAndWrite: json['language'] != null
+          ? (json['language'] as List)
+              .map((e) => LanguageModel.fromJson(e as Map<String, dynamic>))
+              .toList()
+          : [],
+      languagesSpeak: json['language'] != null
+          ? (json['language'] as List)
+              .map((e) => LanguageModel.fromJson(e as Map<String, dynamic>))
+              .toList()
+          : [],
     );
   }
 

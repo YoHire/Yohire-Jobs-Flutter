@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'package:get_storage/get_storage.dart';
 import 'package:openbn/core/utils/shared_services/refresh_token/dio_interceptor_handler.dart';
-import 'package:openbn/core/utils/shared_services/user/models/user_model/user_model.dart';
+import 'package:openbn/core/utils/shared_services/models/user/user_model.dart';
 import 'package:openbn/core/utils/urls.dart';
 import 'package:openbn/init_dependencies.dart';
 

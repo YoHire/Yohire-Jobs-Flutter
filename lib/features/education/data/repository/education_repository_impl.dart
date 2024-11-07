@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:fpdart/fpdart.dart';
@@ -6,12 +5,13 @@ import 'package:get_storage/get_storage.dart';
 import 'package:openbn/core/error/faliure.dart';
 import 'package:openbn/core/utils/constants/constants.dart';
 import 'package:openbn/core/utils/shared_services/firebase_storage/firebase_storage.dart';
+import 'package:openbn/core/utils/shared_services/models/course/course_model.dart';
+import 'package:openbn/core/utils/shared_services/models/education/education_model.dart';
 import 'package:openbn/core/utils/shared_services/user/user_storage_services.dart';
 import 'package:openbn/features/education/data/datasource/education_remote_datasource.dart';
-import 'package:openbn/features/education/data/models/education_model.dart';
+
 import 'package:openbn/features/education/domain/repository/education_repository.dart';
 import 'package:openbn/init_dependencies.dart';
-import '../models/course_model.dart';
 
 class EducationRepositoryImpl implements EducationRepository {
   final EducationRemoteDataSource remoteDataSource;
@@ -84,8 +84,8 @@ class EducationRepositoryImpl implements EducationRepository {
       }
       Map<String, dynamic> data = {
         'institution': eduData.institution,
-        'courseId': eduData.course.id,
-        'completedDate': '${eduData.completionDate.toIso8601String()}Z',
+        'courseId': eduData.courseData!.id,
+        'completedDate': '${eduData.dateOfCompletion.toIso8601String()}Z',
         'certificate': certificateUrl,
       };
       await remoteDataSource.saveEducation(data);

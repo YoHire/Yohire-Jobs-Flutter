@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:openbn/core/utils/shared_services/models/course/course_model.dart';
 import 'package:openbn/core/validators/text_validators.dart';
 import 'package:openbn/core/widgets/custom_dropdown.dart';
 import 'package:openbn/core/widgets/theme_gap.dart';
-import 'package:openbn/features/education/domain/entity/course_entity.dart';
 import 'package:openbn/features/education/presentation/bloc/education_bloc.dart';
 
 class CourseDropdownWidget extends StatefulWidget {
-  final CourseEntity? data;
+  final CourseModel? data;
   const CourseDropdownWidget({super.key, this.data});
 
   @override
@@ -21,7 +21,7 @@ class _CourseDropdownWidgetState extends State<CourseDropdownWidget> {
       builder: (context, state) {
         if (state is EducationInitial) {
           context.read<EducationBloc>().add(LoadCategories(previousCourse: widget.data != null
-                  ? CourseEntity(
+                  ? CourseModel(
                       id: widget.data!.id,
                       course: widget.data!.course,
                       category: widget.data!.category,
@@ -39,7 +39,7 @@ class _CourseDropdownWidgetState extends State<CourseDropdownWidget> {
             if (state is CategoriesLoaded ||
                 state is SubCategoriesLoaded ||
                 state is CoursesLoaded)
-              CustomDropdown<CourseEntity>(
+              CustomDropdown<CourseModel>(
                   validator: TextValidators.eduLevelValidator,
                   value: _getSelectedCategory(state),
                   items: _getCategoryItems(state),
@@ -58,7 +58,7 @@ class _CourseDropdownWidgetState extends State<CourseDropdownWidget> {
                 (state is CoursesLoaded && state.subCategories != null))
               Column(
                 children: [
-                  CustomDropdown<CourseEntity>(
+                  CustomDropdown<CourseModel>(
                       validator: TextValidators.courseValidator,
                       items: _getSubCategoryItems(state),
                       onChanged: (value) {
@@ -77,7 +77,7 @@ class _CourseDropdownWidgetState extends State<CourseDropdownWidget> {
             if (state is CoursesLoaded)
               Visibility(
                   visible: state.showDrop,
-                  child: CustomDropdown<CourseEntity>(
+                  child: CustomDropdown<CourseModel>(
                       validator: TextValidators.specializationValidator,
                       items: state.courses.map((course) {
                         return DropdownMenuItem(
@@ -97,21 +97,21 @@ class _CourseDropdownWidgetState extends State<CourseDropdownWidget> {
     );
   }
 
-  CourseEntity? _getSelectedCategory(EducationState state) {
+  CourseModel? _getSelectedCategory(EducationState state) {
     if (state is CategoriesLoaded) return state.selectedCategory;
     if (state is SubCategoriesLoaded) return state.selectedCategory;
     if (state is CoursesLoaded) return state.selectedCategory;
     return null;
   }
 
-  CourseEntity? _getSelectedSubCategory(EducationState state) {
+  CourseModel? _getSelectedSubCategory(EducationState state) {
     if (state is SubCategoriesLoaded) return state.selectedSubCategory;
     if (state is CoursesLoaded) return state.selectedSubCategory;
     return null;
   }
 
-  List<DropdownMenuItem<CourseEntity>> _getCategoryItems(EducationState state) {
-    List<CourseEntity> categories = [];
+  List<DropdownMenuItem<CourseModel>> _getCategoryItems(EducationState state) {
+    List<CourseModel> categories = [];
     if (state is CategoriesLoaded) categories = state.categories;
     if (state is SubCategoriesLoaded) categories = state.categories;
     if (state is CoursesLoaded) categories = state.categories;
@@ -124,9 +124,9 @@ class _CourseDropdownWidgetState extends State<CourseDropdownWidget> {
     }).toList();
   }
 
-  List<DropdownMenuItem<CourseEntity>> _getSubCategoryItems(
+  List<DropdownMenuItem<CourseModel>> _getSubCategoryItems(
       EducationState state) {
-    List<CourseEntity> subCategories = [];
+    List<CourseModel> subCategories = [];
     if (state is SubCategoriesLoaded) subCategories = state.subCategories;
     if (state is CoursesLoaded && state.subCategories != null) {
       subCategories = state.subCategories!;

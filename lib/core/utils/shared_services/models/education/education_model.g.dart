@@ -24,14 +24,13 @@ class EducationModelAdapter extends TypeAdapter<EducationModel> {
       courseId: fields[3] as String?,
       userId: fields[8] as String,
       certificateUrl: fields[6] as String,
-      level: fields[7] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, EducationModel obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(2)
@@ -44,8 +43,6 @@ class EducationModelAdapter extends TypeAdapter<EducationModel> {
       ..write(obj.dateOfCompletion)
       ..writeByte(6)
       ..write(obj.certificateUrl)
-      ..writeByte(7)
-      ..write(obj.level)
       ..writeByte(8)
       ..write(obj.userId);
   }

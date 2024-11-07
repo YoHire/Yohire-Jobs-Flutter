@@ -1,4 +1,4 @@
-import 'package:openbn/features/prefrences/presentation/models/job_role_model.dart';
+import 'package:openbn/core/utils/shared_services/models/job_role/job_role_model.dart';
 
 abstract class PrefrenceState {}
 
@@ -7,14 +7,14 @@ class PrefrenceInitial extends PrefrenceState {}
 class PrefrenceLoading extends PrefrenceState {}
 
 class PrefrenceLoaded extends PrefrenceState {
-  final List<JobRoleViewModel> jobRoles;
-  final List<JobRoleViewModel> selectedJobRoles;
+  final List<JobRoleModel> jobRoles;
+  final List<JobRoleModel> selectedJobRoles;
 
   PrefrenceLoaded({required this.jobRoles, required this.selectedJobRoles});
 }
 
 class SearchedPrefrences extends PrefrenceState {
-  final List<JobRoleViewModel> jobRoles;
+  final List<JobRoleModel> jobRoles;
 
   SearchedPrefrences({required this.jobRoles});
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:openbn/core/utils/shared_services/user/models/education_model/education_model.dart';
+import 'package:openbn/core/utils/shared_services/models/education/education_model.dart';
 import 'package:openbn/core/widgets/file_viewer.dart';
 import 'package:openbn/core/widgets/main_heading_sub_heading.dart';
 import 'package:openbn/core/widgets/theme_gap.dart';

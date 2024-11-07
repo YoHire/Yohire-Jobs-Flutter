@@ -2,8 +2,8 @@ import 'package:fpdart/fpdart.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:openbn/core/error/faliure.dart';
 import 'package:openbn/core/utils/shared_services/functions/device_id.dart';
+import 'package:openbn/core/utils/shared_services/models/job_role/job_role_model.dart';
 import 'package:openbn/features/prefrences/data/datasource/jobroles_remote_data_source.dart';
-import 'package:openbn/features/prefrences/data/models/job_role_model.dart';
 import 'package:openbn/features/prefrences/domain/repository/prefrence_repository.dart';
 import 'package:openbn/init_dependencies.dart';
 

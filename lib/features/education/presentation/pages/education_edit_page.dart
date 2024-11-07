@@ -6,7 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 // Core imports
 import 'package:openbn/core/utils/constants/constants.dart';
 import 'package:openbn/core/utils/shared_services/functions/date_services.dart';
-import 'package:openbn/core/utils/shared_services/user/models/education_model/education_model.dart';
+import 'package:openbn/core/utils/shared_services/models/course/course_model.dart';
+import 'package:openbn/core/utils/shared_services/models/education/education_model.dart';
 import 'package:openbn/core/utils/snackbars/show_snackbar.dart';
 import 'package:openbn/core/validators/text_validators.dart';
 
@@ -15,10 +16,8 @@ import 'package:openbn/core/widgets/button.dart';
 import 'package:openbn/core/widgets/main_heading_sub_heading.dart';
 import 'package:openbn/core/widgets/text_field.dart';
 import 'package:openbn/core/widgets/theme_gap.dart';
-import 'package:openbn/features/education/domain/entity/course_entity.dart';
 
 // Feature imports
-import 'package:openbn/features/education/domain/entity/education_entity.dart';
 import 'package:openbn/features/education/presentation/bloc/education_bloc.dart';
 import 'package:openbn/features/education/presentation/widgets/education_dropdown.dart';
 
@@ -84,12 +83,14 @@ class _EducationPageState extends State<EducationPage> {
     ));
   }
 
-  EducationEntity _createEducationEntity(EducationBloc bloc) {
-    return EducationEntity(
+  EducationModel _createEducationEntity(EducationBloc bloc) {
+    return EducationModel(
       id: '',
+      userId: '',
+
       institution: _institutionController.text.trim(),
-      course: bloc.selectedCourse!,
-      completionDate: DateServices.convertStringToDateTime(
+      courseData: bloc.selectedCourse!,
+      dateOfCompletion: DateServices.convertStringToDateTime(
         _completionDateController.text,
       ),
       certificateUrl: '',
@@ -112,7 +113,7 @@ class _EducationPageState extends State<EducationPage> {
   void _handleError(BuildContext context, EducationError state) {
     context.read<EducationBloc>().add(LoadCategories(
         previousCourse: widget.data != null
-            ? CourseEntity(
+            ? CourseModel(
                 id: widget.data!.courseData!.id,
                 course: widget.data!.courseData!.course,
                 category: widget.data!.courseData!.category,
@@ -183,7 +184,7 @@ class _EducationPageState extends State<EducationPage> {
             const ThemeGap(_gapSize),
             CourseDropdownWidget(
               data: widget.data != null
-                  ? CourseEntity(
+                  ? CourseModel(
                       id: widget.data!.courseData!.id,
                       course: widget.data!.courseData!.course,
                       category: widget.data!.courseData!.category,

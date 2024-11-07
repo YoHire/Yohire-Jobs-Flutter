@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:openbn/features/education/domain/entity/course_entity.dart';
-import 'package:openbn/features/education/domain/entity/education_entity.dart';
+import 'package:openbn/core/utils/shared_services/models/course/course_model.dart';
+import 'package:openbn/core/utils/shared_services/models/education/education_model.dart';
 import 'package:openbn/features/education/domain/usecase/get_categories_usecase.dart';
 import 'package:openbn/features/education/domain/usecase/get_course_usecase.dart';
 import 'package:openbn/features/education/domain/usecase/get_subcategories_usecase.dart';
@@ -14,9 +14,9 @@ class EducationBloc extends Bloc<EducationEvent, EducationState> {
   final GetSubCategoriesUseCase _getSubCategoriesUseCase;
   final GetCoursesUseCase _getCoursesUseCase;
   final SaveEducationUsecase _saveEducationUseCase;
-  List<CourseEntity> fetchedCategories = [];
-  List<CourseEntity> fetchedSubCategories = [];
-  CourseEntity? selectedCourse;
+  List<CourseModel> fetchedCategories = [];
+  List<CourseModel> fetchedSubCategories = [];
+  CourseModel? selectedCourse;
   EducationBloc({
     required GetCategoriesUseCase getCategoriesUseCase,
     required GetSubCategoriesUseCase getSubCategoriesUseCase,
@@ -191,7 +191,7 @@ class EducationBloc extends Bloc<EducationEvent, EducationState> {
       emit(EducationSaving());
 
       final result = await _saveEducationUseCase(EducationUseCaseParms(
-          educationEntity: event.data, certificate: event.file));
+          educationModel: event.data, certificate: event.file));
 
       result.fold(
         (failure) {

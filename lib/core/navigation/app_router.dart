@@ -5,6 +5,7 @@ import 'package:openbn/core/widgets/getting_jobs_loader.dart';
 import 'package:openbn/features/auth/presentation/pages/google_auth_page.dart';
 import 'package:openbn/features/auth/presentation/pages/otp_verify_page.dart';
 import 'package:openbn/features/education/presentation/bloc/education_bloc.dart';
+import 'package:openbn/features/home/presentation/bloc/job_bloc/job_bloc.dart';
 import 'package:openbn/features/home/presentation/pages/job_details_page.dart';
 import 'package:openbn/features/prefrences/presentation/bloc/prefrence_bloc.dart';
 import 'package:openbn/features/prefrences/presentation/bloc/prefrence_event.dart';
@@ -240,7 +241,11 @@ class AppRouter {
           final id = state.pathParameters['id']!;
           return CustomTransitionPage(
             key: state.pageKey,
-            child: JobDetailsScreen(id: id),
+            child: BlocProvider(
+              create: (context) =>
+                  serviceLocator<JobBloc>()..add(JobInitEvent(id: id)),
+              child: const JobDetailsScreen(),
+            ),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
               const begin = Offset(1.0, 0.0);

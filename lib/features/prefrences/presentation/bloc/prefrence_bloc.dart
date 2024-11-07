@@ -1,17 +1,17 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:openbn/core/utils/shared_services/models/job_role/job_role_model.dart';
 import 'package:openbn/features/prefrences/domain/usecase/create_guest_user.dart';
 import 'package:openbn/features/prefrences/domain/usecase/job_roles_usecase.dart';
 import 'package:openbn/features/prefrences/domain/usecase/search_job_roles_usecase.dart';
 import 'package:openbn/features/prefrences/presentation/bloc/prefrence_event.dart';
 import 'package:openbn/features/prefrences/presentation/bloc/prefrence_state.dart';
-import 'package:openbn/features/prefrences/presentation/models/job_role_model.dart';
 
 class PrefrenceBloc extends Bloc<PrefrenceEvent, PrefrenceState> {
   final JobRolesUseCase _jobRolesUseCase;
   final SearchJobRolesUsecase _searchJobRolesUsecase;
   final CreateGuestUserUsecase _createGuestUserUsecase;
-  List<JobRoleViewModel> allJobRoles = [];
-  List<JobRoleViewModel> selectedJobRoles = [];
+  List<JobRoleModel> allJobRoles = [];
+  List<JobRoleModel> selectedJobRoles = [];
   PrefrenceBloc(
       {required JobRolesUseCase jobRolesUseCase,
       required SearchJobRolesUsecase searchJobRolesUsecase,
@@ -39,13 +39,7 @@ class PrefrenceBloc extends Bloc<PrefrenceEvent, PrefrenceState> {
         emit(PrefrenceError(message: 'Failed to fetch job roles'));
       },
       (success) async {
-        allJobRoles = success
-            .map((jobRole) => JobRoleViewModel(
-                  id: jobRole.id,
-                  name: jobRole.name!,
-                  industry: jobRole.industry!,
-                ))
-            .toList();
+        allJobRoles = success;
         removeSelectedFromAll();
         emit(PrefrenceLoaded(
             jobRoles: allJobRoles, selectedJobRoles: selectedJobRoles));
@@ -63,13 +57,7 @@ class PrefrenceBloc extends Bloc<PrefrenceEvent, PrefrenceState> {
           emit(PrefrenceError(message: 'Failed to search job roles'));
         },
         (success) {
-          allJobRoles = success
-              .map((jobRole) => JobRoleViewModel(
-                    id: jobRole.id,
-                    name: jobRole.name!,
-                    industry: jobRole.industry!,
-                  ))
-              .toList();
+          allJobRoles = success;
           emit(SearchedPrefrences(jobRoles: allJobRoles));
         },
       );
@@ -83,7 +71,7 @@ class PrefrenceBloc extends Bloc<PrefrenceEvent, PrefrenceState> {
       CreateGuestUser event, Emitter<PrefrenceState> emit) async {
     emit(PrefrenceLoading());
     final result = await _createGuestUserUsecase(selectedJobRoles.map((e) {
-      return e.toDomain();
+      return e;
     }).toList());
     result.fold(
       (failure) {
@@ -95,7 +83,7 @@ class PrefrenceBloc extends Bloc<PrefrenceEvent, PrefrenceState> {
     );
   }
 
-  void checkDuplicateAndAdd({required JobRoleViewModel jobRole}) {
+  void checkDuplicateAndAdd({required JobRoleModel jobRole}) {
     final index = selectedJobRoles
         .indexWhere((selectedJob) => selectedJob.id == jobRole.id);
 

@@ -1,3 +1,6 @@
+import 'package:openbn/core/utils/shared_services/models/recruiter/recruiter_model.dart';
+import 'package:openbn/core/utils/shared_services/models/skill/skill_model.dart';
+
 class JobEntity {
   final String id;
   final String recruiterId;
@@ -13,7 +16,7 @@ class JobEntity {
   final String salary;
   final List<dynamic> qualifications;
   final List<dynamic> hilights;
-  // final List<Skill> skills;
+  final List<SkillModel> skills;
   final String contarct;
   final String status;
   final int minAge;
@@ -27,13 +30,18 @@ class JobEntity {
   final String description;
   final List<String> userIds;
   final String expiryDate;
-  // RecruiterModel? recruiter;
+  final RecruiterModel? recruiter;
   String? source;
   String currency;
   List<dynamic> testQuestion;
   JobEntity(
       {required this.id,
       required this.recruiterId,
+      this.recruiter,
+      required this.currency,
+      required this.description,
+      required this.userIds,
+      required this.expiryDate,
       required this.title,
       required this.hilights,
       required this.categoryId,
@@ -56,13 +64,7 @@ class JobEntity {
       required this.maxWeight,
       required this.createdAt,
       required this.updatedAt,
-      required this.description,
-      required this.userIds,
       this.source,
-      // required this.skills,
-      required this.currency,
-      required this.testQuestion,
-      required this.expiryDate});
-
-      
+      required this.skills,
+      required this.testQuestion});
 }

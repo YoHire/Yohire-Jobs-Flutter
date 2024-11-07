@@ -1,10 +1,10 @@
-import 'package:openbn/features/prefrences/presentation/models/job_role_model.dart';
+import 'package:openbn/core/utils/shared_services/models/job_role/job_role_model.dart';
 
 abstract class PrefrenceEvent {}
 
 class PrefrenceFetch extends PrefrenceEvent {
   final String industry;
-  JobRoleViewModel? jobRole;
+  JobRoleModel? jobRole;
   PrefrenceFetch({this.industry = '',this.jobRole});
 }
 

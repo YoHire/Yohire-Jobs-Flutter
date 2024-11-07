@@ -6,8 +6,8 @@ import 'package:lottie/lottie.dart';
 
 // Core imports
 import 'package:openbn/core/utils/constants/constants.dart';
-import 'package:openbn/core/utils/shared_services/user/models/education_model/education_model.dart';
-import 'package:openbn/core/utils/shared_services/user/models/user_model/user_model.dart';
+import 'package:openbn/core/utils/shared_services/models/education/education_model.dart';
+import 'package:openbn/core/utils/shared_services/models/user/user_model.dart';
 import 'package:openbn/core/utils/shared_services/user/user_storage_services.dart';
 import 'package:openbn/core/widgets/app_bar.dart';
 import 'package:openbn/core/widgets/floating_action_button.dart';

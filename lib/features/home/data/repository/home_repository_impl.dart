@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:fpdart/fpdart.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:openbn/core/error/faliure.dart';
-import 'package:openbn/features/home/data/datasource/job_api_datasource.dart';
+import 'package:openbn/features/home/data/datasource/home_api_datasource.dart';
 import 'package:openbn/features/home/data/models/job_model.dart';
 import 'package:openbn/features/home/domain/entities/job_entity.dart';
 import 'package:openbn/features/home/domain/repository/home_repository.dart';
@@ -12,7 +12,7 @@ import 'package:openbn/init_dependencies.dart';
 import '../../../../core/utils/constants/constants.dart';
 
 class HomeRepositoryImpl implements HomeRepository {
-  final JobRemoteDataSource dataSource;
+  final HomeApiDatasource dataSource;
 
   HomeRepositoryImpl(this.dataSource);
 

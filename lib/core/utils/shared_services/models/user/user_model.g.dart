@@ -27,6 +27,12 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
       createdAt: fields[7] as String?,
       updatedAt: fields[8] as String?,
       education: (fields[14] as List).cast<EducationModel>(),
+      experience: (fields[16] as List).cast<ExperienceModel>(),
+      skills: (fields[17] as List).cast<SkillModel>(),
+      documents: (fields[21] as List).cast<DocumentModel>(),
+      languagesReadAndWrite: (fields[20] as List).cast<LanguageModel>(),
+      languagesSpeak: (fields[19] as List).cast<LanguageModel>(),
+      prefrences: (fields[18] as List).cast<JobRoleModel>(),
       bio: fields[9] as String?,
       height: fields[10] as String?,
       weight: fields[11] as String?,
@@ -39,7 +45,7 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
   @override
   void write(BinaryWriter writer, UserModel obj) {
     writer
-      ..writeByte(16)
+      ..writeByte(22)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -71,7 +77,19 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
       ..writeByte(14)
       ..write(obj.education)
       ..writeByte(15)
-      ..write(obj.profileImage);
+      ..write(obj.profileImage)
+      ..writeByte(16)
+      ..write(obj.experience)
+      ..writeByte(17)
+      ..write(obj.skills)
+      ..writeByte(18)
+      ..write(obj.prefrences)
+      ..writeByte(19)
+      ..write(obj.languagesSpeak)
+      ..writeByte(20)
+      ..write(obj.languagesReadAndWrite)
+      ..writeByte(21)
+      ..write(obj.documents);
   }
 
   @override

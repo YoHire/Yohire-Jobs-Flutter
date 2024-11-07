@@ -173,6 +173,14 @@ enum ProfileSections {
 
   const ProfileSections(this.value);
 }
+enum ProfileStatus {
+  Incomplete('Incomplete'),
+  Completed('Completed'),
+  Warning('Warning');
+  final String value;
+
+  const ProfileStatus(this.value);
+}
 
 abstract class ApiKeys {
   static const PLACES_IOS_KEY = "AIzaSyANJ35OUPR7qXtRCqlYxFD65Aihmw-DrA8";

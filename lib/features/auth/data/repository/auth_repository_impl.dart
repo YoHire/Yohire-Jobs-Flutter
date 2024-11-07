@@ -6,7 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:openbn/core/error/faliure.dart';
 import 'package:openbn/core/utils/shared_services/functions/device_id.dart';
 import 'package:openbn/core/utils/shared_services/push_notification/push_notification_service.dart';
-import 'package:openbn/core/utils/shared_services/user/models/user_model/user_model.dart';
+import 'package:openbn/core/utils/shared_services/models/user/user_model.dart';
 import 'package:openbn/core/utils/shared_services/user/user_storage_services.dart';
 import 'package:openbn/features/auth/data/datasource/auth_datasource.dart';
 import 'package:openbn/features/auth/data/models/auth_model.dart';

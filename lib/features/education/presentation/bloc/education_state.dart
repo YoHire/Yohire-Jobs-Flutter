@@ -13,8 +13,8 @@ class EducationError extends EducationState {
 }
 
 class CategoriesLoaded extends EducationState {
-  final List<CourseEntity> categories;
-  final CourseEntity? selectedCategory;
+  final List<CourseModel> categories;
+  final CourseModel? selectedCategory;
 
   CategoriesLoaded({
     required this.categories,
@@ -23,10 +23,10 @@ class CategoriesLoaded extends EducationState {
 }
 
 class SubCategoriesLoaded extends EducationState {
-  final List<CourseEntity> categories;
-  final CourseEntity selectedCategory;
-  final List<CourseEntity> subCategories;
-  final CourseEntity? selectedSubCategory;
+  final List<CourseModel> categories;
+  final CourseModel selectedCategory;
+  final List<CourseModel> subCategories;
+  final CourseModel? selectedSubCategory;
 
   SubCategoriesLoaded({
     required this.categories,
@@ -37,12 +37,12 @@ class SubCategoriesLoaded extends EducationState {
 }
 
 class CoursesLoaded extends EducationState {
-  final List<CourseEntity> categories;
-  final CourseEntity selectedCategory;
+  final List<CourseModel> categories;
+  final CourseModel selectedCategory;
   final bool showDrop;
-  final List<CourseEntity>? subCategories;
-  final CourseEntity? selectedSubCategory;
-  final List<CourseEntity> courses;
+  final List<CourseModel>? subCategories;
+  final CourseModel? selectedSubCategory;
+  final List<CourseModel> courses;
 
   CoursesLoaded({
     required this.categories,

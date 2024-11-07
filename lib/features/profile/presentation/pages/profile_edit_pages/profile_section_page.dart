@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:openbn/core/utils/constants/constants.dart';
-import 'package:openbn/core/utils/shared_services/user/models/user_model/user_model.dart';
+import 'package:openbn/core/utils/shared_services/models/user/user_model.dart';
 import 'package:openbn/core/utils/shared_services/user/user_storage_services.dart';
 import 'package:openbn/core/widgets/app_bar.dart';
 import 'package:openbn/core/widgets/main_heading_sub_heading.dart';

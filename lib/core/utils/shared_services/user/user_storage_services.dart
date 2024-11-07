@@ -1,9 +1,14 @@
 import 'dart:developer';
-
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:openbn/core/utils/shared_services/user/models/course_model/course_model.dart';
-import 'package:openbn/core/utils/shared_services/user/models/education_model/education_model.dart';
-import 'package:openbn/core/utils/shared_services/user/models/user_model/user_model.dart';
+import 'package:openbn/core/utils/constants/constants.dart';
+import 'package:openbn/core/utils/shared_services/models/country/country_model.dart';
+import 'package:openbn/core/utils/shared_services/models/course/course_model.dart';
+import 'package:openbn/core/utils/shared_services/models/education/education_model.dart';
+import 'package:openbn/core/utils/shared_services/models/experience/experience_model.dart';
+import 'package:openbn/core/utils/shared_services/models/job_role/job_role_model.dart';
+import 'package:openbn/core/utils/shared_services/models/language/language_model.dart';
+import 'package:openbn/core/utils/shared_services/models/skill/skill_model.dart';
+import 'package:openbn/core/utils/shared_services/models/user/user_model.dart';
 import 'package:openbn/core/utils/shared_services/user/user_api_services.dart';
 import 'package:openbn/init_dependencies.dart';
 
@@ -16,6 +21,11 @@ class UserStorageService {
     Hive.registerAdapter(UserModelAdapter());
     Hive.registerAdapter(EducationModelAdapter());
     Hive.registerAdapter(CourseModelAdapter());
+    Hive.registerAdapter(ExperienceModelAdapter());
+    Hive.registerAdapter(JobRoleModelAdapter());
+    Hive.registerAdapter(SkillModelAdapter());
+    Hive.registerAdapter(LanguageModelAdapter());
+    Hive.registerAdapter(CountryModelAdapter());
     await Hive.openBox<UserModel>(_boxName);
   }
 
@@ -53,6 +63,65 @@ class UserStorageService {
   bool get hasUser {
     final box = Hive.box<UserModel>(_boxName);
     return box.containsKey(_userKey);
+  }
+
+  bool checkCompleted() {
+    final box = Hive.box<UserModel>(_boxName);
+    final user = box.get(_userKey);
+    if (user == null) return false;
+
+    bool isProfileComplete = _isFieldComplete(user.address) &&
+        _isFieldComplete(user.username) &&
+        _isFieldComplete(user.surname) &&
+        _isFieldComplete(user.bio) &&
+        _isFieldComplete(user.height) &&
+        _isFieldComplete(user.weight) &&
+        _isFieldComplete(user.gender) &&
+        _isFieldComplete(user.dateOfBirth);
+
+    return isProfileComplete &&
+        user.education.isNotEmpty &&
+        user.experience.isNotEmpty &&
+        user.skills.isNotEmpty &&
+        user.prefrences.isNotEmpty &&
+        user.languagesReadAndWrite.isNotEmpty &&
+        user.languagesSpeak.isNotEmpty &&
+        user.documents.isNotEmpty;
+    // return true;
+  }
+
+  List<ProfileStatus> checkCompletionStatus() {
+    final box = Hive.box<UserModel>(_boxName);
+    final user = box.get(_userKey);
+    if (user == null) return [ProfileStatus.Incomplete];
+
+    List<ProfileStatus> retList = [];
+
+    bool isProfileComplete = _isFieldComplete(user.address) &&
+        _isFieldComplete(user.username) &&
+        _isFieldComplete(user.surname) &&
+        _isFieldComplete(user.bio) &&
+        _isFieldComplete(user.height) &&
+        _isFieldComplete(user.weight) &&
+        _isFieldComplete(user.gender) &&
+        _isFieldComplete(user.dateOfBirth);
+
+    retList.add(
+        isProfileComplete ? ProfileStatus.Completed : ProfileStatus.Incomplete);
+
+    retList.add(user.education.isNotEmpty
+        ? ProfileStatus.Completed
+        : ProfileStatus.Incomplete);
+
+    retList.add(user.experience.isNotEmpty
+        ? ProfileStatus.Completed
+        : ProfileStatus.Warning);
+
+    return retList;
+  }
+
+  bool _isFieldComplete(String? field) {
+    return field != null && field.isNotEmpty;
   }
 
   Future<void> closeBox() async {

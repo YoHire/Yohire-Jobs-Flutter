@@ -46,6 +46,7 @@ abstract class URL {
   static String FILTER_JOBS = "$baseUrl/users/filter";
   static String LANGUAGES = "$baseUrl/recruiter/languages/";
   static String GET_JOB_BY_ID = "$baseUrl/users/jobs-fetch/";
+  static String APPLY = "$baseUrl/users/apply";
   static String UPDATE_PERSONAL_INFO = "$baseUrl/users/personal-info-update";
   static String NOTIFICATION = "$baseUrl/users/notifications/";
   static String SEEN_NOTIFICATION = "$baseUrl/users/seen-notification/";
