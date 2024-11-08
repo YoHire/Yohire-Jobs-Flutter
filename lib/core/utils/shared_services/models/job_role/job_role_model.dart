@@ -38,4 +38,8 @@ class JobRoleModel {
   Map<String, dynamic> toStringList() {
     return {'id': id, 'name': name, 'industry': industry};
   }
+
+    static String getId(JobRoleModel data) {
+    return data.id;
+  }
 }

@@ -2,7 +2,7 @@
 import 'package:openbn/core/utils/shared_services/remote_config/remote_config_service.dart';
 
 final remoteConfig = FirebaseRemoteConfigService();
-const String baseUrl = "http://192.168.29.222:3000/api/v2";
+const String baseUrl = "http://192.168.29.223:3000/api/v2";
 // const String baseUrl = "https://www.20heads.com/api/v1";
 // const String baseUrl = "http://localhost:3000/api/v1";
 // String baseUrl = "https://api.yohire.in/api/v1";
@@ -64,8 +64,10 @@ abstract class URL {
   static String CHECK_PHONE = "$baseUrl/users/check-phone/";
   static String VERIFY_PHONE = "$baseUrl/auth/verify-phone/";
   static String SOCIAL_LINKS = "$baseUrl/users/create-social-link";
-  static String QUALIFICATIONS_CATEGORY = "$baseUrl/users/qualifications-category";
-  static String QUALIFICATIONS_SUBCATEGORY = "$baseUrl/users/qualifications-subcategory/";
+  static String QUALIFICATIONS_CATEGORY =
+      "$baseUrl/users/qualifications-category";
+  static String QUALIFICATIONS_SUBCATEGORY =
+      "$baseUrl/users/qualifications-subcategory/";
   static String QUALIFICATIONS_COURSE = "$baseUrl/users/qualifications-course/";
 
   //Yohire Circle API's

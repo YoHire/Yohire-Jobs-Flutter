@@ -10,6 +10,8 @@ import '../../../../init_dependencies.dart';
 abstract interface class HomeApiDatasource {
   Future<dynamic> getAllJobs({required bool isLogged});
   Future<dynamic> getMoreJobs({required bool isLogged, required int skipCount});
+  Future<dynamic> filterJobs(
+      {required bool isLogged, required Map<String, dynamic> filterData});
 }
 
 class HomeApiDatasourceImpl implements HomeApiDatasource {
@@ -49,6 +51,19 @@ class HomeApiDatasourceImpl implements HomeApiDatasource {
             await http.get(Uri.parse('${URL.ALL_JOBS}${await getDeviceId()}'));
         return json.decode(data.body);
       }
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<dynamic> filterJobs(
+      {required bool isLogged,
+      required Map<String, dynamic> filterData}) async {
+    try {
+      Response response;
+      response = await dio.post(URL.FILTER_JOBS, data: filterData);
+      return response.data;
     } catch (e) {
       throw ServerException(e.toString());
     }

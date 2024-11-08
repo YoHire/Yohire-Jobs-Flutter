@@ -1,5 +1,6 @@
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:openbn/features/home/data/models/job_model.dart';
 import 'package:openbn/features/home/domain/entities/job_entity.dart';
 import 'package:openbn/features/home/domain/usecase/apply_job_usecase.dart';
 import 'package:openbn/features/home/domain/usecase/get_single_job_usecase.dart';
@@ -34,15 +35,16 @@ class JobBloc extends Bloc<JobEvent, JobState> {
   }
 
   Future<void> _jobApply(JobApplyEvent event, Emitter<JobState> emit) async {
-    emit(JobLoading());
+    emit(JobApplying());
     final result = await _applyJobUsecase(
         JobApplyParams(jobId: event.jobId, recruiterId: event.recruiterId));
     result.fold(
       (failure) {
+        log(failure.message);
         emit(JobError(message: 'Failed to fetch job data'));
       },
       (success) {
-        emit(JobError(message: ''));
+        emit(JobApplied());
       },
     );
   }

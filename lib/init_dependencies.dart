@@ -34,6 +34,7 @@ import 'package:openbn/features/home/data/repository/job_repository_imp.dart';
 import 'package:openbn/features/home/domain/repository/home_repository.dart';
 import 'package:openbn/features/home/domain/repository/job_repository.dart';
 import 'package:openbn/features/home/domain/usecase/apply_job_usecase.dart';
+import 'package:openbn/features/home/domain/usecase/filter_jobs_usecase.dart';
 import 'package:openbn/features/home/domain/usecase/get_jobs_usecase.dart';
 import 'package:openbn/features/home/domain/usecase/get_more_jobs_usecase.dart';
 import 'package:openbn/features/home/domain/usecase/get_single_job_usecase.dart';
@@ -126,7 +127,9 @@ _initHome() {
       () => HomeRepositoryImpl(serviceLocator()));
   serviceLocator.registerFactory(() => GetAllJobsUsecase(serviceLocator()));
   serviceLocator.registerFactory(() => GetMoreJobsUsecase(serviceLocator()));
+  serviceLocator.registerFactory(() => FilterJobsUsecase(serviceLocator()));
   serviceLocator.registerLazySingleton(() => HomeBloc(
+    filterJobsUsecase:serviceLocator(),
       allJobsUsecase: serviceLocator(), moreJobsUsecase: serviceLocator()));
 }
 

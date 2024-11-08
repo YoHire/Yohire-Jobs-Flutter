@@ -18,12 +18,20 @@ import 'package:openbn/features/home/presentation/pages/widgets/incomplete_profi
 import 'package:openbn/features/home/presentation/pages/widgets/job_highlights.dart';
 import 'package:openbn/init_dependencies.dart';
 
-class JobDetailsScreen extends StatelessWidget {
+class JobDetailsScreen extends StatefulWidget {
   const JobDetailsScreen({super.key});
+
+  @override
+  State<JobDetailsScreen> createState() => _JobDetailsScreenState();
+}
+
+class _JobDetailsScreenState extends State<JobDetailsScreen> {
+  JobEntity? _cachedData; // Caches JobLoaded data
 
   @override
   Widget build(BuildContext context) {
     final userStorage = serviceLocator<UserStorageService>();
+
     return Scaffold(
       appBar: customAppBar(context: context),
       body: Padding(
@@ -31,11 +39,14 @@ class JobDetailsScreen extends StatelessWidget {
         child: BlocBuilder<JobBloc, JobState>(
           builder: (context, state) {
             if (state is JobLoaded) {
-              return _buildBody(state, context);
+              _cachedData = state.data; // Update cache with new data
+              return _buildBody(_cachedData!, context);
             } else if (state is JobLoading) {
               return _buildLoader();
             } else if (state is JobError) {
-              return _buildError(state);
+              return _cachedData != null
+                  ? _buildBody(_cachedData!, context) // Fallback to cached data
+                  : _buildError(state);
             } else {
               return const SizedBox.shrink();
             }
@@ -43,42 +54,53 @@ class JobDetailsScreen extends StatelessWidget {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: CustomFloatingActionButton(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          isExtended: true,
-          onPressed: () {
-            if (userStorage.checkCompleted()) {
-              _buildConfirmationSheet(context);
-            } else {
-              _buildRequiredProfileWarning(context);
-            }
-          },
-          backgroundColor: ThemeColors.primaryBlue,
-          icon: Text(
-            'Apply',
-            style: MyTextStyle.chipTextWhite,
-          ),
-          loading: false,
-          isClickable: true),
+      floatingActionButton: BlocBuilder<JobBloc, JobState>(
+        builder: (context, state) {
+          // Use cached data if available to display the FAB
+          if (state is JobLoaded || _cachedData != null) {
+            return CustomFloatingActionButton(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              isExtended: true,
+              onPressed: () {
+                if (userStorage.checkCompleted()) {
+                  _buildConfirmationSheet(context);
+                } else {
+                  _buildRequiredProfileWarning(context);
+                }
+              },
+              backgroundColor: ThemeColors.primaryBlue,
+              icon: Text(
+                'Apply',
+                style: MyTextStyle.chipTextWhite,
+              ),
+              loading: false,
+              isClickable: true,
+            );
+          } else {
+            return const SizedBox.shrink();
+          }
+        },
+      ),
     );
   }
 
-  _buildBody(JobLoaded state, BuildContext context) {
+  _buildBody(JobEntity data, BuildContext context) {
     return ListView(
       children: [
         leftHeadingWithSub(
-            context: context,
-            heading: state.data.title,
-            subHeading: state.data.location),
+          context: context,
+          heading: data.title,
+          subHeading: data.location,
+        ),
         const ThemeGap(30),
         DescriptionHeadingWidget(
-            heading: 'Job Description', description: state.data.description),
-        state.data.hilights.isNotEmpty
-            ? JobHighlights(
-                job: state.data,
-              )
-            : const SizedBox()
+          heading: 'Job Description',
+          description: data.description,
+        ),
+        const ThemeGap(10),
+        data.hilights.isNotEmpty ? JobHighlights(job: data) : const SizedBox(),
       ],
     );
   }
@@ -89,21 +111,33 @@ class JobDetailsScreen extends StatelessWidget {
 
   _buildError(JobError state) {
     return AnimatedPlaceholders(
-        text: state.message,
-        subText: 'We are trying our best to fix this please try again later',
-        isError: true);
+      text: state.message,
+      subText: 'We are trying our best to fix this please try again later',
+      isError: true,
+    );
   }
 
   _buildRequiredProfileWarning(BuildContext context) {
+    final jobBloc = BlocProvider.of<JobBloc>(context);
     return showCustomBottomSheet(
-        context: context,
-        content: const IncompleteProfileWarning(),
-        isScrollControlled: true,
-        isScrollable: true);
+      context: context,
+      content: BlocProvider.value(
+        value: jobBloc,
+        child: const IncompleteProfileWarning(),
+      ),
+      isScrollControlled: true,
+      isScrollable: true,
+    );
   }
 
   _buildConfirmationSheet(BuildContext context) {
+    final jobBloc = BlocProvider.of<JobBloc>(context);
     return showCustomBottomSheet(
-        context: context, content: const JobApplyConfirmationBottomSheet());
+      context: context,
+      content: BlocProvider.value(
+        value: jobBloc,
+        child: const JobApplyConfirmationBottomSheet(),
+      ),
+    );
   }
 }

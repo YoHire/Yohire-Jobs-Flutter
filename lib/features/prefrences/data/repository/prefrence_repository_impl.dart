@@ -28,7 +28,7 @@ class PrefrenceRepositoryImpl implements PrefrenceRepository {
 
   @override
   Future<Either<Failure, List<JobRoleModel>>> searchJobRoles(
-      {required String keyword}) async {
+      String keyword) async {
     try {
       final data = await dataSource.searchJobRoles(keyword: keyword);
       List<dynamic> results = data['data'];

@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:openbn/core/theme/app_text_styles.dart';
@@ -9,15 +8,13 @@ import 'package:openbn/core/widgets/theme_gap.dart';
 import 'package:openbn/core/widgets/timer/bloc/timer_bloc.dart';
 import 'package:openbn/core/widgets/timer/timer_page.dart';
 import 'package:openbn/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:openbn/init_dependencies.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class OtpEnterWidget extends StatefulWidget {
-  final ScrollController scrollController;
   final OtpSent state;
 
   const OtpEnterWidget(
-      {super.key, required this.state, required this.scrollController});
+      {super.key, required this.state});
 
   @override
   _OtpEnterWidgetState createState() => _OtpEnterWidgetState();

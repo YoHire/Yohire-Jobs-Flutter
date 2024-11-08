@@ -2,8 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:go_router/go_router.dart';
+import 'package:openbn/core/utils/bottom_sheets/bottomsheet.dart';
 import 'package:openbn/core/widgets/button.dart';
-import 'package:openbn/core/widgets/text_field.dart';
+import 'package:openbn/features/home/presentation/pages/widgets/filter_widget.dart';
 import 'package:openbn/init_dependencies.dart';
 import '../../../../../core/utils/constants/constants.dart';
 import '../../../../../core/utils/urls.dart';
@@ -45,9 +46,9 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                 storage.read('isLogged') == true
                     ? bellIcon(context)
                     : Hero(
-                      tag: 'nav-tag',
-                      child: ThemedButton(
-                        loading: false,
+                        tag: 'nav-tag',
+                        child: ThemedButton(
+                          loading: false,
                           onPressed: () {
                             GoRouter.of(context).go('/auth');
                           },
@@ -55,7 +56,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(7)),
                         ),
-                    )
+                      )
               ],
             ),
             Row(
@@ -75,52 +76,14 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                             blurRadius: 4.0,
                           ),
                         ]),
-                    // child: NoBorderTextField(
-                    //     hint: 'Search', controller: searchController),
-                    // child: TextFormField(
-                    //     controller: controller.searchController,
-                    //     onChanged: (value) {
-                    //       debouncer.run(() {
-                    //         controller.searchJobs(value.trim());
-                    //       });
-                    //       if (value.isEmpty) {
-                    //         controller.changeLayoutFalse();
-                    //       }
-                    //       if (value.isEmpty) {
-                    //         controller.getAllJobs();
-                    //       }
-                    //     },
-                    //     decoration: InputDecoration(
-                    //         suffixIcon: GetBuilder<HomeController>(
-                    //             builder: (controller) {
-                    //           return controller.searching.value == true
-                    //               ? IconButton(
-                    //                   onPressed: () {
-                    //                     controller.clearFilter();
-                    //                     controller.changeLayoutFalse();
-                    //                     controller.searchController.clear();
-                    //                   },
-                    //                   icon: const Icon(Icons.close))
-                    //               : const SizedBox();
-                    //         }),
-                    //         prefixIcon: const Icon(Icons.search),
-                    //         hintText: 'Search jobs..',
-                    //         // hintStyle: MyTextStyle.greyTextSmall,
-                    //         contentPadding:
-                    //             const EdgeInsets.symmetric(vertical: 0),
-                    //         border: OutlineInputBorder(
-                    //             borderRadius: BorderRadius.circular(30),
-                    //             borderSide: BorderSide.none))),
                   ),
                 ),
                 IconButton(
                     onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (ctx) {
-                            return const SizedBox();
-                            // return FilterBox();
-                          });
+                      showCustomBottomSheet(
+                        isScrollControlled: true,
+                        isScrollable: true,
+                          context: context, content: const JobFilterWidget());
                     },
                     icon: Image.asset(
                       'assets/icon/filter.png',
@@ -128,11 +91,6 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                       height: 25,
                       color: colorTheme.onSurface,
                     )),
-                // controller.filtering.value == true
-                //     ? WhiteButtonBlackFont('Clear', () {
-                //         controller.clearFilter();
-                //       })
-                //     : const SizedBox()
               ],
             )
           ],

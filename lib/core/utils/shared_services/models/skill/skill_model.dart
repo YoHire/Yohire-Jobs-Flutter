@@ -22,9 +22,10 @@ class SkillModel {
   factory SkillModel.getName(Map<String, dynamic> json) {
     return json['name'];
   }
-
-  String toStringList() {
-    return id;
+  static String getId(SkillModel data) {
+    return data.id;
   }
+
+ 
 
 }

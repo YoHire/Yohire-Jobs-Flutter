@@ -4,8 +4,8 @@ import 'package:openbn/features/home/domain/entities/job_entity.dart';
 
 class JobHighlights extends StatefulWidget {
   final JobEntity job;
-
-  const JobHighlights({super.key, required this.job});
+  final bool? showHeading;
+  const JobHighlights({super.key, required this.job, this.showHeading = true});
 
   @override
   State<JobHighlights> createState() => _JobHighlightsState();
@@ -20,12 +20,11 @@ class _JobHighlightsState extends State<JobHighlights>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 20),
-        leftHeadingWithSub(
+      widget.showHeading!?  leftHeadingWithSub(
           context: context,
           heading: 'Job Highlights',
           subHeading: 'Key points to consider',
-        ),
+        ):const SizedBox(),
         Wrap(
           children: List.generate(widget.job.hilights.length, (index) {
             return TweenAnimationBuilder<double>(
@@ -49,8 +48,8 @@ class _JobHighlightsState extends State<JobHighlights>
                     color: const Color.fromARGB(64, 0, 255, 8),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 5, horizontal: 15),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
                     child: Text(
                       widget.job.hilights[index],
                       style: textTheme.labelSmall,

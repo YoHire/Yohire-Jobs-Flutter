@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:openbn/core/utils/bottom_sheets/bottomsheet.dart';
 import 'package:openbn/core/utils/constants/constants.dart';
 import 'package:openbn/core/utils/snackbars/show_snackbar.dart';
 import 'package:openbn/core/widgets/button.dart';
@@ -141,24 +142,15 @@ class _OtpVerifyPageState extends State<OtpVerifyPage> {
 
   _buildVerificationBottonSheet(
       {required BuildContext context, required OtpSent state}) {
-    showModalBottomSheet(
-      context: context,
-      isDismissible: false,
-      isScrollControlled: true,
-      builder: (ctx) {
-        return DraggableScrollableSheet(
-          expand: false,
-          builder: (BuildContext context, ScrollController scrollController) {
-            return BlocProvider(
-              create: (context) => serviceLocator<TimerBloc>(),
-              child: OtpEnterWidget(
-                state: state,
-                scrollController: scrollController,
-              ),
-            );
-          },
-        );
-      },
-    );
+    showCustomBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        isScrollable: true,
+        content: BlocProvider(
+          create: (context) => serviceLocator<TimerBloc>(),
+          child: OtpEnterWidget(
+            state: state,
+          ),
+        ));
   }
 }

@@ -22,10 +22,10 @@ class ThemedButton extends StatelessWidget {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         shape: shape,
-        backgroundColor: colorScheme.primary,
+        backgroundColor: disabled ? Colors.grey : colorScheme.primary,
         foregroundColor: colorScheme.onPrimary,
       ),
-      onPressed: onPressed,
+      onPressed: disabled ? () {} : onPressed,
       child: loading
           ? const SizedBox(
               height: 20,

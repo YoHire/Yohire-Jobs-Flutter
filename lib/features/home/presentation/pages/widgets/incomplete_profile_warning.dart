@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:openbn/core/utils/bottom_sheets/bottomsheet.dart';
 import 'package:openbn/core/utils/constants/constants.dart';
 import 'package:openbn/core/utils/shared_services/user/user_storage_services.dart';
 import 'package:openbn/core/widgets/button.dart';
 import 'package:openbn/core/widgets/main_heading_sub_heading.dart';
+import 'package:openbn/features/home/presentation/bloc/job_bloc/job_bloc.dart';
 import 'package:openbn/features/home/presentation/pages/widgets/confirmation_bottom_sheet.dart';
 import 'package:openbn/init_dependencies.dart';
 
@@ -19,6 +21,7 @@ class IncompleteProfileWarning extends StatefulWidget {
 class _IncompleteProfileWarningState extends State<IncompleteProfileWarning> {
   List<ProfileStatus> getStatus = [];
   final userStorage = serviceLocator<UserStorageService>();
+
   @override
   void initState() {
     getStatus.addAll(userStorage.checkCompletionStatus());
@@ -133,8 +136,13 @@ class _IncompleteProfileWarningState extends State<IncompleteProfileWarning> {
   }
 
   _buildConfirmationSheet(BuildContext context) {
+    final jobBloc = BlocProvider.of<JobBloc>(context);
     Navigator.of(context).pop();
     return showCustomBottomSheet(
-        context: context, content: const JobApplyConfirmationBottomSheet());
+        context: context,
+        content: BlocProvider.value(
+          value: jobBloc,
+          child: const JobApplyConfirmationBottomSheet(),
+        ));
   }
 }
