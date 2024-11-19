@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:openbn/core/navigation/app_router.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -11,7 +12,7 @@ class ProfilePage extends StatelessWidget {
         child: TextButton.icon(
           label: const Text('Complete Profile'),
           onPressed: () {
-            GoRouter.of(context).push('/profile-section');
+            GoRouter.of(context).push(AppRoutes.profileSection);
           },
           icon: const Icon(Icons.account_balance),
         ),

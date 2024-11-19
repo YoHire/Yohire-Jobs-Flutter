@@ -7,3 +7,13 @@ class UpdatePersonalDataEvent extends ProfileEvent{
 
   UpdatePersonalDataEvent({required this.data});
 }
+class UpdateSkillEvent extends ProfileEvent{
+  final List<SkillModel> data;
+
+  UpdateSkillEvent({required this.data});
+}
+class UpdateJobPrefs extends ProfileEvent{
+  final List<JobRoleModel> data;
+
+  UpdateJobPrefs({required this.data});
+}

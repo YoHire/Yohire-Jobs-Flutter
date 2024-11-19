@@ -2,10 +2,11 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:openbn/core/navigation/app_router.dart';
 
 // Core imports
 import 'package:openbn/core/utils/constants/constants.dart';
-import 'package:openbn/core/utils/shared_services/models/education/education_model.dart';
+import 'package:openbn/core/utils/shared_services/models/experience/workexperience_model.dart';
 import 'package:openbn/core/utils/shared_services/models/user/user_model.dart';
 import 'package:openbn/core/utils/shared_services/user/user_storage_services.dart';
 import 'package:openbn/core/widgets/app_bar.dart';
@@ -13,26 +14,26 @@ import 'package:openbn/core/widgets/floating_action_button.dart';
 import 'package:openbn/core/widgets/placeholders.dart';
 
 // Feature imports
-import 'package:openbn/features/profile/presentation/widgets/education_container.dart';
+import 'package:openbn/features/profile/presentation/widgets/experience_container.dart';
 import 'package:openbn/init_dependencies.dart';
 
-class AcademicEditPage extends StatefulWidget {
-  const AcademicEditPage({super.key});
+class ExperienceEditPage extends StatefulWidget {
+  const ExperienceEditPage({super.key});
 
   @override
-  State<AcademicEditPage> createState() => _AcademicEditPageState();
+  State<ExperienceEditPage> createState() => _ExperienceEditPageState();
 }
 
-class _AcademicEditPageState extends State<AcademicEditPage> {
+class _ExperienceEditPageState extends State<ExperienceEditPage> {
   // Constants
   static const double _padding = 15.0;
   static const String _boxName = 'userBox';
-  static const String _addEducationRoute = '/education-edit';
+  static const String _addExperienceRoute = AppRoutes.workExperienceEdit;
 
   // State variables
   late final Box<UserModel> _userBox;
   late final Stream<BoxEvent> _boxStream;
-  final List<EducationModel> _educationData = [];
+  final List<WorkExperienceModel> _experienceData = [];
 
   @override
   void initState() {
@@ -62,8 +63,8 @@ class _AcademicEditPageState extends State<AcademicEditPage> {
   void _onBoxEvent(BoxEvent event) {
     if (mounted) {
       setState(() {
-        _educationData.clear();
-        _educationData.addAll((event.value as UserModel).education);
+        _experienceData.clear();
+        _experienceData.addAll((event.value as UserModel).experience);
       });
     }
   }
@@ -75,8 +76,8 @@ class _AcademicEditPageState extends State<AcademicEditPage> {
 
       if (userData != null) {
         setState(() {
-          _educationData.clear();
-          _educationData.addAll(userData.education);
+          _experienceData.clear();
+          _experienceData.addAll(userData.experience);
         });
       }
     } catch (e) {
@@ -85,8 +86,8 @@ class _AcademicEditPageState extends State<AcademicEditPage> {
     }
   }
 
-  void _navigateToAddEducation(BuildContext context) {
-    context.push(_addEducationRoute);
+  void _navigateToAddExperience(BuildContext context) {
+    context.push(_addExperienceRoute);
   }
 
   @override
@@ -101,7 +102,7 @@ class _AcademicEditPageState extends State<AcademicEditPage> {
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return customAppBar(
       context: context,
-      title: 'Academic Details',
+      title: 'Experience Details',
     );
   }
 
@@ -109,24 +110,24 @@ class _AcademicEditPageState extends State<AcademicEditPage> {
     return Padding(
       padding: const EdgeInsets.all(_padding),
       child:
-          _educationData.isEmpty ? _buildEmptyState() : _buildEducationList(),
+          _experienceData.isEmpty ? _buildEmptyState() : _buildExperienceList(),
     );
   }
 
   Widget _buildEmptyState() {
     return  AnimatedPlaceholders(
-        text: ''' Haven't added academic details yet ''',
+        text: ''' Haven't added experience details yet ''',
         subText: 'Click the plus icon and add',
         isError: false);
   }
 
-  Widget _buildEducationList() {
+  Widget _buildExperienceList() {
     return ListView.builder(
-      itemCount: _educationData.length,
+      itemCount: _experienceData.length,
       itemBuilder: (context, index) {
-        return EducationContainer(
-          key: ValueKey(_educationData[index].hashCode),
-          data: _educationData[index],
+        return ExperienceContainer(
+          key: ValueKey(_experienceData[index].hashCode),
+          data: _experienceData[index],
         );
       },
     );
@@ -134,7 +135,7 @@ class _AcademicEditPageState extends State<AcademicEditPage> {
 
   Widget _buildFloatingActionButton(BuildContext context) {
     return CustomFloatingActionButton(
-      onPressed: () => _navigateToAddEducation(context),
+      onPressed: () => _navigateToAddExperience(context),
       backgroundColor: ThemeColors.primaryBlue,
       icon: const Icon(Icons.add),
       loading: false,

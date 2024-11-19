@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:openbn/core/navigation/app_router.dart';
 import 'package:openbn/core/utils/constants/constants.dart';
 import 'package:openbn/core/utils/snackbars/show_snackbar.dart';
 import 'package:openbn/core/widgets/button.dart';
@@ -27,14 +28,14 @@ class GoogleAuthPage extends StatelessWidget {
               context: context,
               text: 'Authenticated as ${state.user.email}');
           if (state.user.isNewUser) {
-            GoRouter.of(context).go('/otp-page');
+            GoRouter.of(context).go(AppRoutes.otpPage);
           } else {
             showSimpleSnackBar(
                 position: SnackBarPosition.BOTTOM,
                 isError: false,
                 context: context,
                 text: 'Welcome back ${state.user.email}');
-            GoRouter.of(context).go('/navigation-bar');
+            GoRouter.of(context).go(AppRoutes.navigationBar);
           }
         } else if (state is AuthError) {
           showSimpleSnackBar(
@@ -64,7 +65,7 @@ class GoogleAuthPage extends StatelessWidget {
                   child: ThemedButton(
                     text: 'Continue as Guest',
                     onPressed: () {
-                      GoRouter.of(context).go('/navigation-bar');
+                      GoRouter.of(context).go(AppRoutes.navigationBar);
                     },
                     loading: false,
                   ),

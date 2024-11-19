@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:go_router/go_router.dart';
+import 'package:openbn/core/navigation/app_router.dart';
 import 'package:openbn/init_dependencies.dart';
 
 class NotificationService {
@@ -121,7 +122,7 @@ class NotificationService {
         _router.push('/orders/$id');
         break;
       case 'profile':
-        _router.push('/profile');
+        _router.push(AppRoutes.profile);
         break;
       default:
         _router.push('/notifications');

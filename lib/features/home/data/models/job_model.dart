@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:openbn/core/utils/shared_services/models/recruiter/recruiter_model.dart';
 import 'package:openbn/core/utils/shared_services/models/skill/skill_model.dart';
 import 'package:openbn/features/home/domain/entities/job_entity.dart';
@@ -41,7 +39,6 @@ class JobModel extends JobEntity {
       required super.skills});
 
   factory JobModel.fromJson(Map<String, dynamic> json, bool? isApplied) {
-    log(json.toString());
     return JobModel(
         id: json['id'] ?? '',
         recruiterId: json['recruiterId'] ?? '',
@@ -92,4 +89,6 @@ class JobModel extends JobEntity {
     }
     return temp;
   }
+
+
 }

@@ -73,7 +73,7 @@ class UserModel extends HiveObject {
   final List<LanguageModel> languagesReadAndWrite;
 
   @HiveField(21)
-  final List<DocumentModel>documents;
+  final List<DocumentModel> documents;
 
   UserModel({
     required this.id,
@@ -113,7 +113,9 @@ class UserModel extends HiveObject {
       createdAt: json['createdAt'],
       bio: json['bio'] ?? '',
       height: json['height'] ?? '',
-      dateOfBirth: json['dateOfBirth']==null?null:DateTime.parse(json['dateOfBirth']),
+      dateOfBirth: json['dateOfBirth'] == null
+          ? null
+          : DateTime.parse(json['dateOfBirth']),
       address: json['address'] ?? '',
       weight: json['weight'] ?? '',
       updatedAt: json['updatedAt'],
@@ -124,16 +126,17 @@ class UserModel extends HiveObject {
           : [],
       experience: json['workExperience'] != null
           ? (json['workExperience'] as List)
-              .map((e) => WorkExperienceModel.fromJson(e as Map<String, dynamic>))
+              .map((e) =>
+                  WorkExperienceModel.fromJson(e as Map<String, dynamic>))
               .toList()
           : [],
-      skills: json['skills'] != null
-          ? (json['skills'] as List)
+      skills: json['skill'] != null
+          ? (json['skill'] as List)
               .map((e) => SkillModel.fromJson(e as Map<String, dynamic>))
               .toList()
           : [],
-      prefrences: json['prefrences'] != null
-          ? (json['prefrences'] as List)
+      prefrences: json['jobRoles'] != null
+          ? (json['jobRoles'] as List)
               .map((e) => JobRoleModel.fromJson(e as Map<String, dynamic>))
               .toList()
           : [],

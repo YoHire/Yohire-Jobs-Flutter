@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:openbn/core/navigation/app_router.dart';
 import 'package:openbn/core/utils/bottom_sheets/bottomsheet.dart';
 import 'package:openbn/core/utils/constants/constants.dart';
 import 'package:openbn/core/utils/snackbars/show_snackbar.dart';
@@ -72,7 +73,7 @@ class _OtpVerifyPageState extends State<OtpVerifyPage> {
                     isError: false,
                     context: context,
                     text: 'OTP verified successfully');
-                GoRouter.of(context).go('/username');
+                GoRouter.of(context).go(AppRoutes.username);
               }
             },
             child: Padding(

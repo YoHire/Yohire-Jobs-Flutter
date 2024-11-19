@@ -25,10 +25,10 @@ abstract class URL {
   static String ALL_COUNTRIES = "$baseUrl/users/countries";
   static String SEARCH_JOB_ROLE = "$baseUrl/recruiter/job-roles/";
   static String GET_CATEGORY_BY_ID = "$baseUrl/users/categories/";
-  static String UPDATE_CATEGORY = "$baseUrl/users/update-categories/";
+  static String UPDATE_CATEGORY = "$baseUrl/users/update-categories";
   static String SEARCH_SKILL = "$baseUrl/recruiter/skills/search-skills/";
   static String GET_SKILL_BY_ID = "$baseUrl/users/skills/";
-  static String UPDATE_SKILL = "$baseUrl/users/update-skills/";
+  static String UPDATE_SKILL = "$baseUrl/users/update-skills";
   static String UPDATE_PROFILE = "$baseUrl/users/update-user/";
   static String UPDATE_USERNAME = "$baseUrl/users/username";
   static String USER = "$baseUrl/users/user/";

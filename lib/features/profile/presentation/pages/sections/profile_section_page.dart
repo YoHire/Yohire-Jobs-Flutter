@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:openbn/core/navigation/app_router.dart';
 import 'package:openbn/core/utils/constants/constants.dart';
 import 'package:openbn/core/utils/shared_services/models/user/user_model.dart';
 import 'package:openbn/core/utils/shared_services/user/user_storage_services.dart';
@@ -108,14 +109,13 @@ class _ProfileSectionPageState extends State<ProfileSectionPage>
 
   void _handleSectionTap(String section) {
     if (section == ProfileSections.PersonalDetails.value) {
-      GoRouter.of(context).push('/personal-details');
+      GoRouter.of(context).push(AppRoutes.personalDetails);
     } else if (section == ProfileSections.AcademicDetails.value) {
-      GoRouter.of(context).push('/academic-edit');
+      GoRouter.of(context).push(AppRoutes.academicEdit);
     } else if (section == ProfileSections.ExperienceDetails.value) {
-      GoRouter.of(context).push('/experience-edit');
-    } else if(section ==ProfileSections.SkillsAndPrefrences.value){
-      GoRouter.of(context).push('/skills-and-prefrences');
-      
+      GoRouter.of(context).push(AppRoutes.experienceEdit);
+    } else if (section == ProfileSections.SkillsAndPrefrences.value) {
+      GoRouter.of(context).push(AppRoutes.skillsAndPreferences);
     }
   }
 
@@ -130,7 +130,12 @@ class _ProfileSectionPageState extends State<ProfileSectionPage>
 
   _assignSctionCompletedMark(UserModel? data) {
     if (data != null) {
-      if (data.address!.isNotEmpty) {
+      if (data.address!.isNotEmpty &&
+          data.username!.isNotEmpty &&
+          data.surname!.isNotEmpty &&
+          data.dateOfBirth != null &&
+          data.height!.isNotEmpty &&
+          data.weight!.isNotEmpty) {
         isSectionCompleted[0] = true;
         setState(() {});
       } else {
@@ -148,6 +153,12 @@ class _ProfileSectionPageState extends State<ProfileSectionPage>
         setState(() {});
       } else {
         isSectionCompleted[2] = false;
+      }
+      if (data.skills.isNotEmpty && data.prefrences.isNotEmpty) {
+        isSectionCompleted[3] = true;
+        setState(() {});
+      } else {
+        isSectionCompleted[3] = false;
       }
     }
   }

@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:openbn/core/navigation/app_router.dart';
 import 'package:openbn/core/widgets/yohire_logo_widget.dart';
 import 'package:openbn/features/home/presentation/bloc/home_bloc/home_bloc.dart';
 import 'package:openbn/features/splash/presentation/bloc/splash_bloc.dart';
@@ -43,9 +44,9 @@ class _SplashScreenState extends State<SplashScreen>
       listener: (context, state) {
         if (state is SplashLoggedIn) {
           context.read<HomeBloc>().add(HomeInitEvent());
-          GoRouter.of(context).go('/navigation-bar');
+          GoRouter.of(context).go(AppRoutes.navigationBar);
         } else if (state is SplashLoggedOut) {
-          GoRouter.of(context).go('/prefrences');
+          GoRouter.of(context).go(AppRoutes.preferences);
         }
       },
       child: Scaffold(

@@ -67,7 +67,9 @@ import 'package:openbn/features/prefrences/presentation/bloc/prefrence_bloc.dart
 import 'package:openbn/features/profile/data/datasource/profile_datasource.dart';
 import 'package:openbn/features/profile/data/repository/profile_repository_impl.dart';
 import 'package:openbn/features/profile/domain/repository/profile_repository.dart';
+import 'package:openbn/features/profile/domain/usecase/update_jobpref_usecase.dart';
 import 'package:openbn/features/profile/domain/usecase/update_personal_details_usecase.dart';
+import 'package:openbn/features/profile/domain/usecase/update_skill_usecase.dart';
 import 'package:openbn/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:openbn/features/splash/data/repository/splash_repository_impl.dart';
 import 'package:openbn/features/splash/domain/repository/splash_repository.dart';
@@ -205,8 +207,12 @@ _initProfile() {
       () => ProfileRepositoryImpl(serviceLocator()));
   serviceLocator
       .registerFactory(() => UpdatePersonalDetailsUsecase(serviceLocator()));
-  serviceLocator.registerLazySingleton(
-      () => ProfileBloc(updatePersonalDetailsUsecase: serviceLocator()));
+  serviceLocator.registerFactory(() => UpdateSkillUsecase(serviceLocator()));
+  serviceLocator.registerFactory(() => UpdateJobprefUsecase(serviceLocator()));
+  serviceLocator.registerLazySingleton(() => ProfileBloc(
+      updateSkillUsecase: serviceLocator(),
+      updateJobprefUsecase: serviceLocator(),
+      updatePersonalDetailsUsecase: serviceLocator()));
 }
 
 __initUserNameServices() {
@@ -298,7 +304,7 @@ void __initCircleServices() {
     ),
   );
   serviceLocator.registerFactory(
-    () => QueueBloc(createQueueUsecase:serviceLocator()),
+    () => QueueBloc(createQueueUsecase: serviceLocator()),
   );
 }
 
