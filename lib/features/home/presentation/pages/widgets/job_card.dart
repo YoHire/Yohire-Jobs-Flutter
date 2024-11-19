@@ -5,6 +5,7 @@ import 'package:openbn/core/widgets/theme_gap.dart';
 import 'package:openbn/features/home/domain/entities/job_entity.dart';
 import 'package:openbn/features/home/presentation/pages/widgets/job_highlights.dart';
 import 'package:openbn/features/home/presentation/pages/widgets/save_button.dart';
+import 'package:recase/recase.dart';
 
 import 'share_button.dart';
 
@@ -50,8 +51,8 @@ class JobCardWidget extends StatelessWidget {
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.75,
                     child: Text(
-                      job.title,
-                      style: textTheme.bodyLarge,
+                      job.title.titleCase,
+                      style: textTheme.titleLarge,
                     ),
                   ),
                   SizedBox(

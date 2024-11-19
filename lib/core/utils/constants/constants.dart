@@ -53,6 +53,7 @@ class FirebaseRemoteConfigKeys {
   static const String sources = 'source';
   static const String instagram_influncers = 'instagram_influncers_list';
   static const String home_icon = 'home_logo';
+  static const String home_icon_dark = 'home_logo_dark';
   static const String font = 'font';
 }
 

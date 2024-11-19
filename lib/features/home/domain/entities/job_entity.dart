@@ -31,6 +31,8 @@ class JobEntity {
   final List<String> userIds;
   final String expiryDate;
   final RecruiterModel? recruiter;
+  final bool isApplied;
+  final bool isSaved;
   String? source;
   String currency;
   List<dynamic> testQuestion;
@@ -39,6 +41,7 @@ class JobEntity {
       required this.recruiterId,
       this.recruiter,
       required this.currency,
+      required this.isApplied,
       required this.description,
       required this.userIds,
       required this.expiryDate,
@@ -65,6 +68,7 @@ class JobEntity {
       required this.createdAt,
       required this.updatedAt,
       this.source,
+      required this.isSaved,
       required this.skills,
       required this.testQuestion});
 }

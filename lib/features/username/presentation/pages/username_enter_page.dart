@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:openbn/core/utils/constants/constants.dart';
 import 'package:openbn/core/utils/snackbars/show_snackbar.dart';
-import 'package:openbn/core/validators/text_validators.dart';
+import 'package:openbn/core/validators/validators.dart';
 import 'package:openbn/core/widgets/button.dart';
 import 'package:openbn/core/widgets/main_heading_sub_heading.dart';
 import 'package:openbn/core/widgets/text_field.dart';

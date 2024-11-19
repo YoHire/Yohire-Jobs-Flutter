@@ -4,7 +4,7 @@ import 'package:openbn/core/utils/shared_services/job_roles/jobrole_service.dart
 import 'package:openbn/core/utils/shared_services/models/job_role/job_role_model.dart';
 import 'package:openbn/core/utils/shared_services/models/skill/skill_model.dart';
 import 'package:openbn/core/utils/shared_services/skills/skills_service.dart';
-import 'package:openbn/core/validators/text_validators.dart';
+import 'package:openbn/core/validators/validators.dart';
 import 'package:openbn/core/widgets/button.dart';
 import 'package:openbn/core/widgets/search_select_field.dart';
 import 'package:openbn/core/widgets/text_field.dart';

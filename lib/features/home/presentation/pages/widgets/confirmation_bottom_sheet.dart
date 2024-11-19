@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -22,7 +23,14 @@ class _JobApplyConfirmationBottomSheetState
     final textTheme = Theme.of(context).textTheme;
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
-    return BlocBuilder<JobBloc, JobState>(
+    return BlocConsumer<JobBloc, JobState>(
+      listener: (context, state) {
+        if (state is JobApplied) {
+          Timer(const Duration(seconds: 3), () {
+            Navigator.pop(context);
+          });
+        }
+      },
       builder: (context, state) {
         log(state.toString());
         return Container(
@@ -31,80 +39,63 @@ class _JobApplyConfirmationBottomSheetState
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(20), topRight: Radius.circular(20)),
           ),
-          child: state is JobApplied
-              ? Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SizedBox(
-                      height: screenHeight * 0.3,
-                      width: screenWidth * 0.6,
-                      child: 1 + 1 == 3
-                          ? Lottie.asset(
-                              'assets/lottie/success.json',
-                              reverse: true,
-                            )
-                          : Lottie.asset('assets/lottie/loading.json',
-                              repeat: true, reverse: true),
-                    ),
-                    Text(
-                      1 + 1 == 3
-                          ? 'Application Successful'
-                          : 'Securing Your Application !',
-                      style: textTheme.bodyMedium,
-                      textAlign: TextAlign.center,
-                    ),
-                    SizedBox(
-                        width: 350,
-                        child: Text(
-                          1 + 1 == 3 ? '' : 'Please wait',
-                          style: textTheme.bodySmall,
-                          textAlign: TextAlign.center,
-                        )),
-                    const ThemeGap(60),
-                  ],
-                )
-              : Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SizedBox(
-                      height: screenHeight * 0.3,
-                      width: screenWidth * 0.6,
-                      child: Lottie.asset('assets/lottie/apply-job.json',
-                          repeat: false),
-                    ),
-                    Text(
-                      'You are about to apply for this job',
-                      style: textTheme.bodyMedium,
-                      textAlign: TextAlign.center,
-                    ),
-                    SizedBox(
-                        width: 350,
-                        child: Text(
-                          'All the details you have added in your profile will be sent to the employer',
-                          style: textTheme.labelMedium,
-                          textAlign: TextAlign.center,
-                        )),
-                    const ThemeGap(10),
-                    BlocBuilder<JobBloc, JobState>(
-                      builder: (context, state) {
-                        if (state is JobLoaded) {
-                          return ThemedButton(
-                              loading: state is JobApplying,
-                              text: 'Apply',
-                              onPressed: () {
-                                BlocProvider.of<JobBloc>(context).add(
-                                    JobApplyEvent(
-                                        jobId: state.data.id,
-                                        recruiterId: state.data.recruiterId));
-                              });
-                        } else {
-                          return const SizedBox();
-                        }
-                      },
-                    ),
-                    const ThemeGap(30)
-                  ],
-                ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                height: screenHeight * 0.3,
+                width: screenWidth * 0.6,
+                child: state is JobApplying
+                    ? Lottie.asset('assets/lottie/apply-loading.json',
+                        repeat: true, reverse: true)
+                    : state is JobApplied
+                        ? Lottie.asset(
+                            'assets/lottie/success.json',
+                            reverse: true,
+                          )
+                        : Lottie.asset('assets/lottie/apply-job.json',
+                            repeat: false),
+              ),
+              Text(
+                state is JobApplying
+                    ? 'Securing Your Application !'
+                    : state is JobApplied
+                        ? 'Application Successful'
+                        : 'You are about to apply for this job',
+                style: textTheme.bodyMedium,
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(
+                  width: 350,
+                  child: Text(
+                    state is JobApplying
+                        ? ''
+                        : state is JobApplied
+                            ? ''
+                            : 'All the details you have added in your profile will be sent to the employer',
+                    style: textTheme.labelMedium,
+                    textAlign: TextAlign.center,
+                  )),
+              const ThemeGap(10),
+              BlocBuilder<JobBloc, JobState>(
+                builder: (context, state) {
+                  if (state is JobLoaded) {
+                    return ThemedButton(
+                        loading: state is JobApplying,
+                        text: 'Apply',
+                        onPressed: () {
+                          BlocProvider.of<JobBloc>(context).add(JobApplyEvent(
+                              jobId: state.data.id,
+                              recruiterId: state.data.recruiterId));
+                        });
+                  } else {
+                    return const SizedBox();
+                  }
+                },
+              ),
+              const ThemeGap(30)
+            ],
+          ),
         );
       },
     );

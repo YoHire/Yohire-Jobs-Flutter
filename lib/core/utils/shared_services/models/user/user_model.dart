@@ -1,7 +1,7 @@
 import 'package:hive/hive.dart';
 import 'package:openbn/core/utils/shared_services/models/documents/document_model.dart';
 import 'package:openbn/core/utils/shared_services/models/education/education_model.dart';
-import 'package:openbn/core/utils/shared_services/models/experience/experience_model.dart';
+import 'package:openbn/core/utils/shared_services/models/experience/workexperience_model.dart';
 import 'package:openbn/core/utils/shared_services/models/job_role/job_role_model.dart';
 import 'package:openbn/core/utils/shared_services/models/language/language_model.dart';
 import 'package:openbn/core/utils/shared_services/models/skill/skill_model.dart';
@@ -49,7 +49,7 @@ class UserModel extends HiveObject {
   final String? address;
 
   @HiveField(13)
-  final String? dateOfBirth;
+  final DateTime? dateOfBirth;
 
   @HiveField(14)
   final List<EducationModel> education;
@@ -58,7 +58,7 @@ class UserModel extends HiveObject {
   final String? profileImage;
 
   @HiveField(16)
-  final List<ExperienceModel> experience;
+  final List<WorkExperienceModel> experience;
 
   @HiveField(17)
   final List<SkillModel> skills;
@@ -113,7 +113,7 @@ class UserModel extends HiveObject {
       createdAt: json['createdAt'],
       bio: json['bio'] ?? '',
       height: json['height'] ?? '',
-      dateOfBirth: json['dateOfBirth'] ?? '',
+      dateOfBirth: json['dateOfBirth']==null?null:DateTime.parse(json['dateOfBirth']),
       address: json['address'] ?? '',
       weight: json['weight'] ?? '',
       updatedAt: json['updatedAt'],
@@ -122,9 +122,9 @@ class UserModel extends HiveObject {
               .map((e) => EducationModel.fromJson(e as Map<String, dynamic>))
               .toList()
           : [],
-      experience: json['experience'] != null
-          ? (json['experience'] as List)
-              .map((e) => ExperienceModel.fromJson(e as Map<String, dynamic>))
+      experience: json['workExperience'] != null
+          ? (json['workExperience'] as List)
+              .map((e) => WorkExperienceModel.fromJson(e as Map<String, dynamic>))
               .toList()
           : [],
       skills: json['skills'] != null

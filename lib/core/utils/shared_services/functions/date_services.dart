@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:intl/intl.dart';
 
 class DateServices {
@@ -186,32 +188,110 @@ class DateServices {
     return age;
   }
 
-
   static String convertDateFormat(String dateString) {
-  // Parse the input date format
-  final inputFormat = DateFormat('dd/MM/yyyy');
-  final dateTime = inputFormat.parse(dateString);
+    // Parse the input date format
+    final inputFormat = DateFormat('dd/MM/yyyy');
+    final dateTime = inputFormat.parse(dateString);
 
-  // Format to the desired output ISO format
-  final outputFormat = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-  return outputFormat.format(dateTime);
-}
-
-static DateTime convertStringToDateTime(String dateString) {
-  // Split the string into its components
-  List<String> parts = dateString.split('-');
-  
-  // Check if the string has exactly 3 parts (year, month, day)
-  if (parts.length != 3) {
-    throw const FormatException('Invalid date format. Please use YYYY-MM-DD.');
+    // Format to the desired output ISO format
+    final outputFormat = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+    return outputFormat.format(dateTime);
   }
-  
-  // Parse the year, month, and day from the string
-  int year = int.parse(parts[0]);
-  int month = int.parse(parts[1]);
-  int day = int.parse(parts[2]);
-  
-  // Create and return a DateTime object
-  return DateTime(year, month, day);
-}
+
+  static DateTime convertStringToDateTime(String dateString) {
+    // Split the string into its components
+    List<String> parts = dateString.split('-');
+
+    // Check if the string has exactly 3 parts (year, month, day)
+    if (parts.length != 3) {
+      throw const FormatException(
+          'Invalid date format. Please use YYYY-MM-DD.');
+    }
+
+    // Parse the year, month, and day from the string
+    int year = int.parse(parts[0]);
+    int month = int.parse(parts[1]);
+    int day = int.parse(parts[2]);
+
+    // Create and return a DateTime object
+    return DateTime(year, month, day);
+  }
+
+  static bool isAtLeast15YearsOld(
+      {required DateTime dateOfBirth, required String currentValue}) {
+
+
+    // Parse the current value date string in the format "dd/MM/yyyy"
+    DateTime currentDate =
+        DateTime.parse(currentValue.split('/').reversed.join('-'));
+
+    // Calculate the difference in years
+    int yearDifference = currentDate.year - dateOfBirth.year;
+
+    // Adjust for exact date comparison to handle partial years
+    if (currentDate.month < dateOfBirth.month ||
+        (currentDate.month == dateOfBirth.month && currentDate.day < dateOfBirth.day)) {
+      yearDifference--;
+    }
+
+    // Check if at least 15 years have passed and dob is before the current date
+    return yearDifference >= 15 ;
+  }
+
+  static bool checkExpStartDateWithDob({
+    required String expStartDate,
+    required String currentValue,
+  }) {
+    // Parse `expStartDate` to a DateTime object (ISO 8601 format)
+    DateTime expDate = DateTime.parse(expStartDate);
+
+    // Parse `currentValue` to a DateTime object (dd/MM/yyyy format)
+    DateTime currentDate = DateTime.parse(
+      currentValue.split('/').reversed.join('-'), // Convert to yyyy-MM-dd
+    );
+
+    // Calculate the date 15 years before `expStartDate`
+    DateTime minAllowedDate = expDate.subtract(const Duration(days: 365 * 15));
+
+    // Check if `currentDate` is before `expStartDate` and at least 15 years earlier
+    return currentDate.isBefore(expDate) &&
+        currentDate.isBefore(minAllowedDate);
+  }
+
+  static bool educationIsAfterDob({
+    required String eduCompleteDate,
+    required String currentValue,
+  }) {
+    // Parse `eduCompleteDate` to a DateTime object (ISO 8601 format)
+    DateTime expDate = DateTime.parse(eduCompleteDate);
+
+    // Parse `currentValue` to a DateTime object (dd/MM/yyyy format)
+    DateTime currentDate = DateTime.parse(
+      currentValue.split('/').reversed.join('-'), // Convert to yyyy-MM-dd
+    );
+
+    // Check if `currentDate` is before `eduCompleteDate` and at least 15 years earlier
+    return currentDate.isBefore(expDate);
+  }
+
+  static String getEarliestDate(List<DateTime> dates) {
+    if (dates.isEmpty) return ''; // Return an empty string if the list is empty
+
+    DateTime earliestDate = dates.reduce((a, b) => a.isBefore(b) ? a : b);
+
+    return earliestDate.toUtc().toIso8601String();
+  }
+
+  static bool isAtLeast18YearsOld(String dateString) {
+    try {
+      DateTime parsedDate = DateFormat('dd/MM/yyyy').parse(dateString);
+      DateTime date18YearsAgo =
+          DateTime.now().subtract(const Duration(days: 18 * 365));
+      return parsedDate.isBefore(date18YearsAgo) ||
+          parsedDate.isAtSameMomentAs(date18YearsAgo);
+    } catch (e) {
+      log('Invalid date format: $e');
+      return false;
+    }
+  }
 }

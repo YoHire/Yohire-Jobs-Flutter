@@ -6,7 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:openbn/core/utils/constants/constants.dart';
 import 'package:openbn/core/utils/shared_services/user/user_storage_services.dart';
 import 'package:openbn/core/utils/snackbars/show_snackbar.dart';
-import 'package:openbn/core/validators/text_validators.dart';
+import 'package:openbn/core/validators/validators.dart';
 import 'package:openbn/core/widgets/app_bar.dart';
 import 'package:openbn/core/widgets/button.dart';
 import 'package:openbn/core/widgets/radio_button.dart';
@@ -72,8 +72,8 @@ class _PersonalDetailsState extends State<PersonalDetails> {
     _heightController.text = data.height ?? '';
     _weightController.text = data.weight ?? '';
     _addressController.text = data.address ?? '';
-    // _dateOfBirthController.text =
-    //     data.dateOfBirth != null ? arrangeDate(data.dateOfBirth!) : '';
+    _dateOfBirthController.text =
+        data.dateOfBirth != null ? arrangeDate(data.dateOfBirth!.toString()) : '';
     if (data.gender == 'Male') {
       _selectedGender = GenderType.Male;
     } else if (data.gender == 'Female') {

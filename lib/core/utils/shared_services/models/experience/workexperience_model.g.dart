@@ -1,24 +1,25 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'experience_model.dart';
+part of 'workexperience_model.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class ExperienceModelAdapter extends TypeAdapter<ExperienceModel> {
+class WorkExperienceModelAdapter extends TypeAdapter<WorkExperienceModel> {
   @override
   final int typeId = 3;
 
   @override
-  ExperienceModel read(BinaryReader reader) {
+  WorkExperienceModel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return ExperienceModel(
+    return WorkExperienceModel(
       company: fields[1] as String,
       startDate: fields[3] as DateTime,
+      country: fields[7] as CountryModel?,
       endDate: fields[5] as DateTime?,
       id: fields[0] as String?,
       designation: fields[2] as JobRoleModel?,
@@ -28,9 +29,9 @@ class ExperienceModelAdapter extends TypeAdapter<ExperienceModel> {
   }
 
   @override
-  void write(BinaryWriter writer, ExperienceModel obj) {
+  void write(BinaryWriter writer, WorkExperienceModel obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -44,7 +45,9 @@ class ExperienceModelAdapter extends TypeAdapter<ExperienceModel> {
       ..writeByte(5)
       ..write(obj.endDate)
       ..writeByte(6)
-      ..write(obj.userId);
+      ..write(obj.userId)
+      ..writeByte(7)
+      ..write(obj.country);
   }
 
   @override
@@ -53,7 +56,7 @@ class ExperienceModelAdapter extends TypeAdapter<ExperienceModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ExperienceModelAdapter &&
+      other is WorkExperienceModelAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

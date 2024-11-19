@@ -4,8 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:openbn/core/widgets/yohire_logo_widget.dart';
 import 'package:openbn/features/home/presentation/bloc/home_bloc/home_bloc.dart';
-import 'package:openbn/features/prefrences/presentation/bloc/prefrence_bloc.dart';
-import 'package:openbn/features/prefrences/presentation/bloc/prefrence_event.dart';
 import 'package:openbn/features/splash/presentation/bloc/splash_bloc.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -54,7 +52,7 @@ class _SplashScreenState extends State<SplashScreen>
         body: FadeTransition(
           opacity: _animation,
           child: const Center(
-            child: YohireLogoWidget(),
+            child: YohireLogoWidget(showTagLine: true,),
           ),
         ),
       ),

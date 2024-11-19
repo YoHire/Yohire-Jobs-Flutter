@@ -5,9 +5,11 @@ class AnimatedPlaceholders extends StatelessWidget {
   final String text;
   final String subText;
   final bool isError;
-  const AnimatedPlaceholders(
+  bool isQueue;
+  AnimatedPlaceholders(
       {super.key,
       required this.text,
+      this.isQueue = false,
       required this.subText,
       required this.isError});
 
@@ -19,9 +21,14 @@ class AnimatedPlaceholders extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.all(40),
-            child: isError
-                ? Lottie.asset('assets/lottie/error.json')
-                : Lottie.asset('assets/lottie/empty-jobs.json'),
+            child: isQueue
+                ? Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: Lottie.asset('assets/lottie/queue.json'),
+                  )
+                : isError
+                    ? Lottie.asset('assets/lottie/error.json')
+                    : Lottie.asset('assets/lottie/empty-jobs.json'),
           ),
           Positioned(
               bottom: 0,
@@ -49,7 +56,7 @@ class AnimatedPlaceholders extends StatelessWidget {
                           Text(
                             text,
                             style: textTheme.bodyLarge,
-                             textAlign: TextAlign.center,
+                            textAlign: TextAlign.center,
                           ),
                           Text(
                             subText,

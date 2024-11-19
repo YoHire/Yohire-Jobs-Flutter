@@ -6,9 +6,11 @@ import 'package:openbn/core/widgets/theme_gap.dart';
 class DescriptionHeadingWidget extends StatefulWidget {
   final String heading;
   final String description;
+  bool isCenteredHeading;
 
-  const DescriptionHeadingWidget({
+  DescriptionHeadingWidget({
     super.key,
+    this.isCenteredHeading = false,
     required this.heading,
     required this.description,
   });
@@ -33,20 +35,26 @@ class _DescriptionHeadingWidgetState extends State<DescriptionHeadingWidget>
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Align(
-          alignment: Alignment.centerLeft,
+          alignment: widget.isCenteredHeading
+              ? Alignment.center
+              : Alignment.centerLeft,
           child: Text(
             widget.heading,
-            style: textTheme.titleMedium,
-            textAlign: TextAlign.left,
+            style: textTheme.titleLarge,
+            // textAlign: TextAlign.left,
           ),
         ),
         const ThemeGap(5),
         Align(
-          alignment: Alignment.centerLeft,
+          alignment: widget.isCenteredHeading
+              ? Alignment.center
+              : Alignment.centerLeft,
           child: AnimatedSize(
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeInOut,
             child: RichText(
+              textAlign:
+                  widget.isCenteredHeading ? TextAlign.justify : TextAlign.left,
               text: TextSpan(
                 style: textTheme.labelMedium,
                 children: [

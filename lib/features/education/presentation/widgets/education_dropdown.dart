@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:openbn/core/utils/shared_services/models/course/course_model.dart';
-import 'package:openbn/core/validators/text_validators.dart';
+import 'package:openbn/core/validators/validators.dart';
 import 'package:openbn/core/widgets/custom_dropdown.dart';
 import 'package:openbn/core/widgets/theme_gap.dart';
 import 'package:openbn/features/education/presentation/bloc/education_bloc.dart';

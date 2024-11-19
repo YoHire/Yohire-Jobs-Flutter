@@ -8,6 +8,7 @@ void showSimpleSnackBar({
   required SnackBarPosition position,
   required bool isError,
 }) {
+  final textTheme = Theme.of(context).textTheme;
   ScaffoldMessenger.of(context)
     ..hideCurrentSnackBar()
     ..showSnackBar(
@@ -49,7 +50,7 @@ void showSimpleSnackBar({
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: Text(
                           text,
-                          style: MyTextStyle.snackBarText,
+                          style: textTheme.labelMedium,
                           overflow: TextOverflow.visible,
                         ),
                       ),

@@ -111,6 +111,11 @@ class _ProfileSectionPageState extends State<ProfileSectionPage>
       GoRouter.of(context).push('/personal-details');
     } else if (section == ProfileSections.AcademicDetails.value) {
       GoRouter.of(context).push('/academic-edit');
+    } else if (section == ProfileSections.ExperienceDetails.value) {
+      GoRouter.of(context).push('/experience-edit');
+    } else if(section ==ProfileSections.SkillsAndPrefrences.value){
+      GoRouter.of(context).push('/skills-and-prefrences');
+      
     }
   }
 
@@ -137,6 +142,12 @@ class _ProfileSectionPageState extends State<ProfileSectionPage>
         setState(() {});
       } else {
         isSectionCompleted[1] = false;
+      }
+      if (data.experience.isNotEmpty) {
+        isSectionCompleted[2] = true;
+        setState(() {});
+      } else {
+        isSectionCompleted[2] = false;
       }
     }
   }

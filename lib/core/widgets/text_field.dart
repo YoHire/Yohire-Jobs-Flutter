@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -23,6 +24,7 @@ class CustomTextField extends StatefulWidget {
   final bool isLocationPicker;
   final bool isFilePicker;
   final String? dateFormat;
+  final bool isDisabled;
 
   const CustomTextField({
     super.key,
@@ -32,6 +34,7 @@ class CustomTextField extends StatefulWidget {
     this.prefixIcon = const SizedBox(),
     this.onChanged,
     this.border,
+    this.isDisabled = false,
     this.maxLength,
     this.maxLines,
     this.validator,
@@ -133,6 +136,23 @@ class _CustomTextFieldState extends State<CustomTextField> {
     }
   }
 
+  void _fetchPlaceDetails(String placeId) async {
+    String detailsURL =
+        'https://maps.googleapis.com/maps/api/place/details/json?placeid=$placeId&key=${ApiKeys.places_api_key}';
+
+    var response = await http.get(Uri.parse(detailsURL));
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+      var result = data['result'];
+
+      double latitude = result['geometry']['location']['lat'];
+      double longitude = result['geometry']['location']['lng'];
+      log("Latitude: $latitude, Longitude: $longitude");
+    } else {
+      log("Failed to fetch place details");
+    }
+  }
+
   void _clearSelection() {
     widget.controller.clear();
     setState(() {
@@ -153,7 +173,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
           maxLength: widget.maxLength,
           maxLines: widget.maxLines,
           controller: widget.controller,
-          readOnly: widget.isDatePicker || widget.isFilePicker,
+          enabled: !widget.isDisabled,
+          readOnly:
+              widget.isDisabled || widget.isDatePicker || widget.isFilePicker,
           style: textTheme.bodyMedium,
           decoration: InputDecoration(
             enabledBorder: widget.border ?? InputBorder.none,
@@ -205,6 +227,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   title: Text(_placesList[index]['description']),
                   onTap: () {
                     widget.controller.text = _placesList[index]['description'];
+                    _fetchPlaceDetails(_placesList[index]['place_id']);
                     widget.controller.selection = TextSelection.fromPosition(
                       TextPosition(offset: widget.controller.text.length),
                     );

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:openbn/core/utils/shared_services/models/recruiter/recruiter_model.dart';
 import 'package:openbn/core/utils/shared_services/models/skill/skill_model.dart';
 import 'package:openbn/features/home/domain/entities/job_entity.dart';
@@ -14,6 +16,8 @@ class JobModel extends JobEntity {
       required super.location,
       required super.interviewDate,
       required super.requirementCount,
+      required super.isApplied,
+      required super.isSaved,
       required super.date,
       required super.venue,
       required super.qualifications,
@@ -36,7 +40,8 @@ class JobModel extends JobEntity {
       super.recruiter,
       required super.skills});
 
-  factory JobModel.fromJson(Map<String, dynamic> json) {
+  factory JobModel.fromJson(Map<String, dynamic> json, bool? isApplied) {
+    log(json.toString());
     return JobModel(
         id: json['id'] ?? '',
         recruiterId: json['recruiterId'] ?? '',
@@ -63,7 +68,7 @@ class JobModel extends JobEntity {
         createdAt: json['createdAt'],
         updatedAt: json['updatedAt'],
         description: json['description'] ?? '',
-        userIds: [],
+        userIds: defactorUserId(json['userJobs'] ?? []),
         currency: json['currency'] ?? '',
         testQuestion: json['testQuestion'] ?? [],
         expiryDate: json['expiryDate'] ?? '',
@@ -74,6 +79,17 @@ class JobModel extends JobEntity {
             ? (json['skills'] as List)
                 .map((e) => SkillModel.fromJson(e))
                 .toList()
-            : []);
+            : [],
+        isApplied: isApplied??false,
+        isSaved: json['isSaved']??false,
+        );
+  }
+
+  static List<String> defactorUserId(List<dynamic> data) {
+    List<String> temp = [];
+    for (var element in data) {
+      temp.add(element['userId']);
+    }
+    return temp;
   }
 }

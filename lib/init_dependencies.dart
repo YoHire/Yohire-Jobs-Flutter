@@ -20,6 +20,15 @@ import 'package:openbn/features/auth/domain/usecase/create_user_usecase.dart';
 import 'package:openbn/features/auth/domain/usecase/sent_otp_usecase.dart';
 import 'package:openbn/features/auth/domain/usecase/verify_otp_usecase.dart';
 import 'package:openbn/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:openbn/features/circle/data/datasource/circle_remote_datasource.dart';
+import 'package:openbn/features/circle/data/repository/circle_repository_impl.dart';
+import 'package:openbn/features/circle/domain/repository/circle_repository.dart';
+import 'package:openbn/features/circle/domain/usecases/create_queue_usecase.dart';
+import 'package:openbn/features/circle/domain/usecases/get_all_invitation_usecase.dart';
+import 'package:openbn/features/circle/domain/usecases/get_all_queue_usecase.dart';
+import 'package:openbn/features/circle/presentation/bloc/circle_bloc/circle_bloc.dart';
+import 'package:openbn/features/circle/presentation/bloc/invitation_bloc/invitation_bloc.dart';
+import 'package:openbn/features/circle/presentation/bloc/queue_bloc/queue_bloc.dart';
 import 'package:openbn/features/education/data/datasource/education_remote_datasource.dart';
 import 'package:openbn/features/education/data/repository/education_repository_impl.dart';
 import 'package:openbn/features/education/domain/repository/education_repository.dart';
@@ -27,6 +36,12 @@ import 'package:openbn/features/education/domain/usecase/get_categories_usecase.
 import 'package:openbn/features/education/domain/usecase/get_subcategories_usecase.dart';
 import 'package:openbn/features/education/domain/usecase/save_education_usecase.dart';
 import 'package:openbn/features/education/presentation/bloc/education_bloc.dart';
+import 'package:openbn/features/experience/data/datasource/experience_remote_datasource.dart';
+import 'package:openbn/features/experience/data/repository/experience_repository_impl.dart';
+import 'package:openbn/features/experience/domain/repository/work_experience_repository.dart';
+import 'package:openbn/features/experience/domain/usecases/delete_experience_usecase.dart';
+import 'package:openbn/features/experience/domain/usecases/save_experience_usecase.dart';
+import 'package:openbn/features/experience/presentation/bloc/experience_bloc.dart';
 import 'package:openbn/features/home/data/datasource/home_api_datasource.dart';
 import 'package:openbn/features/home/data/datasource/job_api_datasource.dart';
 import 'package:openbn/features/home/data/repository/home_repository_impl.dart';
@@ -38,6 +53,8 @@ import 'package:openbn/features/home/domain/usecase/filter_jobs_usecase.dart';
 import 'package:openbn/features/home/domain/usecase/get_jobs_usecase.dart';
 import 'package:openbn/features/home/domain/usecase/get_more_jobs_usecase.dart';
 import 'package:openbn/features/home/domain/usecase/get_single_job_usecase.dart';
+import 'package:openbn/features/home/domain/usecase/save_job_usecase.dart';
+import 'package:openbn/features/home/domain/usecase/unsave_job_usecase.dart';
 import 'package:openbn/features/home/presentation/bloc/home_bloc/home_bloc.dart';
 import 'package:openbn/features/home/presentation/bloc/job_bloc/job_bloc.dart';
 import 'package:openbn/features/prefrences/data/datasource/jobroles_remote_data_source.dart';
@@ -77,6 +94,8 @@ Future<void> initDependencies() async {
   _initDioInterceptor();
   _initFirebaseStorage();
   __initEducationServices();
+  __initExperienceServices();
+  __initCircleServices();
   _initHome();
   _initJob();
   await _initFirebaseMessaging();
@@ -128,9 +147,14 @@ _initHome() {
   serviceLocator.registerFactory(() => GetAllJobsUsecase(serviceLocator()));
   serviceLocator.registerFactory(() => GetMoreJobsUsecase(serviceLocator()));
   serviceLocator.registerFactory(() => FilterJobsUsecase(serviceLocator()));
+  serviceLocator.registerFactory(() => SaveJobUsecase(serviceLocator()));
+  serviceLocator.registerFactory(() => UnSaveJobUsecase(serviceLocator()));
   serviceLocator.registerLazySingleton(() => HomeBloc(
-    filterJobsUsecase:serviceLocator(),
-      allJobsUsecase: serviceLocator(), moreJobsUsecase: serviceLocator()));
+      saveJobUsecase: serviceLocator(),
+      unsaveJobUsecase: serviceLocator(),
+      filterJobsUsecase: serviceLocator(),
+      allJobsUsecase: serviceLocator(),
+      moreJobsUsecase: serviceLocator()));
 }
 
 _initJob() {
@@ -140,8 +164,8 @@ _initJob() {
       () => JobRepositoryImpl(serviceLocator()));
   serviceLocator.registerFactory(() => GetSingleJobUsecase(serviceLocator()));
   serviceLocator.registerFactory(() => ApplyJobUsecase(serviceLocator()));
-  serviceLocator.registerFactory(
-      () => JobBloc(singleJobsUsecase: serviceLocator(),applyJobUsecase:serviceLocator()));
+  serviceLocator.registerFactory(() => JobBloc(
+      singleJobsUsecase: serviceLocator(), applyJobUsecase: serviceLocator()));
 }
 
 _initGetStorage() async {
@@ -210,6 +234,72 @@ __initEducationServices() {
       getCoursesUseCase: serviceLocator(),
       getCategoriesUseCase: serviceLocator(),
       getSubCategoriesUseCase: serviceLocator()));
+}
+
+void __initExperienceServices() {
+  serviceLocator.registerFactory<ExperienceRemoteDatasource>(
+    () => ExperienceRemoteDatasourceImpl(),
+  );
+
+  serviceLocator.registerFactory<ExperienceRepository>(
+      () => ExperienceRepositoryImpl(serviceLocator()));
+
+  serviceLocator.registerFactory(
+    () => SaveExperienceUsecase(
+      serviceLocator(),
+    ),
+  );
+  serviceLocator.registerFactory(
+    () => DeleteExperienceUsecase(
+      serviceLocator(),
+    ),
+  );
+
+  serviceLocator.registerFactory(
+    () => ExperienceBloc(
+      deleteExperienceUsecase: serviceLocator(),
+      saveExperienceUsecase: serviceLocator(),
+    ),
+  );
+}
+
+void __initCircleServices() {
+  serviceLocator.registerFactory<CircleRemoteDatasource>(
+    () => CircleRemoteDatasourceImpl(),
+  );
+
+  serviceLocator.registerFactory<CircleRepository>(
+      () => CircleRepositoryImpl(serviceLocator()));
+
+  serviceLocator.registerFactory(
+    () => GetAllQueueUsecase(
+      serviceLocator(),
+    ),
+  );
+  serviceLocator.registerFactory(
+    () => GetAllInvitationUsecase(
+      serviceLocator(),
+    ),
+  );
+  serviceLocator.registerFactory(
+    () => CreateQueueUsecase(
+      serviceLocator(),
+    ),
+  );
+
+  serviceLocator.registerLazySingleton(
+    () => CircleBloc(
+      getAllQueueUsecase: serviceLocator(),
+    ),
+  );
+  serviceLocator.registerFactory(
+    () => InvitationBloc(
+      getAllInvitationUsecase: serviceLocator(),
+    ),
+  );
+  serviceLocator.registerFactory(
+    () => QueueBloc(createQueueUsecase:serviceLocator()),
+  );
 }
 
 Future<void> _initFirebaseMessaging() async {

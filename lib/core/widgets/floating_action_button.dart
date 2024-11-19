@@ -40,6 +40,8 @@ class CustomFloatingActionButton extends StatelessWidget {
         backgroundColor: isClickable || loading ? backgroundColor : Colors.grey,
         child: loading
             ? const CircularProgressIndicator(
+              strokeAlign: 0.1,
+              strokeWidth: 2,
                 color: Colors.white,
               )
             : icon,

@@ -5,6 +5,7 @@ class ThemedButton extends StatelessWidget {
   final String text;
   final bool loading;
   OutlinedBorder? shape;
+  Color? color;
   void Function()? onPressed;
   bool disabled;
   ThemedButton(
@@ -12,6 +13,7 @@ class ThemedButton extends StatelessWidget {
       required this.text,
       required this.loading,
       this.shape,
+      this.color,
       this.disabled = false,
       required this.onPressed});
 
@@ -22,7 +24,7 @@ class ThemedButton extends StatelessWidget {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         shape: shape,
-        backgroundColor: disabled ? Colors.grey : colorScheme.primary,
+        backgroundColor: disabled ? Colors.grey :color?? colorScheme.primary,
         foregroundColor: colorScheme.onPrimary,
       ),
       onPressed: disabled ? () {} : onPressed,

@@ -4,7 +4,7 @@ import 'package:openbn/core/utils/constants/constants.dart';
 import 'package:openbn/core/utils/shared_services/models/country/country_model.dart';
 import 'package:openbn/core/utils/shared_services/models/course/course_model.dart';
 import 'package:openbn/core/utils/shared_services/models/education/education_model.dart';
-import 'package:openbn/core/utils/shared_services/models/experience/experience_model.dart';
+import 'package:openbn/core/utils/shared_services/models/experience/workexperience_model.dart';
 import 'package:openbn/core/utils/shared_services/models/job_role/job_role_model.dart';
 import 'package:openbn/core/utils/shared_services/models/language/language_model.dart';
 import 'package:openbn/core/utils/shared_services/models/skill/skill_model.dart';
@@ -21,7 +21,7 @@ class UserStorageService {
     Hive.registerAdapter(UserModelAdapter());
     Hive.registerAdapter(EducationModelAdapter());
     Hive.registerAdapter(CourseModelAdapter());
-    Hive.registerAdapter(ExperienceModelAdapter());
+    Hive.registerAdapter(WorkExperienceModelAdapter());
     Hive.registerAdapter(JobRoleModelAdapter());
     Hive.registerAdapter(SkillModelAdapter());
     Hive.registerAdapter(LanguageModelAdapter());
@@ -77,7 +77,7 @@ class UserStorageService {
         _isFieldComplete(user.height) &&
         _isFieldComplete(user.weight) &&
         _isFieldComplete(user.gender) &&
-        _isFieldComplete(user.dateOfBirth);
+        _isFieldComplete(user.dateOfBirth.toString());
 
     return isProfileComplete &&
         user.education.isNotEmpty &&
@@ -104,7 +104,7 @@ class UserStorageService {
         _isFieldComplete(user.height) &&
         _isFieldComplete(user.weight) &&
         _isFieldComplete(user.gender) &&
-        _isFieldComplete(user.dateOfBirth);
+        _isFieldComplete(user.dateOfBirth.toString());
 
     retList.add(
         isProfileComplete ? ProfileStatus.Completed : ProfileStatus.Incomplete);

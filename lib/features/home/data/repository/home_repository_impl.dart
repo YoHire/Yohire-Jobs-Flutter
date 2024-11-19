@@ -29,9 +29,10 @@ class HomeRepositoryImpl implements HomeRepository {
 
       return Right(results
           .where((json) => json['status'] == Status.active)
-          .map((json) => JobModel.fromJson(json))
+          .map((json) => JobModel.fromJson(json,false))
           .toList());
     } catch (e) {
+      log(e.toString());
       return Left(Failure(message: e.toString()));
     }
   }
@@ -48,7 +49,7 @@ class HomeRepositoryImpl implements HomeRepository {
 
       return Right(results
           .where((json) => json['status'] == Status.active)
-          .map((json) => JobModel.fromJson(json))
+          .map((json) => JobModel.fromJson(json,false))
           .toList());
     } catch (e) {
       return Left(Failure(message: e.toString()));
@@ -78,8 +79,30 @@ class HomeRepositoryImpl implements HomeRepository {
 
       return Right(results
           .where((json) => json['status'] == Status.active)
-          .map((json) => JobModel.fromJson(json))
+          .map((json) => JobModel.fromJson(json,false))
           .toList());
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
+  
+  @override
+  Future<Either<Failure, void>> saveJob({required String jobId}) async{
+    try {
+     await dataSource.saveJob(jobId: jobId);
+
+      return const Right(null);
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
+  
+  @override
+  Future<Either<Failure, void>> unSaveJob({required String jobId}) async{
+     try {
+     await dataSource.unSaveJob(jobId: jobId);
+
+      return const Right(null);
     } catch (e) {
       return Left(Failure(message: e.toString()));
     }

@@ -9,10 +9,9 @@ import 'package:openbn/core/utils/shared_services/functions/date_services.dart';
 import 'package:openbn/core/utils/shared_services/models/course/course_model.dart';
 import 'package:openbn/core/utils/shared_services/models/education/education_model.dart';
 import 'package:openbn/core/utils/snackbars/show_snackbar.dart';
-import 'package:openbn/core/validators/text_validators.dart';
+import 'package:openbn/core/validators/validators.dart';
 
 // Widget imports
-import 'package:openbn/core/widgets/button.dart';
 import 'package:openbn/core/widgets/main_heading_sub_heading.dart';
 import 'package:openbn/core/widgets/text_field.dart';
 import 'package:openbn/core/widgets/theme_gap.dart';
@@ -87,7 +86,6 @@ class _EducationPageState extends State<EducationPage> {
     return EducationModel(
       id: '',
       userId: '',
-
       institution: _institutionController.text.trim(),
       courseData: bloc.selectedCourse!,
       dateOfCompletion: DateServices.convertStringToDateTime(
@@ -142,7 +140,14 @@ class _EducationPageState extends State<EducationPage> {
       listener: _handleStateChanges,
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(),
+          appBar: AppBar(
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.check),
+                onPressed: _handleEducationSave,
+              ),
+            ],
+          ),
           body: _buildBody(context),
         );
       },
@@ -196,7 +201,6 @@ class _EducationPageState extends State<EducationPage> {
             const ThemeGap(_gapSize),
             _buildCertificateField(),
             const ThemeGap(_largeGapSize),
-            _buildSubmitButton(),
           ],
         ),
       ),
@@ -241,11 +245,4 @@ class _EducationPageState extends State<EducationPage> {
     );
   }
 
-  Widget _buildSubmitButton() {
-    return ThemedButton(
-      text: 'Add',
-      loading: false,
-      onPressed: _handleEducationSave,
-    );
-  }
 }

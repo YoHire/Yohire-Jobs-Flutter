@@ -140,6 +140,7 @@ class _IncompleteProfileWarningState extends State<IncompleteProfileWarning> {
     Navigator.of(context).pop();
     return showCustomBottomSheet(
         context: context,
+        heightFactor: 0.6,
         content: BlocProvider.value(
           value: jobBloc,
           child: const JobApplyConfirmationBottomSheet(),

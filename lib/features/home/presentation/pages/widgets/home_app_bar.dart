@@ -1,13 +1,15 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:go_router/go_router.dart';
+import 'package:openbn/core/navigation/app_router.dart';
+import 'package:openbn/core/theme/app_text_styles.dart';
 import 'package:openbn/core/utils/bottom_sheets/bottomsheet.dart';
 import 'package:openbn/core/widgets/button.dart';
+import 'package:openbn/core/widgets/yohire_logo_widget.dart';
 import 'package:openbn/features/home/presentation/pages/widgets/filter_widget.dart';
 import 'package:openbn/init_dependencies.dart';
-import '../../../../../core/utils/constants/constants.dart';
-import '../../../../../core/utils/urls.dart';
+import '../../bloc/home_bloc/home_bloc.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   const HomeAppBar({super.key});
@@ -17,7 +19,6 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
     final storage = serviceLocator<GetStorage>();
     final colorTheme = Theme.of(context).colorScheme;
     TextEditingController searchController = TextEditingController();
-    // Debouncer debouncer = Debouncer(milliseconds: 1000);
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -26,23 +27,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CachedNetworkImage(
-                  imageUrl: remoteConfig
-                      .getString(FirebaseRemoteConfigKeys.home_icon),
-                  width: 130,
-                  errorWidget: (context, url, error) {
-                    return Image.asset(
-                      'assets/icon/logo-main.png',
-                      width: 130,
-                    );
-                  },
-                  placeholder: (BuildContext ctx, String str) {
-                    return Image.asset(
-                      'assets/icon/logo-main.png',
-                      width: 130,
-                    );
-                  },
-                ),
+               const YohireLogoWidget(showTagLine: false),
                 storage.read('isLogged') == true
                     ? bellIcon(context)
                     : Hero(
@@ -50,7 +35,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                         child: ThemedButton(
                           loading: false,
                           onPressed: () {
-                            GoRouter.of(context).go('/auth');
+                            GoRouter.of(context).go(AppRoutes.auth);
                           },
                           text: 'Login/Register',
                           shape: RoundedRectangleBorder(
@@ -61,6 +46,14 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
             Row(
               children: [
+                // Expanded(
+                //     child: CustomTextField(
+                //       border: OutlineInputBorder(
+                //         borderSide: BorderSide(width: 0.1),
+                //         borderRadius: BorderRadius.circular(50)
+                //       ),
+                //       prefixIcon: const Icon(Icons.search),
+                //         hint: '', controller: searchController)),
                 Expanded(
                   child: Container(
                     height: 40,
@@ -76,21 +69,10 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                             blurRadius: 4.0,
                           ),
                         ]),
+                    // child: ,
                   ),
                 ),
-                IconButton(
-                    onPressed: () {
-                      showCustomBottomSheet(
-                        isScrollControlled: true,
-                        isScrollable: true,
-                          context: context, content: const JobFilterWidget());
-                    },
-                    icon: Image.asset(
-                      'assets/icon/filter.png',
-                      width: 25,
-                      height: 25,
-                      color: colorTheme.onSurface,
-                    )),
+                _buildFilterIcon(context),
               ],
             )
           ],
@@ -101,6 +83,60 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => const Size.fromHeight(100);
+}
+
+_buildFilterIcon(BuildContext context) {
+  final colorTheme = Theme.of(context).colorScheme;
+  return Stack(
+    children: [
+      IconButton(
+          onPressed: () {
+            showCustomBottomSheet(
+                isScrollControlled: true,
+                isScrollable: true,
+                context: context,
+                heightFactor: 0.55,
+                content: const JobFilterWidget());
+          },
+          icon: Image.asset(
+            'assets/icon/filter.png',
+            width: 25,
+            height: 25,
+            color: colorTheme.onSurface,
+          )),
+      BlocBuilder<HomeBloc, HomeState>(
+        builder: (context, state) {
+          if (context.read<HomeBloc>().isFiltering) {
+            int count = 0;
+            if (context.read<HomeBloc>().location.isNotEmpty) {
+              count++;
+            }
+            if (context.read<HomeBloc>().skills.isNotEmpty) {
+              count++;
+            }
+            if (context.read<HomeBloc>().jobRoles.isNotEmpty) {
+              count++;
+            }
+            return Positioned(
+                bottom: 4,
+                right: 4,
+                child: CircleAvatar(
+                  backgroundColor: Colors.red,
+                  radius: 9,
+                  child: Center(
+                    child: Text(
+                      count.toString(),
+                      style: MyTextStyle.whiteBold,
+                    ),
+                  ),
+                ));
+          } else {
+            return const SizedBox.shrink();
+          }
+        },
+      )
+    ],
+  );
 }
 
 Widget bellIcon(BuildContext context) {

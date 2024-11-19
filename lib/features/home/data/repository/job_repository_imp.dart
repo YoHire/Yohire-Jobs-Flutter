@@ -16,11 +16,12 @@ class JobRepositoryImpl implements JobRepository {
   @override
   Future<Either<Failure, JobEntity>> getJobById({required String id}) async {
     try {
-      final data = await datasource.getJobById(id: id);
+      final storage = serviceLocator<GetStorage>();
+      final data = await datasource.getJobById(id: id,isLogged: storage.read('isLogged') == true ? true : false);
 
-      final results = data['data'];
+      final results = data['data']['job'];
 
-      return Right(JobModel.fromJson(results));
+      return Right(JobModel.fromJson(results,data['data']['isApplied']));
     } catch (e) {
       log(e.toString());
       return Left(Failure(message: e.toString()));

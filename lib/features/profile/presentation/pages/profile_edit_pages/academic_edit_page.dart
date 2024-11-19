@@ -2,7 +2,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:lottie/lottie.dart';
 
 // Core imports
 import 'package:openbn/core/utils/constants/constants.dart';
@@ -28,9 +27,7 @@ class _AcademicEditPageState extends State<AcademicEditPage> {
   // Constants
   static const double _padding = 15.0;
   static const String _boxName = 'userBox';
-  static const String _emptyAnimationPath = 'assets/lottie/empty-jobs.json';
   static const String _addEducationRoute = '/education-edit';
-  static const String _profileRoute = '/profile-section';
 
   // State variables
   late final Box<UserModel> _userBox;
@@ -117,7 +114,7 @@ class _AcademicEditPageState extends State<AcademicEditPage> {
   }
 
   Widget _buildEmptyState() {
-    return const AnimatedPlaceholders(
+    return  AnimatedPlaceholders(
         text: ''' Haven't added academic details yet ''',
         subText: 'Click the plus icon and add',
         isError: false);

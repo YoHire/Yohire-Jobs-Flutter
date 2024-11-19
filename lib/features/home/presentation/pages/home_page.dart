@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:openbn/core/utils/constants/constants.dart';
@@ -50,7 +48,6 @@ class HomePage extends StatelessWidget {
     scrollController.addListener(() {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
-            log('vannn');
         context.read<HomeBloc>().add(LoadMoreJobs());
       }
     });

@@ -57,7 +57,7 @@ class GoogleAuthPage extends StatelessWidget {
                         onPressed: () {},
                         icon: const Icon(Icons.support))),
                 SizedBox(height: MediaQuery.of(context).size.height / 2 - 150),
-                const YohireLogoWidget(),
+                const YohireLogoWidget(showTagLine: true,),
                 const Spacer(),
                 Hero(
                   tag: 'nav-tag',

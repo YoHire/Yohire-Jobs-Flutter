@@ -1,10 +1,8 @@
-
 import 'package:hive_flutter/hive_flutter.dart';
 part 'country_model.g.dart';
 
 @HiveType(typeId: 7)
 class CountryModel {
-
   @HiveField(0)
   final String id;
 
@@ -20,22 +18,14 @@ class CountryModel {
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-    };
-  }
-
-  static List<String> toIdStringList(List<CountryModel> data) {
-    return data.map((e) {
-      return e.id;
-    }).toList();
-  }
-
-  static List<String> toNameList(List<CountryModel> data) {
+    static List<String> toNameList(List<CountryModel> data) {
     return data.map((e) {
       return e.name;
+    }).toList();
+  }
+    static List<String> toIdList(List<CountryModel> data) {
+    return data.map((e) {
+      return e.id;
     }).toList();
   }
 }

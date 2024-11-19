@@ -27,7 +27,7 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
       createdAt: fields[7] as String?,
       updatedAt: fields[8] as String?,
       education: (fields[14] as List).cast<EducationModel>(),
-      experience: (fields[16] as List).cast<ExperienceModel>(),
+      experience: (fields[16] as List).cast<WorkExperienceModel>(),
       skills: (fields[17] as List).cast<SkillModel>(),
       documents: (fields[21] as List).cast<DocumentModel>(),
       languagesReadAndWrite: (fields[20] as List).cast<LanguageModel>(),
@@ -37,7 +37,7 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
       height: fields[10] as String?,
       weight: fields[11] as String?,
       address: fields[12] as String?,
-      dateOfBirth: fields[13] as String?,
+      dateOfBirth: fields[13] as DateTime?,
       profileImage: fields[15] as String?,
     );
   }

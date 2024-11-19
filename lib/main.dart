@@ -3,9 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:openbn/core/navigation/app_router.dart';
 import 'package:openbn/core/theme/app_theme.dart';
 import 'package:openbn/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:openbn/features/circle/presentation/bloc/circle_bloc/circle_bloc.dart';
 import 'package:openbn/features/home/presentation/bloc/home_bloc/home_bloc.dart';
 import 'package:openbn/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:openbn/init_dependencies.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'features/main_navigation/presentation/bloc/navigation_bloc.dart';
 
 void main() async {
@@ -19,6 +21,9 @@ void main() async {
       ),
       BlocProvider(
         create: (context) => serviceLocator<HomeBloc>(),
+      ),
+      BlocProvider(
+        create: (context) => serviceLocator<CircleBloc>(),
       ),
       BlocProvider(
         create: (context) => serviceLocator<AuthBloc>(),
@@ -36,14 +41,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      theme: MyTheme.lightTheme,
-      darkTheme: MyTheme.darkTheme,
-      themeMode: ThemeMode.system,
-      debugShowCheckedModeBanner: false,
-      routerDelegate: AppRouter.router.routerDelegate,
-      routeInformationParser: AppRouter.router.routeInformationParser,
-      routeInformationProvider: AppRouter.router.routeInformationProvider,
+    return ShowCaseWidget(
+      builder: (context) {
+        return MaterialApp.router(
+          theme: MyTheme.lightTheme,
+          darkTheme: MyTheme.darkTheme,
+          themeMode: ThemeMode.system,
+          debugShowCheckedModeBanner: false,
+          routerDelegate: AppRouter.router.routerDelegate,
+          routeInformationParser: AppRouter.router.routeInformationParser,
+          routeInformationProvider: AppRouter.router.routeInformationProvider,
+        );
+      }
     );
   }
 }

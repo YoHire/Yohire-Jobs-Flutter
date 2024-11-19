@@ -2,7 +2,8 @@
 import 'package:openbn/core/utils/shared_services/remote_config/remote_config_service.dart';
 
 final remoteConfig = FirebaseRemoteConfigService();
-const String baseUrl = "http://192.168.29.223:3000/api/v2";
+// const String baseUrl = "http://192.168.29.18:3000/api/v2";
+const String baseUrl = "http://192.168.29.221:3000/api/v2";
 // const String baseUrl = "https://www.20heads.com/api/v1";
 // const String baseUrl = "http://localhost:3000/api/v1";
 // String baseUrl = "https://api.yohire.in/api/v1";
@@ -14,12 +15,14 @@ abstract class URL {
   static String AUTH = "$baseUrl/auth";
   static String LOGIN = "$AUTH/user-login";
   static String REFRESH = "$baseUrl/auth/refresh-token";
-  static String JOBS = "$baseUrl/users/jobs/";
+  static String PREFRENCE_JOBS = "$baseUrl/users/prefrence-jobs/";
+  static String ALL_JOBS = "$baseUrl/users/jobs/";
   static String MORE_JOBS = "$baseUrl/users/more-jobs/";
   static String SEARCH_JOBS = "$baseUrl/recruiter/search-jobs/";
   static String CATEGORIES = "$baseUrl/recruiter/categories/:ACTIVE";
   static String SEARCH_CATEGORIES = "$baseUrl/recruiter/categories/";
-  static String SEARCH_COUNTRIES = "$baseUrl/recruiter/countries";
+  static String SEARCH_COUNTRIES = "$baseUrl/users/countries/";
+  static String ALL_COUNTRIES = "$baseUrl/users/countries";
   static String SEARCH_JOB_ROLE = "$baseUrl/recruiter/job-roles/";
   static String GET_CATEGORY_BY_ID = "$baseUrl/users/categories/";
   static String UPDATE_CATEGORY = "$baseUrl/users/update-categories/";
@@ -46,6 +49,7 @@ abstract class URL {
   static String FILTER_JOBS = "$baseUrl/users/filter";
   static String LANGUAGES = "$baseUrl/recruiter/languages/";
   static String GET_JOB_BY_ID = "$baseUrl/users/jobs-fetch/";
+  static String GET_JOB_BY_ID_LOGOUT = "$baseUrl/users/job/";
   static String APPLY = "$baseUrl/users/apply";
   static String UPDATE_PERSONAL_INFO = "$baseUrl/users/personal-info-update";
   static String NOTIFICATION = "$baseUrl/users/notifications/";
@@ -54,7 +58,6 @@ abstract class URL {
   static String DELETE_FCMID = "$baseUrl/users/fcmId/";
   static String DUPLICATE_JOB_APPLICATION = "$baseUrl/users/check-duplicate/";
   static String DELETE_ACCOUNT = "$baseUrl/users/delete/";
-  static String ALL_JOBS = "$baseUrl/users/prefrence-jobs/";
   static String RANDOM_CATEGORIES = "$baseUrl/recruiter/random-categories";
   static String RANDOM_JOB_ROLES = "$baseUrl/recruiter/random-job-roles/";
   static String GUEST_SIGNUP = "$baseUrl/users/guest-signup";
@@ -73,6 +76,7 @@ abstract class URL {
   //Yohire Circle API's
   static String CREATE_QUEUE = "$baseUrl/circle/create-queue";
   static String GET_ALL_QUEUES = "$baseUrl/circle/get-queue";
+  static String GET_ALL_INVITATIONS = "$baseUrl/circle/invitations/";
   static String GET_QUEUE_BY_ID = "$baseUrl/circle/queue/";
   static String EDIT_QUEUE = "$baseUrl/circle/edit-queue";
   static String DELETE_QUEUE = "$baseUrl/circle/delete-queue";
