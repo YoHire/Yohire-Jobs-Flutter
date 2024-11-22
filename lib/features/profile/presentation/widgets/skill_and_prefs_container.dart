@@ -18,18 +18,19 @@ class SkillAndPrefsContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
+    final colorTheme = Theme.of(context).colorScheme;
     return InkWell(
+      borderRadius: BorderRadius.circular(10),
       onTap: onTap,
       child: Container(
         width: MediaQuery.of(context).size.width * 0.43,
         height: 200,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: colorTheme.surface,
           borderRadius: BorderRadius.circular(10),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.3),
+              color: colorTheme.onSurface.withOpacity(0.15),
               spreadRadius: 2,
               blurRadius: 5,
               offset: const Offset(0, 0),

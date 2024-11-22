@@ -68,7 +68,9 @@ class HomePage extends StatelessWidget {
                   return const Center(
                     child: Padding(
                       padding: EdgeInsets.all(16.0),
-                      child: Loader(loaderType: LoaderType.normalLoader,),
+                      child: Loader(
+                        loaderType: LoaderType.normalLoader,
+                      ),
                     ),
                   );
                 } else {

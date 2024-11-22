@@ -29,4 +29,13 @@ class FilterJobsEvent extends HomeEvent {
       required this.jobRolesIds});
 }
 
+class SearchJobsEvent extends HomeEvent {
+  final String keyword;
+
+  SearchJobsEvent({
+    required this.keyword,
+  });
+}
+
 class ResetFilter extends HomeEvent {}
+class ResetSearch extends HomeEvent {}

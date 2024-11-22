@@ -47,13 +47,13 @@ class MyTextStyle {
   static TextStyle titleLarge = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.w900,
-    fontFamily: FontFamily.defaultBoldFont,
+    fontFamily: FontFamily.defaultRegularFont,
     letterSpacing: 0.9,
   );
 
   static TextStyle titleMedium = TextStyle(
-    fontSize: 15,
-    fontWeight: FontWeight.w600,
+    fontSize: 23,
+    fontWeight: FontWeight.w900,
     fontFamily: FontFamily.defaultRegularFont,
     letterSpacing: 0.9,
   );
@@ -116,6 +116,12 @@ class MyTextStyle {
   static TextStyle whiteBold = TextStyle(
     color: Colors.white,
     fontSize: 12,
+    fontWeight: FontWeight.w900,
+    fontFamily: FontFamily.defaultBoldFont,
+  );
+  static TextStyle whiteLarge = TextStyle(
+    color: Colors.white,
+    fontSize: 17,
     fontWeight: FontWeight.w900,
     fontFamily: FontFamily.defaultBoldFont,
   );

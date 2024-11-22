@@ -8,7 +8,7 @@ part of 'document_model.dart';
 
 class DocumentModelAdapter extends TypeAdapter<DocumentModel> {
   @override
-  final int typeId = 7;
+  final int typeId = 8;
 
   @override
   DocumentModel read(BinaryReader reader) {
@@ -17,7 +17,7 @@ class DocumentModelAdapter extends TypeAdapter<DocumentModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return DocumentModel(
-      id: fields[0] as String,
+      id: fields[0] as String?,
       name: fields[1] as String,
       link: fields[2] as String,
     );

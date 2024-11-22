@@ -47,7 +47,9 @@
     <application
         android:label="YoHire Jobs"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:allowBackup="false"
+        android:fullBackupOnly="false">
 
         <!-- Billing client version meta-data -->
         <meta-data

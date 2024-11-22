@@ -95,4 +95,49 @@ class EducationRepositoryImpl implements EducationRepository {
       return Left(Failure(message: e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, void>> updateEducation(
+      EducationModel eduData, File? certificate) async {
+    try {
+      final firebaseStorage = serviceLocator<FileUploadService>();
+      final getStorage = serviceLocator<GetStorage>();
+      final userStorage = serviceLocator<UserStorageService>();
+      String? certificateUrl = '';
+      if (certificate != null) {
+        certificateUrl = await firebaseStorage.uploadFile(
+            file: certificate,
+            fileAnnotation: FileAnnotations.EDUCATION_CERTIFICATE,
+            folderName: getStorage.read('userId'));
+      }
+      if (certificateUrl == null || certificateUrl.isEmpty) {
+        certificateUrl = eduData.certificateUrl;
+      }
+
+      Map<String, dynamic> data = {
+        'id': eduData.id,
+        'institution': eduData.institution,
+        'courseId': eduData.courseData!.id,
+        'completedDate': '${eduData.dateOfCompletion.toIso8601String()}Z',
+        'certificate': certificateUrl,
+      };
+      await remoteDataSource.updateEducation(data);
+      await userStorage.updateUser();
+      return const Right(null);
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteEducation(String id) async {
+    try {
+      final userStorage = serviceLocator<UserStorageService>();
+      await remoteDataSource.deleteEducation(id);
+      await userStorage.updateUser();
+      return const Right(null);
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
 }

@@ -7,6 +7,7 @@ import 'package:openbn/init_dependencies.dart';
 abstract interface class CircleRemoteDatasource {
   Future<dynamic> getQueues();
   Future<dynamic> getInvitations({required String queueId});
+  Future<dynamic> deleteQueue({required String queueId});
   Future<dynamic> createQueue({required Map<String, dynamic> data});
 }
 
@@ -43,6 +44,16 @@ class CircleRemoteDatasourceImpl implements CircleRemoteDatasource {
   Future<dynamic> createQueue({required Map<String, dynamic> data}) async {
     try {
       await dio.post(URL.CREATE_QUEUE, data: data);
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future deleteQueue({required String queueId}) async {
+    try {
+      Map<String, dynamic> body = {"queueId": queueId};
+      await dio.delete(URL.DELETE_QUEUE, data: body);
     } catch (e) {
       throw ServerException(e.toString());
     }

@@ -9,6 +9,7 @@ abstract interface class CircleRepository {
   Future<Either<Failure, List<QueueEntity>>> getAllQueues();
   Future<Either<Failure, List<InvitationEntity>>> getAllInvitations(
       {required String queueId});
+  Future<Either<Failure, void>> deleteQueue({required String queueId});
   Future<Either<Failure, void>> joinQueue(
       {required JobRoleModel jobRole,
       required List<CountryModel> countries,

@@ -25,6 +25,8 @@ class CustomTextField extends StatefulWidget {
   final bool isFilePicker;
   final String? dateFormat;
   final bool isDisabled;
+  final bool isDebouncer; // Added new parameter
+  final Duration debounceDuration; // Added debounce duration parameter
 
   const CustomTextField({
     super.key,
@@ -43,6 +45,9 @@ class CustomTextField extends StatefulWidget {
     this.isLocationPicker = false,
     this.isFilePicker = false,
     this.dateFormat,
+    this.isDebouncer = false, // Default value
+    this.debounceDuration =
+        const Duration(milliseconds: 500), // Default duration
   });
 
   @override
@@ -52,6 +57,7 @@ class CustomTextField extends StatefulWidget {
 class _CustomTextFieldState extends State<CustomTextField> {
   List<dynamic> _placesList = [];
   Timer? _debounce;
+  Timer? _onChangedDebounce;
   bool _placeSelected = false;
 
   @override
@@ -65,6 +71,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   @override
   void dispose() {
     _debounce?.cancel();
+    _onChangedDebounce?.cancel();
     if (widget.isLocationPicker) {
       widget.controller.removeListener(_onSearchChanged);
     }
@@ -86,6 +93,21 @@ class _CustomTextFieldState extends State<CustomTextField> {
     });
   }
 
+  void _handleOnChanged(String value) {
+    if (widget.onChanged == null) return;
+
+    if (widget.isDebouncer) {
+      if (_onChangedDebounce?.isActive ?? false) {
+        _onChangedDebounce!.cancel();
+      }
+      _onChangedDebounce = Timer(widget.debounceDuration, () {
+        widget.onChanged!(value);
+      });
+    } else {
+      widget.onChanged!(value);
+    }
+  }
+
   Future<void> _showDatePicker(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -97,7 +119,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
     if (picked != null) {
       final formatter = DateFormat(widget.dateFormat ?? 'yyyy-MM-dd');
       widget.controller.text = formatter.format(picked);
-      widget.onChanged?.call(widget.controller.text);
+      _handleOnChanged(widget.controller.text);
     }
   }
 
@@ -112,7 +134,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       int fileSize = await file.length();
       if (fileSize <= 750 * 1024) {
         widget.controller.text = file.path;
-        widget.onChanged?.call(widget.controller.text);
+        _handleOnChanged(widget.controller.text);
       } else {
         showSimpleSnackBar(
             context: context,
@@ -210,7 +232,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   : widget.isFilePicker
                       ? _pickFile
                       : null,
-          onChanged: widget.onChanged,
+          onChanged: _handleOnChanged,
           validator: widget.validator,
         ),
         if (_placesList.isNotEmpty &&

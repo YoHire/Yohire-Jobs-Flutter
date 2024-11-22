@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:openbn/core/widgets/text_field.dart';
@@ -78,6 +80,8 @@ class _SearchSelectFieldState<T> extends State<SearchSelectField<T>> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CustomTextField(
+          isDebouncer: true,
+          debounceDuration: const Duration(milliseconds: 800),
           hint: widget.hint,
           controller: _controller,
           onChanged: _onChanged,
@@ -164,11 +168,15 @@ class _SearchSelectFieldState<T> extends State<SearchSelectField<T>> {
   }
 
   void removeDuplicates(List<dynamic> data) {
-    final Set<String> uniqueIds = {};
-    for (int i = data.length - 1; i >= 0; i--) {
-      final id = data[i].id;
-      if (!uniqueIds.add(id)) {
-        data.removeAt(i);
+    if (data[0].runtimeType.toString() != 'String') {
+      if (data[0].id != null) {
+        final Set<String> uniqueIds = {};
+        for (int i = data.length - 1; i >= 0; i--) {
+          final id = data[i].id;
+          if (!uniqueIds.add(id)) {
+            data.removeAt(i);
+          }
+        }
       }
     }
   }

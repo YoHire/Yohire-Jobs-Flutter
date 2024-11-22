@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:openbn/core/utils/constants/constants.dart';
 import 'package:openbn/core/utils/shared_services/user/user_storage_services.dart';
@@ -72,8 +73,9 @@ class _PersonalDetailsState extends State<PersonalDetails> {
     _heightController.text = data.height ?? '';
     _weightController.text = data.weight ?? '';
     _addressController.text = data.address ?? '';
-    _dateOfBirthController.text =
-        data.dateOfBirth != null ? arrangeDate(data.dateOfBirth!.toString()) : '';
+    _dateOfBirthController.text = data.dateOfBirth != null
+        ? arrangeDate(data.dateOfBirth!.toString())
+        : '';
     if (data.gender == 'Male') {
       _selectedGender = GenderType.Male;
     } else if (data.gender == 'Female') {
@@ -178,9 +180,32 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                 await ImagePicker().pickImage(source: ImageSource.gallery);
 
             if (image != null) {
-              setState(() {
-                _profileImage = File(image.path);
-              });
+              // Add image cropping
+              final croppedFile = await ImageCropper().cropImage(
+                sourcePath: image.path,
+                aspectRatio: const CropAspectRatio(
+                    ratioX: 1, ratioY: 1), // Square crop by default
+                compressFormat: ImageCompressFormat.jpg,
+                compressQuality: 90,
+                uiSettings: [
+                  AndroidUiSettings(
+                    toolbarTitle: 'Crop Profile Image',
+                    toolbarColor: Colors.deepPurple,
+                    toolbarWidgetColor: Colors.white,
+                    // initAspectRatio: CropAspectRatios.original,
+                    lockAspectRatio: false,
+                  ),
+                  IOSUiSettings(
+                    title: 'Crop Profile Image',
+                  ),
+                ],
+              );
+
+              if (croppedFile != null) {
+                setState(() {
+                  _profileImage = File(croppedFile.path);
+                });
+              }
             }
           },
           child: Stack(
@@ -389,9 +414,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
           borderSide: const BorderSide(width: 0.4)),
       isDatePicker: true,
       dateFormat: "dd/MM/yyyy",
-      onChanged: (value) {
-
-      },
+      onChanged: (value) {},
     );
   }
 

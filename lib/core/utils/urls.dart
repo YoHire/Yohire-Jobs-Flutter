@@ -26,6 +26,7 @@ abstract class URL {
   static String SEARCH_JOB_ROLE = "$baseUrl/recruiter/job-roles/";
   static String GET_CATEGORY_BY_ID = "$baseUrl/users/categories/";
   static String UPDATE_CATEGORY = "$baseUrl/users/update-categories";
+  static String UPDATE_DOCUMENT = "$baseUrl/users/update-document";
   static String SEARCH_SKILL = "$baseUrl/recruiter/skills/search-skills/";
   static String GET_SKILL_BY_ID = "$baseUrl/users/skills/";
   static String UPDATE_SKILL = "$baseUrl/users/update-skills";
@@ -35,7 +36,7 @@ abstract class URL {
   static String EDUCATION = "$baseUrl/users/education/";
   static String DELETE_EDUCATION = "$baseUrl/users/delete-education/";
   static String GET_EDUCATION = "$baseUrl/users/education-id/";
-  static String UPDATE_EDUCATION = "$baseUrl/users/update-education/";
+  static String UPDATE_EDUCATION = "$baseUrl/users/update-education";
   static String ADD_EDUCATION = "$baseUrl/users/add-education";
   static String EXPERIENCE = "$baseUrl/users/experience/";
   static String DELETE_EXPERIENCE = "$baseUrl/users/delete-experience/";
@@ -48,6 +49,8 @@ abstract class URL {
   static String APPLIED_JOBS = "$baseUrl/users/applied/";
   static String FILTER_JOBS = "$baseUrl/users/filter";
   static String LANGUAGES = "$baseUrl/recruiter/languages/";
+  static String LANGUAGES_READ_WRITE = "$baseUrl/users/languages-readwrite";
+  static String LANGUAGES_SPEAK = "$baseUrl/users/languages-speak";
   static String GET_JOB_BY_ID = "$baseUrl/users/jobs-fetch/";
   static String GET_JOB_BY_ID_LOGOUT = "$baseUrl/users/job/";
   static String APPLY = "$baseUrl/users/apply";

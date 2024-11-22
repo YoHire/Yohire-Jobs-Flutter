@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
+import 'package:openbn/core/navigation/app_router.dart';
 import 'package:openbn/core/utils/bottom_sheets/bottomsheet.dart';
 import 'package:openbn/core/utils/constants/constants.dart';
 import 'package:openbn/core/utils/shared_services/user/user_storage_services.dart';
@@ -54,39 +56,62 @@ class _IncompleteProfileWarningState extends State<IncompleteProfileWarning> {
                     icon: const Icon(Icons.account_circle_rounded),
                     heading: 'Personal Details',
                     description: 'your basic details',
+                    onTap: () {
+                      GoRouter.of(context).push(AppRoutes.personalDetails);
+                    },
                     status: getStatus[0]),
                 tile(
                     context: context,
                     icon: const Icon(Icons.book),
                     heading: 'Academic Details',
                     description: 'your education details',
+                    onTap: () {
+                      GoRouter.of(context).push(AppRoutes.academicEdit);
+                    },
                     status: getStatus[1]),
                 tile(
                     context: context,
                     icon: const Icon(Icons.work),
                     heading: 'Experience Details',
                     description: 'your experience details',
+                    onTap: () {
+                      GoRouter.of(context).push(AppRoutes.experienceEdit);
+                    },
                     status: getStatus[2]),
                 tile(
                     context: context,
                     heading: 'Skills And Prefrences',
                     icon: const Icon(Icons.space_dashboard_rounded),
                     description: 'your skills and prefrences',
-                    status: getStatus[0]),
+                    onTap: () {
+                      GoRouter.of(context).push(AppRoutes.skillsAndPreferences);
+                    },
+                    status: getStatus[3]),
                 tile(
                     context: context,
                     icon: const Icon(Icons.translate),
                     heading: 'Languages',
                     description: 'your language prefrences',
-                    status: getStatus[0]),
+                    onTap: () {
+                      GoRouter.of(context).push(AppRoutes.languages);
+                    },
+                    status: getStatus[4]),
                 tile(
+                    isRed:
+                        getStatus[5] == ProfileStatus.Incomplete ? true : false,
                     context: context,
                     icon: const Icon(Icons.edit_document),
                     heading: 'Documents',
-                    description: 'uploaded documents',
-                    status: getStatus[0]),
+                    description: getStatus[5] == ProfileStatus.Incomplete
+                        ? 'Resume not uploaded'
+                        : 'uploaded documents',
+                    onTap: () {
+                      GoRouter.of(context).push(AppRoutes.documents);
+                    },
+                    status: getStatus[5]),
                 getStatus[0] == ProfileStatus.Incomplete ||
-                        getStatus[1] == ProfileStatus.Incomplete
+                        getStatus[1] == ProfileStatus.Incomplete ||
+                        getStatus[5] == ProfileStatus.Incomplete
                     ? const SizedBox()
                     : ThemedButton(
                         text: 'Apply Anyway',
@@ -105,11 +130,14 @@ class _IncompleteProfileWarningState extends State<IncompleteProfileWarning> {
   Widget tile(
       {required BuildContext context,
       required String heading,
+      required void Function()? onTap,
       required Widget icon,
+      bool isRed = false,
       required String description,
       required ProfileStatus status}) {
     final textTheme = Theme.of(context).textTheme;
     return ListTile(
+      onTap: onTap,
       leading: icon,
       title: Text(
         heading,
@@ -117,7 +145,9 @@ class _IncompleteProfileWarningState extends State<IncompleteProfileWarning> {
       ),
       subtitle: Text(
         description,
-        style: textTheme.labelSmall,
+        style: isRed
+            ? textTheme.labelMedium!.copyWith(color: Colors.red)
+            : textTheme.labelSmall,
       ),
       trailing: status == ProfileStatus.Incomplete
           ? Padding(

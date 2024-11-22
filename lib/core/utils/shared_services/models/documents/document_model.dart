@@ -2,10 +2,10 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 part 'document_model.g.dart';
 
-@HiveType(typeId: 7)
+@HiveType(typeId: 8)
 class DocumentModel {
   @HiveField(0)
-  final String id;
+  final String? id;
 
   @HiveField(1)
   final String name;
@@ -14,7 +14,7 @@ class DocumentModel {
   final String link;
 
   DocumentModel({
-    required this.id,
+    this.id,
     required this.name,
     required this.link,
   });

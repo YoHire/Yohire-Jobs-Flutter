@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:openbn/core/utils/shared_services/models/course/course_model.dart';
 part 'education_model.g.dart';
@@ -43,6 +45,7 @@ class EducationModel {
   }
 
   factory EducationModel.fromJson(Map<String, dynamic> json) {
+
     return EducationModel(
       id: json['id'],
       institution: json['institution'],

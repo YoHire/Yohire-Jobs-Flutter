@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:openbn/core/utils/shared_services/functions/date_services.dart';
 import 'package:openbn/core/utils/shared_services/models/country/country_model.dart';
 import 'package:openbn/features/circle/domain/entities/queue_entity.dart';
+import 'package:openbn/features/circle/presentation/bloc/circle_bloc/circle_bloc.dart';
+import 'package:openbn/features/circle/presentation/widgets/bio_page.dart';
 
 class QueueCard extends StatelessWidget {
   final QueueEntity data;
@@ -12,6 +15,7 @@ class QueueCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final colorTheme = Theme.of(context).colorScheme;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
@@ -20,14 +24,17 @@ class QueueCard extends StatelessWidget {
         },
         child: Container(
           width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              spreadRadius: 3,
-              blurRadius: 3,
-              offset: const Offset(0, 1),
-            ),
-          ], borderRadius: BorderRadius.circular(15), color: Colors.white),
+          decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  spreadRadius: 3,
+                  blurRadius: 3,
+                  offset: const Offset(0, 1),
+                ),
+              ],
+              borderRadius: BorderRadius.circular(15),
+              color: colorTheme.surface),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -89,7 +96,11 @@ class QueueCard extends StatelessWidget {
                                 ),
                               ),
                               PopupMenuItem(
-                                onTap: () {},
+                                onTap: () {
+                                  context
+                                      .read<CircleBloc>()
+                                      .add(DeleteQueueEvent(ququeId: data.id));
+                                },
                                 value: 1,
                                 child: Row(
                                   children: [
@@ -186,6 +197,7 @@ class QueueCard extends StatelessWidget {
   }
 
   _buildInfoWidget(QueueEntity data, BuildContext context) {
+    final colorTheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
@@ -193,10 +205,10 @@ class QueueCard extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
         elevation: 0,
-        shadowColor: Colors.black,
+        shadowColor: colorTheme.onSurface,
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: colorTheme.surface,
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(

@@ -29,7 +29,7 @@ void main() async {
         create: (context) => serviceLocator<AuthBloc>(),
       ),
       BlocProvider(
-        create: (context) => serviceLocator<ProfileBloc>(),
+        create: (context) => serviceLocator<ProfileBloc>()..add(LoadProfileEvent()),
       ),
     ],
     child: const MyApp(),

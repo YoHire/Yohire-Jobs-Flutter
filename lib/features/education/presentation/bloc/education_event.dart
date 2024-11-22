@@ -5,7 +5,7 @@ sealed class EducationEvent {}
 class LoadCategories extends EducationEvent {
   final CourseModel? previousCourse;
 
-  LoadCategories({ this.previousCourse});
+  LoadCategories({this.previousCourse});
 }
 
 class CategorySelected extends EducationEvent {
@@ -16,7 +16,7 @@ class CategorySelected extends EducationEvent {
 class SubCategorySelected extends EducationEvent {
   final CourseModel selectedCategory;
   final CourseModel subCategory;
-  SubCategorySelected(this.subCategory,this.selectedCategory);
+  SubCategorySelected(this.subCategory, this.selectedCategory);
 }
 
 class SaveSelectedCourse extends EducationEvent {
@@ -31,3 +31,7 @@ class SaveEducation extends EducationEvent {
   SaveEducation({required this.data, this.file});
 }
 
+class DeleteEducation extends EducationEvent {
+  final String id;
+  DeleteEducation({required this.id});
+}

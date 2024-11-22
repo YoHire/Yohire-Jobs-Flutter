@@ -3,6 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:openbn/core/utils/constants/constants.dart';
 import 'package:openbn/core/utils/shared_services/models/country/country_model.dart';
 import 'package:openbn/core/utils/shared_services/models/course/course_model.dart';
+import 'package:openbn/core/utils/shared_services/models/documents/document_model.dart';
 import 'package:openbn/core/utils/shared_services/models/education/education_model.dart';
 import 'package:openbn/core/utils/shared_services/models/experience/workexperience_model.dart';
 import 'package:openbn/core/utils/shared_services/models/job_role/job_role_model.dart';
@@ -26,6 +27,7 @@ class UserStorageService {
     Hive.registerAdapter(SkillModelAdapter());
     Hive.registerAdapter(LanguageModelAdapter());
     Hive.registerAdapter(CountryModelAdapter());
+    Hive.registerAdapter(DocumentModelAdapter());
     await Hive.openBox<UserModel>(_boxName);
   }
 
@@ -116,6 +118,16 @@ class UserStorageService {
     retList.add(user.experience.isNotEmpty
         ? ProfileStatus.Completed
         : ProfileStatus.Warning);
+    retList.add(user.skills.isNotEmpty && user.prefrences.isNotEmpty
+        ? ProfileStatus.Completed
+        : ProfileStatus.Warning);
+    retList.add(
+        user.languagesSpeak.isNotEmpty && user.languagesReadAndWrite.isNotEmpty
+            ? ProfileStatus.Completed
+            : ProfileStatus.Warning);
+    retList.add(user.resume != null && user.resume!.isNotEmpty
+        ? ProfileStatus.Completed
+        : ProfileStatus.Incomplete);
 
     return retList;
   }

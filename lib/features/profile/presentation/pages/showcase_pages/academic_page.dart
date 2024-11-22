@@ -65,6 +65,7 @@ class _AcademicEditPageState extends State<AcademicEditPage> {
       setState(() {
         _educationData.clear();
         _educationData.addAll((event.value as UserModel).education);
+        
       });
     }
   }

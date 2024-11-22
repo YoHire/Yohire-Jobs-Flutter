@@ -10,7 +10,7 @@ class SingleSearchSelectField<T> extends StatefulWidget {
   final Icon prefixIcon;
   String? Function(String?)? validator;
   final TextEditingController controller;
-  final void Function(T)? onSelected; 
+  final void Function(T)? onSelected;
 
   SingleSearchSelectField({
     super.key,
@@ -71,6 +71,8 @@ class _SingleSearchSelectFieldState<T>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CustomTextField(
+          isDebouncer: true,
+          debounceDuration: const Duration(milliseconds: 800),
           validator: widget.validator,
           hint: widget.hint,
           controller: widget.controller,

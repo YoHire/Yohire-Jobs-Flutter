@@ -65,21 +65,27 @@ class ExperienceRepositoryImpl implements ExperienceRepository {
   }
 
   @override
-  Future<Either<Failure, void>> editExperience(WorkExperienceModel data) async {
+  Future<Either<Failure, void>> editExperience(
+      WorkExperienceModel data, File? certificate) async {
     try {
       final firebaseStorage = serviceLocator<FileUploadService>();
       final getStorage = serviceLocator<GetStorage>();
       final userStorage = serviceLocator<UserStorageService>();
       String? certificateUrl;
 
-      // if (certificate != null) {
-      //   certificateUrl = await firebaseStorage.uploadFile(
-      //       file: certificate,
-      //       fileAnnotation: FileAnnotations.EXPERIENCE_CERTIFICATE,
-      //       folderName: getStorage.read('userId'));
-      // }
+      if (certificate != null) {
+        certificateUrl = await firebaseStorage.uploadFile(
+            file: certificate,
+            fileAnnotation: FileAnnotations.EXPERIENCE_CERTIFICATE,
+            folderName: getStorage.read('userId'));
+      }
+
+      if (certificateUrl == null || certificateUrl.isEmpty) {
+        certificateUrl = data.certificateUrl;
+      }
 
       final Map<String, dynamic> experienceData = {
+        'id':data.id,
         'companyName': data.company,
         'startDate': '${data.startDate}Z',
         'endDate': data.endDate != null ? '${data.endDate}Z' : null,
@@ -87,7 +93,7 @@ class ExperienceRepositoryImpl implements ExperienceRepository {
         'certificate': certificateUrl,
       };
 
-      await remoteDataSource.saveExperience(experienceData);
+      await remoteDataSource.editExperience(experienceData);
       await userStorage.updateUser();
 
       return const Right(null);

@@ -1,9 +1,7 @@
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:openbn/features/circle/presentation/bloc/circle_bloc/circle_bloc.dart';
 import 'package:openbn/features/home/presentation/pages/home_page.dart';
-import 'package:openbn/init_dependencies.dart';
 import '../../../circle/presentation/pages/circle_page.dart';
 import '../../../profile/presentation/pages/profile_page.dart';
 import '../bloc/navigation_bloc.dart';

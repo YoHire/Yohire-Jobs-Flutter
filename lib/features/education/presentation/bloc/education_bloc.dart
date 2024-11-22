@@ -1,11 +1,15 @@
 import 'dart:io';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fpdart/fpdart.dart';
+import 'package:openbn/core/error/faliure.dart';
 import 'package:openbn/core/utils/shared_services/models/course/course_model.dart';
 import 'package:openbn/core/utils/shared_services/models/education/education_model.dart';
+import 'package:openbn/features/education/domain/usecase/delete_education.dart';
 import 'package:openbn/features/education/domain/usecase/get_categories_usecase.dart';
 import 'package:openbn/features/education/domain/usecase/get_course_usecase.dart';
 import 'package:openbn/features/education/domain/usecase/get_subcategories_usecase.dart';
 import 'package:openbn/features/education/domain/usecase/save_education_usecase.dart';
+import 'package:openbn/features/education/domain/usecase/update_education.dart';
 part 'education_event.dart';
 part 'education_state.dart';
 
@@ -14,6 +18,8 @@ class EducationBloc extends Bloc<EducationEvent, EducationState> {
   final GetSubCategoriesUseCase _getSubCategoriesUseCase;
   final GetCoursesUseCase _getCoursesUseCase;
   final SaveEducationUsecase _saveEducationUseCase;
+  final UpdateEducationUsecase _updateEducationUsecase;
+  final DeleteEducationUsecase _deleteEducationUsecase;
   List<CourseModel> fetchedCategories = [];
   List<CourseModel> fetchedSubCategories = [];
   CourseModel? selectedCourse;
@@ -22,16 +28,21 @@ class EducationBloc extends Bloc<EducationEvent, EducationState> {
     required GetSubCategoriesUseCase getSubCategoriesUseCase,
     required GetCoursesUseCase getCoursesUseCase,
     required SaveEducationUsecase saveEducationUseCase,
+    required UpdateEducationUsecase updateEducationUsecase,
+    required DeleteEducationUsecase deleteEducationUsecase,
   })  : _getCategoriesUseCase = getCategoriesUseCase,
         _getSubCategoriesUseCase = getSubCategoriesUseCase,
         _getCoursesUseCase = getCoursesUseCase,
         _saveEducationUseCase = saveEducationUseCase,
+        _updateEducationUsecase = updateEducationUsecase,
+        _deleteEducationUsecase = deleteEducationUsecase,
         super(EducationInitial()) {
     on<LoadCategories>(_onLoadCategories);
     on<CategorySelected>(_onCategorySelected);
     on<SubCategorySelected>(_onSubCategorySelected);
     on<SaveEducation>(_onSaveEducation);
     on<SaveSelectedCourse>(_saveSelectedCourse);
+    on<DeleteEducation>(_onDeleteEducation);
   }
 
   Future<void> _onLoadCategories(
@@ -57,7 +68,7 @@ class EducationBloc extends Bloc<EducationEvent, EducationState> {
           //   // if(fetchedCategories[i].category==event.previousCourse!.category){
           //   //   log('removed');
           //   //   fetchedCategories.removeAt(i);
-              
+
           //   // }
           //   log(':::::::::START:::::::::');
           //   log(fetchedCategories[i].category);
@@ -74,7 +85,6 @@ class EducationBloc extends Bloc<EducationEvent, EducationState> {
           //   log('kerikknn');
           //   add(CategorySelected(event.previousCourse!));
           // }
-
         },
       );
     } catch (e) {
@@ -190,8 +200,39 @@ class EducationBloc extends Bloc<EducationEvent, EducationState> {
     try {
       emit(EducationSaving());
 
-      final result = await _saveEducationUseCase(EducationUseCaseParms(
-          educationModel: event.data, certificate: event.file));
+      final Either<Failure, void> result;
+
+      if (event.data.id == null || event.data.id!.isEmpty) {
+        result = await _saveEducationUseCase(EducationUseCaseParms(
+            educationModel: event.data, certificate: event.file));
+      } else {
+        result = await _updateEducationUsecase(EducationUseCaseParms(
+            educationModel: event.data, certificate: event.file));
+      }
+
+      result.fold(
+        (failure) {
+          emit(EducationError(message: failure.message));
+        },
+        (success) {
+          emit(EducationSavedState());
+        },
+      );
+    } catch (e) {
+      emit(EducationError(message: e.toString()));
+    }
+  }
+
+  Future<void> _onDeleteEducation(
+    DeleteEducation event,
+    Emitter<EducationState> emit,
+  ) async {
+    try {
+      emit(EducationSaving());
+
+      final Either<Failure, void> result;
+
+      result = await _deleteEducationUsecase(event.id);
 
       result.fold(
         (failure) {

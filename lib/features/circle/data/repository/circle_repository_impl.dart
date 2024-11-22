@@ -57,4 +57,14 @@ class CircleRepositoryImpl implements CircleRepository {
       return Left(Failure(message: e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, void>> deleteQueue({required String queueId}) async {
+    try {
+      await datasource.deleteQueue(queueId: queueId);
+      return const Right(null);
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
 }

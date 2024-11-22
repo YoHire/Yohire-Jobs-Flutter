@@ -145,13 +145,13 @@ class UserModel extends HiveObject {
               .map((e) => DocumentModel.fromJson(e as Map<String, dynamic>))
               .toList()
           : [],
-      languagesReadAndWrite: json['language'] != null
-          ? (json['language'] as List)
+      languagesReadAndWrite: json['languagesWrite'] != null
+          ? (json['languagesWrite'] as List)
               .map((e) => LanguageModel.fromJson(e as Map<String, dynamic>))
               .toList()
           : [],
-      languagesSpeak: json['language'] != null
-          ? (json['language'] as List)
+      languagesSpeak: json['languagesRead'] != null
+          ? (json['languagesRead'] as List)
               .map((e) => LanguageModel.fromJson(e as Map<String, dynamic>))
               .toList()
           : [],

@@ -1,8 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fpdart/src/either.dart';
+import 'package:openbn/core/error/faliure.dart';
 import 'package:openbn/core/utils/shared_services/models/experience/workexperience_model.dart';
 import 'package:openbn/features/experience/domain/usecases/delete_experience_usecase.dart';
+import 'package:openbn/features/experience/domain/usecases/edit_experience_usecase.dart';
 import 'package:openbn/features/experience/domain/usecases/save_experience_usecase.dart';
 
 part 'experience_event.dart';
@@ -11,10 +14,13 @@ part 'experience_state.dart';
 class ExperienceBloc extends Bloc<ExperienceEvent, ExperienceState> {
   final SaveExperienceUsecase _saveExperienceUsecase;
   final DeleteExperienceUsecase _deleteExperienceUsecase;
+  final EditExperienceUsecase _editExperienceUsecase;
   ExperienceBloc(
       {required SaveExperienceUsecase saveExperienceUsecase,
+      required EditExperienceUsecase editExperienceUsecase,
       required DeleteExperienceUsecase deleteExperienceUsecase})
       : _saveExperienceUsecase = saveExperienceUsecase,
+        _editExperienceUsecase = editExperienceUsecase,
         _deleteExperienceUsecase = deleteExperienceUsecase,
         super(ExperienceInitial()) {
     on<SaveExperience>(_onSaveExperience);
@@ -33,8 +39,17 @@ class ExperienceBloc extends Bloc<ExperienceEvent, ExperienceState> {
         return;
       }
 
-      final result = await _saveExperienceUsecase(ExperienceUseCaseParms(
-          experienceModel: event.data, certificate: event.file));
+      final Either<Failure, void> result;
+
+      if (event.data.id == null || event.data.id!.isEmpty) {
+        result = await _saveExperienceUsecase(ExperienceUseCaseParms(
+            experienceModel: event.data, certificate: event.file));
+      } else {
+        result = await _editExperienceUsecase(ExperienceUseCaseParms(
+          experienceModel: event.data,
+          certificate: event.file,
+        ));
+      }
 
       result.fold(
         (failure) {

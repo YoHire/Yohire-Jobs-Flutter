@@ -61,36 +61,36 @@ class _ProfileSectionPageState extends State<ProfileSectionPage>
   List<ProfileContainerSection> _getProfileSections() {
     return [
       _buildSection(
-        isCompleted: isSectionCompleted[0],
-        heading: ProfileSections.PersonalDetails.value,
-        subHeading: 'Name, Address, Age, Gender, DOB etc...',
-      ),
+          isCompleted: isSectionCompleted[0],
+          heading: ProfileSections.PersonalDetails.value,
+          subHeading: 'Name, Address, Age, Gender, DOB etc...',
+          icon: const Icon(Icons.account_circle)),
       _buildSection(
-        isCompleted: isSectionCompleted[1],
-        heading: ProfileSections.AcademicDetails.value,
-        subHeading: 'Add your education details',
-      ),
+          isCompleted: isSectionCompleted[1],
+          heading: ProfileSections.AcademicDetails.value,
+          subHeading: 'Add your education details',
+          icon: const Icon(Icons.book_outlined)),
       _buildSection(
-        isCompleted: isSectionCompleted[2],
-        heading: ProfileSections.ExperienceDetails.value,
-        subHeading: 'Add your experience (optional)',
-      ),
+          isCompleted: isSectionCompleted[2],
+          heading: ProfileSections.ExperienceDetails.value,
+          subHeading: 'Add your experience (optional)',
+          icon: const Icon(Icons.work)),
       _buildSection(
-        isCompleted: isSectionCompleted[3],
-        heading: ProfileSections.SkillsAndPrefrences.value,
-        subHeading:
-            'For more accurate job recommendations, and early notifications',
-      ),
+          isCompleted: isSectionCompleted[3],
+          heading: ProfileSections.SkillsAndPrefrences.value,
+          subHeading:
+              'For more accurate job recommendations, and early notifications',
+          icon: const Icon(Icons.space_dashboard_rounded)),
       _buildSection(
-        isCompleted: isSectionCompleted[4],
-        heading: ProfileSections.Languages.value,
-        subHeading: 'You can specify languages that you are proficient in',
-      ),
+          isCompleted: isSectionCompleted[4],
+          heading: ProfileSections.Languages.value,
+          subHeading: 'You can specify languages that you are proficient in',
+          icon: const Icon(Icons.translate)),
       _buildSection(
-        isCompleted: isSectionCompleted[5],
-        heading: ProfileSections.Documents.value,
-        subHeading: 'Upload documents like resume, certificates etc...',
-      ),
+          isCompleted: isSectionCompleted[5],
+          heading: ProfileSections.Documents.value,
+          subHeading: 'Upload documents like resume, certificates etc...',
+          icon: const Icon(Icons.document_scanner)),
     ];
   }
 
@@ -98,12 +98,14 @@ class _ProfileSectionPageState extends State<ProfileSectionPage>
     required bool isCompleted,
     required String heading,
     required String subHeading,
+    required Icon icon,
   }) {
     return ProfileContainerSection(
       isCompleted: isCompleted,
       heading: heading,
       subHeading: subHeading,
       onTap: () => _handleSectionTap(heading),
+      icon: icon,
     );
   }
 
@@ -116,6 +118,10 @@ class _ProfileSectionPageState extends State<ProfileSectionPage>
       GoRouter.of(context).push(AppRoutes.experienceEdit);
     } else if (section == ProfileSections.SkillsAndPrefrences.value) {
       GoRouter.of(context).push(AppRoutes.skillsAndPreferences);
+    } else if (section == ProfileSections.Languages.value) {
+      GoRouter.of(context).push(AppRoutes.languages);
+    } else if (section == ProfileSections.Documents.value) {
+      GoRouter.of(context).push(AppRoutes.documents);
     }
   }
 
@@ -159,6 +165,20 @@ class _ProfileSectionPageState extends State<ProfileSectionPage>
         setState(() {});
       } else {
         isSectionCompleted[3] = false;
+      }
+
+      if (data.languagesReadAndWrite.isNotEmpty && data.languagesSpeak.isNotEmpty) {
+        isSectionCompleted[4] = true;
+        setState(() {});
+      } else {
+        isSectionCompleted[4] = false;
+      }
+
+      if (data.resume!=null && data.resume!.isNotEmpty) {
+        isSectionCompleted[5] = true;
+        setState(() {});
+      } else {
+        isSectionCompleted[5] = false;
       }
     }
   }

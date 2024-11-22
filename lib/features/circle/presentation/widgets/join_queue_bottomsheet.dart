@@ -7,7 +7,8 @@ import 'package:openbn/core/widgets/theme_gap.dart';
 import '../bloc/queue_bloc/queue_bloc.dart';
 
 class JoinQueueBottomsheet extends StatelessWidget {
-  const JoinQueueBottomsheet({super.key});
+  final String bio;
+  const JoinQueueBottomsheet({super.key,required this.bio});
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +99,7 @@ class JoinQueueBottomsheet extends StatelessWidget {
                                 text: 'Join queue',
                                 loading: false,
                                 onPressed: () async {
-                                  context.read<QueueBloc>().add(JoinQueue());
+                                  context.read<QueueBloc>().add(JoinQueue(bio: bio));
                                 },
                               ),
                             ),

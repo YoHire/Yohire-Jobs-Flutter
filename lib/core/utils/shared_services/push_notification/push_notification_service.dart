@@ -1,16 +1,23 @@
 import 'dart:convert';
 import 'dart:ui';
+import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:go_router/go_router.dart';
 import 'package:openbn/core/navigation/app_router.dart';
+import 'package:openbn/core/utils/shared_services/refresh_token/dio_interceptor_handler.dart';
+import 'package:openbn/core/utils/urls.dart';
 import 'package:openbn/init_dependencies.dart';
 
 class NotificationService {
-  final FirebaseMessaging _firebaseMessaging = serviceLocator<FirebaseMessaging>();
+  final FirebaseMessaging _firebaseMessaging =
+      serviceLocator<FirebaseMessaging>();
   final FlutterLocalNotificationsPlugin _localNotifications =
       FlutterLocalNotificationsPlugin();
   final GoRouter _router = serviceLocator<GoRouter>();
+  Dio dio = serviceLocator<DioInterceptorHandler>().dio;
+  final storage = serviceLocator<GetStorage>();
 
   static const AndroidNotificationChannel _channel = AndroidNotificationChannel(
     'high_importance_channel',
@@ -135,6 +142,16 @@ class NotificationService {
       return token;
     } catch (e) {
       return "";
+    }
+  }
+
+  Future<void> deleteFcmId() async {
+    try {
+      await dio.delete(
+        '${URL.DELETE_FCMID}${storage.read('userId')}',
+      );
+    } catch (e) {
+      throw Exception(e);
     }
   }
 }

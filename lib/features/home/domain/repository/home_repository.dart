@@ -11,6 +11,8 @@ abstract interface class HomeRepository {
       {required String location,
       required List<SkillModel> skillIds,
       required List<JobRoleModel> jobRoleIds});
+  Future<Either<Failure, List<JobEntity>>> getSearchedJobs(
+      {required String keyword});
   Future<Either<Failure, void>> saveJob({required String jobId});
   Future<Either<Failure, void>> unSaveJob({required String jobId});
 }

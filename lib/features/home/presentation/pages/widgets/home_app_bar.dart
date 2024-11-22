@@ -6,6 +6,8 @@ import 'package:openbn/core/navigation/app_router.dart';
 import 'package:openbn/core/theme/app_text_styles.dart';
 import 'package:openbn/core/utils/bottom_sheets/bottomsheet.dart';
 import 'package:openbn/core/widgets/button.dart';
+import 'package:openbn/core/widgets/text_field.dart';
+import 'package:openbn/core/widgets/theme_gap.dart';
 import 'package:openbn/core/widgets/yohire_logo_widget.dart';
 import 'package:openbn/features/home/presentation/pages/widgets/filter_widget.dart';
 import 'package:openbn/init_dependencies.dart';
@@ -17,7 +19,6 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final storage = serviceLocator<GetStorage>();
-    final colorTheme = Theme.of(context).colorScheme;
     TextEditingController searchController = TextEditingController();
     return SafeArea(
       child: Padding(
@@ -27,7 +28,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-               const YohireLogoWidget(showTagLine: false),
+                const YohireLogoWidget(showTagLine: false),
                 storage.read('isLogged') == true
                     ? bellIcon(context)
                     : Hero(
@@ -44,34 +45,37 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                       )
               ],
             ),
+            const ThemeGap(5),
             Row(
               children: [
-                // Expanded(
-                //     child: CustomTextField(
-                //       border: OutlineInputBorder(
-                //         borderSide: BorderSide(width: 0.1),
-                //         borderRadius: BorderRadius.circular(50)
-                //       ),
-                //       prefixIcon: const Icon(Icons.search),
-                //         hint: '', controller: searchController)),
                 Expanded(
-                  child: Container(
-                    height: 40,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        boxShadow: [
-                          BoxShadow(
-                            color: colorTheme.onSurface.withOpacity(0.25),
-                          ),
-                          BoxShadow(
-                            color: colorTheme.surface,
-                            spreadRadius: -0.3,
-                            blurRadius: 4.0,
-                          ),
-                        ]),
-                    // child: ,
-                  ),
-                ),
+                    child: CustomTextField(
+                        isDebouncer: true,
+                        debounceDuration: const Duration(milliseconds: 800),
+                        onChanged: (val) {
+                          if (val.isEmpty) {
+                            context.read<HomeBloc>().add(ResetSearch());
+                          } else {
+                            context
+                                .read<HomeBloc>()
+                                .add(SearchJobsEvent(keyword: val));
+                          }
+                        },
+                        prefixIcon: const Icon(Icons.search),
+                        suffixIcon: IconButton(
+                            onPressed: () {
+                              searchController.clear();
+                              context.read<HomeBloc>().add(ResetSearch());
+                            },
+                            icon: const Icon(
+                              Icons.close,
+                              size: 20,
+                            )),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: const BorderSide(width: 0.4)),
+                        hint: 'Search Jobs',
+                        controller: searchController)),
                 _buildFilterIcon(context),
               ],
             )

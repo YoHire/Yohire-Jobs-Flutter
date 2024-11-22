@@ -11,4 +11,6 @@ abstract class EducationRepository {
   Future<Either<Failure, List<CourseModel>>> getSubCategories(String category);
   Future<Either<Failure, List<CourseModel>>> getCourses(String category, String? subCategory);
   Future<Either<Failure, void>> saveEducation(EducationModel data,File? certificate);
+  Future<Either<Failure, void>> updateEducation(EducationModel data,File? certificate);
+  Future<Either<Failure, void>> deleteEducation(String id);
 }

@@ -65,7 +65,7 @@ class _JobPrefEditPageState extends State<JobPrefEditPage> {
             ),
             const ThemeGap(10),
             ThemedButton(
-                text: 'Update',
+                text: 'Update Job Prefrences',
                 loading: false,
                 onPressed: () {
                   context

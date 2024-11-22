@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:openbn/core/widgets/getting_jobs_loader.dart';
+import 'package:openbn/core/widgets/pages/faq.dart';
+import 'package:openbn/core/widgets/pages/user_agreements.dart';
 import 'package:openbn/features/auth/presentation/pages/google_auth_page.dart';
 import 'package:openbn/features/auth/presentation/pages/otp_verify_page.dart';
 import 'package:openbn/features/circle/presentation/bloc/invitation_bloc/invitation_bloc.dart';
@@ -16,10 +18,15 @@ import 'package:openbn/features/home/presentation/pages/job_details_page.dart';
 import 'package:openbn/features/prefrences/presentation/bloc/prefrence_bloc.dart';
 import 'package:openbn/features/prefrences/presentation/bloc/prefrence_event.dart';
 import 'package:openbn/features/prefrences/presentation/pages/prefrence_page.dart';
+import 'package:openbn/features/profile/presentation/bloc/profile_bloc.dart';
+import 'package:openbn/features/profile/presentation/pages/applied_jobs.dart';
+import 'package:openbn/features/profile/presentation/pages/saved_page.dart';
 import 'package:openbn/features/profile/presentation/pages/showcase_pages/academic_page.dart';
+import 'package:openbn/features/profile/presentation/pages/showcase_pages/documents_page.dart';
 import 'package:openbn/features/profile/presentation/pages/showcase_pages/experience_page.dart';
 import 'package:openbn/features/profile/presentation/pages/profile_edit_pages/personal_details_edit.dart';
 import 'package:openbn/features/profile/presentation/pages/sections/profile_section_page.dart';
+import 'package:openbn/features/profile/presentation/pages/showcase_pages/languages_showcase_page.dart';
 import 'package:openbn/features/profile/presentation/pages/showcase_pages/skill_and_prefrences_page.dart';
 import 'package:openbn/features/profile/presentation/pages/profile_page.dart';
 import 'package:openbn/features/education/presentation/pages/education_edit_page.dart';
@@ -50,6 +57,12 @@ class AppRoutes {
   static const String skillsAndPreferences = '/skills-and-prefrences';
   static const String gettingJobsLoader = '/getting-jobs-loader/:redirectPath';
   static const String otpPage = '/otp-page';
+  static const String languages = '/languages';
+  static const String documents = '/documents';
+  static const String saved = '/saved';
+  static const String applied = '/applied';
+  static const String faq = '/faq';
+  static const String userAgreements = '/userAgreements';
 }
 
 class AppRouter {
@@ -265,6 +278,64 @@ class AppRouter {
           state: state,
           child: const SkillAndPrefrencesPage(),
         ),
+      ),
+      GoRoute(
+        path: AppRoutes.languages,
+        pageBuilder: (context, state) => _buildPageWithSlideTransition(
+          context: context,
+          state: state,
+          child: const LanguagesShowcasePage(),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.documents,
+        pageBuilder: (context, state) => _buildPageWithSlideTransition(
+          context: context,
+          state: state,
+          child: const DocumentsShowcase(),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.saved,
+        pageBuilder: (context, state) {
+          context.read<ProfileBloc>().add(GetSavedJobs());
+          return _buildPageWithSlideTransition(
+            context: context,
+            state: state,
+            child: const SavedJobsPage(),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.applied,
+        pageBuilder: (context, state) {
+          context.read<ProfileBloc>().add(GetAppliedJobs());
+          return _buildPageWithSlideTransition(
+            context: context,
+            state: state,
+            child: const AppliedJobspage(),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.faq,
+        pageBuilder: (context, state) {
+          return _buildPageWithSlideTransition(
+            context: context,
+            state: state,
+            child: const FAQPage(),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.userAgreements,
+        pageBuilder: (context, state) {
+          return _buildPageWithSlideTransition(
+            context: context,
+            state: state,
+            child: const PrivacyPolicyScreen(),
+          );
+        },
       ),
     ],
     errorBuilder: (context, state) => Scaffold(

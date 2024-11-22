@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:openbn/core/utils/shared_services/models/education/education_model.dart';
@@ -15,6 +17,7 @@ class EducationContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     final colorTheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
     return Padding(
@@ -73,55 +76,61 @@ class EducationContainer extends StatelessWidget {
   }
 
   Widget _buildPopUpMenu(BuildContext context, EducationModel data) {
-    return PopupMenuButton(itemBuilder: (context) {
-      return [
-        PopupMenuItem(
-          onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (ctx) => BlocProvider(
-                      create: (context) => serviceLocator<EducationBloc>(),
-                      child: EducationPage(
-                        data: data,
-                      ),
-                    )));
-          },
-          value: 1,
-          child: Row(
-            children: [
-              Image.asset(
-                'assets/icon/edit.png',
-                width: 25,
-                height: 25,
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              const Text(
-                "Edit",
-              )
-            ],
+    return BlocProvider(
+      create: (context) => serviceLocator<EducationBloc>(),
+      child: PopupMenuButton(itemBuilder: (context) {
+        return [
+          PopupMenuItem(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (ctx) => BlocProvider(
+                        create: (context) => serviceLocator<EducationBloc>(),
+                        child: EducationPage(
+                          data: data,
+                        ),
+                      )));
+            },
+            value: 1,
+            child: Row(
+              children: [
+                Image.asset(
+                  'assets/icon/edit.png',
+                  width: 25,
+                  height: 25,
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                const Text(
+                  "Edit",
+                )
+              ],
+            ),
           ),
-        ),
-        PopupMenuItem(
-          onTap: () {},
-          value: 1,
-          child: Row(
-            children: [
-              Image.asset(
-                'assets/icon/delete.png',
-                width: 25,
-                height: 25,
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              const Text(
-                "Delete",
-              )
-            ],
+          PopupMenuItem(
+            onTap: () {
+                  // log('ID IS :${data.id}');
+              context.read<EducationBloc>().add(DeleteEducation(id: data.id!));
+            },
+            value: 1,
+            child: Row(
+              children: [
+                Image.asset(
+                  'assets/icon/delete.png',
+                  width: 25,
+                  height: 25,
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                const Text(
+                  "Delete",
+                )
+              ],
+            ),
           ),
-        ),
-      ];
-    });
+        ];
+      }),
+    );
   }
 }

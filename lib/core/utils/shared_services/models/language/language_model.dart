@@ -19,12 +19,15 @@ class LanguageModel {
   factory LanguageModel.fromJson(Map<String, dynamic> json) {
     return LanguageModel(id: json['id'] ?? 0, name: json['name'] ?? '');
   }
-
-  factory LanguageModel.getName(String json) {
-    return LanguageModel(id: '0', name: json);
+  static String fromNameJson(Map<String, dynamic> json) {
+    return json['name'] ?? '';
   }
 
   String toStringList() {
     return name;
   }
+      static String getId(LanguageModel data) {
+    return data.id;
+  }
+
 }

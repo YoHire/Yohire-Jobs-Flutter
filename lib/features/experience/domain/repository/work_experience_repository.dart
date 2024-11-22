@@ -6,6 +6,6 @@ import 'package:openbn/core/utils/shared_services/models/experience/workexperien
 abstract class ExperienceRepository {
   Future<Either<Failure, void>> saveExperience(
       WorkExperienceModel data, File? certificate);
-  Future<Either<Failure, void>> editExperience(WorkExperienceModel data);
+  Future<Either<Failure, void>> editExperience(WorkExperienceModel data, File? certificate);
   Future<Either<Failure, void>> deleteExperience(String experienceId);
 }

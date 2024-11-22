@@ -89,6 +89,7 @@ class _ExperiencePageState extends State<ExperiencePage> {
     if (_formKey.currentState!.validate()) {
       context.read<ExperienceBloc>().add(SaveExperience(
           data: WorkExperienceModel(
+              id: widget.data == null ? '' : widget.data!.id,
               designation: _selectedItem,
               company: _companyNameController.text,
               startDate: DateServices.convertStringToDateTime(
@@ -100,7 +101,8 @@ class _ExperiencePageState extends State<ExperiencePage> {
                       _endDateController.text,
                     ),
               userId: '',
-              certificateUrl: ''),
+              certificateUrl:
+                  widget.data == null ? '' : widget.data!.certificateUrl),
           file: _getCertificateFile()));
     }
   }
@@ -129,10 +131,22 @@ class _ExperiencePageState extends State<ExperiencePage> {
       child: Scaffold(
         appBar: AppBar(
           actions: [
-            IconButton(
-              icon: const Icon(Icons.check),
-              onPressed: _handleSubmit,
+            BlocBuilder<ExperienceBloc, ExperienceState>(
+              builder: (context, state) {
+                return state is ExperienceSaving
+                    ? const SizedBox(
+                        width: 30,
+                        height: 30,
+                        child: CircularProgressIndicator())
+                    : IconButton(
+                        icon: const Icon(Icons.check),
+                        onPressed: _handleSubmit,
+                      );
+              },
             ),
+            const SizedBox(
+              width: 10,
+            )
           ],
         ),
         body: Form(

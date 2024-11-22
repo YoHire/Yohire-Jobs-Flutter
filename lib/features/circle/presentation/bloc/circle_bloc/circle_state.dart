@@ -8,6 +8,8 @@ final class CircleLoading extends CircleState {}
 
 final class CircleEmpty extends CircleState {}
 
+final class CircleNotLoggedIn extends CircleState {}
+
 final class CircleLoaded extends CircleState {
   final List<QueueEntity> data;
 

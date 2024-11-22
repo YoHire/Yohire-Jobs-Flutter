@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:openbn/core/error/exception.dart';
 import 'package:openbn/core/utils/shared_services/refresh_token/dio_interceptor_handler.dart';
@@ -9,6 +11,8 @@ abstract interface class EducationRemoteDataSource {
   Future<dynamic> getSubCategories(String category);
   Future<dynamic> getCourses(String category, String? subCategory);
   Future<void> saveEducation(Map<String, dynamic> data);
+  Future<void> updateEducation(Map<String, dynamic> data);
+  Future<void> deleteEducation(String id);
 }
 
 class EducationRemoteDataSourceImpl implements EducationRemoteDataSource {
@@ -65,6 +69,26 @@ class EducationRemoteDataSourceImpl implements EducationRemoteDataSource {
     try {
       await dio.post(URL.ADD_EDUCATION, data: data);
     } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+  
+  @override
+  Future<void> updateEducation(Map<String, dynamic> data) async{
+    try {
+      await dio.put(URL.UPDATE_EDUCATION, data: data);
+    } catch (e) {
+      log(e.toString());
+      throw ServerException(e.toString());
+    }
+  }
+  
+  @override
+  Future<void> deleteEducation(String id) async{
+    try {
+      await dio.delete('${URL.DELETE_EDUCATION}$id');
+    } catch (e) {
+      log(e.toString());
       throw ServerException(e.toString());
     }
   }

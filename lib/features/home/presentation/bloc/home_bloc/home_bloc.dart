@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:openbn/core/utils/shared_services/models/job_role/job_role_model.dart';
 import 'package:openbn/core/utils/shared_services/models/skill/skill_model.dart';
@@ -8,6 +6,7 @@ import 'package:openbn/features/home/domain/usecase/filter_jobs_usecase.dart';
 import 'package:openbn/features/home/domain/usecase/get_jobs_usecase.dart';
 import 'package:openbn/features/home/domain/usecase/get_more_jobs_usecase.dart';
 import 'package:openbn/features/home/domain/usecase/save_job_usecase.dart';
+import 'package:openbn/features/home/domain/usecase/search_jobs_usecase.dart';
 import 'package:openbn/features/home/domain/usecase/unsave_job_usecase.dart';
 
 part 'home_event.dart';
@@ -19,16 +18,19 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final FilterJobsUsecase _filterJobsUsecase;
   final SaveJobUsecase _saveJobUsecase;
   final UnSaveJobUsecase _unsaveJobUsecase;
+  final SearchJobsUsecase _searchJobsUsecase;
   HomeBloc({
     required GetAllJobsUsecase allJobsUsecase,
     required GetMoreJobsUsecase moreJobsUsecase,
     required FilterJobsUsecase filterJobsUsecase,
     required SaveJobUsecase saveJobUsecase,
-    required final UnSaveJobUsecase unsaveJobUsecase,
+    required SearchJobsUsecase searchJobsUsecase,
+    required UnSaveJobUsecase unsaveJobUsecase,
   })  : _allJobsUsecase = allJobsUsecase,
         _moreJobsUsecase = moreJobsUsecase,
         _filterJobsUsecase = filterJobsUsecase,
         _saveJobUsecase = saveJobUsecase,
+        _searchJobsUsecase = searchJobsUsecase,
         _unsaveJobUsecase = unsaveJobUsecase,
         super(HomeInitial()) {
     on<HomeInitEvent>(_jobsFetch);
@@ -37,6 +39,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<ResetFilter>(_resetFilter);
     on<SaveJob>(_handleSaveJob);
     on<UnsaveJob>(_handleUnsaveJob);
+    on<SearchJobsEvent>(_searchJobs);
+    on<ResetSearch>(_resetSearch);
   }
 
   List<JobEntity> allJobs = [];
@@ -122,10 +126,50 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     );
   }
 
+  Future<void> _searchJobs(
+      SearchJobsEvent event, Emitter<HomeState> emit) async {
+    emit(HomeLoading());
+
+    final result = await _searchJobsUsecase(event.keyword);
+    result.fold(
+      (failure) {
+        emit(HomeError(message: 'Failed to fetch jobs'));
+      },
+      (success) {
+        if (success.isEmpty) {
+          emit(HomeEmpty(message: 'No jobs were found'));
+        } else {
+          allJobs.clear();
+          allJobs.addAll(success);
+          emit(HomeLoaded(jobs: allJobs));
+        }
+      },
+    );
+  }
+
   Future<void> _resetFilter(ResetFilter event, Emitter<HomeState> emit) async {
     emit(HomeLoading());
     skip = 0;
     _clearFilter();
+    final result = await _allJobsUsecase('');
+    result.fold(
+      (failure) {
+        emit(HomeError(message: 'Failed to fetch jobs'));
+      },
+      (success) {
+        if (success.isEmpty) {
+          emit(HomeEmpty(message: 'No jobs were found'));
+        } else {
+          allJobs = success;
+          emit(HomeLoaded(jobs: allJobs));
+        }
+      },
+    );
+  }
+
+  Future<void> _resetSearch(ResetSearch event, Emitter<HomeState> emit) async {
+    emit(HomeLoading());
+    skip = 0;
     final result = await _allJobsUsecase('');
     result.fold(
       (failure) {

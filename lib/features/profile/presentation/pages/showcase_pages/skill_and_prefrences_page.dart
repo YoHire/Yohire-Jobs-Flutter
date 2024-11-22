@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:openbn/core/utils/bottom_sheets/bottomsheet.dart';
 import 'package:openbn/core/utils/constants/constants.dart';
@@ -105,6 +103,8 @@ class _SkillAndPrefrencesPageState extends State<SkillAndPrefrencesPage>
                         title: 'Your Skills',
                         onTap: () {
                           showCustomBottomSheet(
+                            isScrollControlled: true,
+                            isScrollable: true,
                               heightFactor: 0.45,
                               context: context,
                               content: SkillEditPage(
@@ -133,6 +133,8 @@ class _SkillAndPrefrencesPageState extends State<SkillAndPrefrencesPage>
                         title: 'Your Job Preferences',
                         onTap: () {
                           showCustomBottomSheet(
+                            isScrollControlled: true,
+                            isScrollable: true,
                               heightFactor: 0.45,
                               context: context,
                               content: JobPrefEditPage(

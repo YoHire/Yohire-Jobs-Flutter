@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:openbn/core/utils/constants/constants.dart';
 import 'package:openbn/core/utils/snackbars/show_snackbar.dart';
 import 'package:openbn/core/widgets/theme_gap.dart';
+import 'package:openbn/features/circle/presentation/bloc/circle_bloc/circle_bloc.dart';
 import 'package:openbn/features/circle/presentation/bloc/queue_bloc/queue_bloc.dart';
 import 'package:openbn/features/circle/presentation/widgets/bio_page.dart';
 import 'package:openbn/features/circle/presentation/widgets/queue_edit1.dart';
@@ -18,9 +19,29 @@ class QueueCreationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return BlocListener<QueueBloc, QueueState>(
-      listener: (context, state) {
-        if(state is QueueError){
-          showSimpleSnackBar(context: context, text: state.error, position: SnackBarPosition.TOP, isError: true);
+      listener: (context, state) async{
+        if (state is QueueError) {
+          if (ModalRoute.of(context)?.isCurrent == false) {
+            Navigator.pop(context);
+          }
+          showSimpleSnackBar(
+              context: context,
+              text: state.error,
+              position: SnackBarPosition.BOTTOM,
+              isError: true);
+        }
+        if (state is QueueJoined) {
+          await Future.delayed(const Duration(seconds: 2));
+          if (ModalRoute.of(context)?.isCurrent == false) {
+            Navigator.pop(context);
+          }
+          context.read<CircleBloc>().add(FetchQueueEvent());
+          Navigator.pop(context);
+          showSimpleSnackBar(
+              context: context,
+              text: 'Joined Queue Successfully',
+              position: SnackBarPosition.BOTTOM,
+              isError: false);
         }
       },
       child: Scaffold(

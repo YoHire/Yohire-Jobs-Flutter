@@ -7,6 +7,7 @@ class SaveExperience extends ExperienceEvent {
   File? file;
   SaveExperience({required this.data, this.file});
 }
+
 class DeleteExperience extends ExperienceEvent {
   final String id;
   DeleteExperience({required this.id});

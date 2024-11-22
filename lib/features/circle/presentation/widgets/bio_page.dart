@@ -1,8 +1,7 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:openbn/core/utils/bottom_sheets/bottomsheet.dart';
+import 'package:openbn/core/utils/bottom_sheets/resume_upload_widget.dart';
 import 'package:openbn/core/utils/shared_services/user/user_storage_services.dart';
 import 'package:openbn/core/widgets/button.dart';
 import 'package:openbn/core/widgets/main_heading_sub_heading.dart';
@@ -66,10 +65,13 @@ class _BioPageState extends State<BioPage> {
                 text: 'Join Queue',
                 loading: false,
                 onPressed: () {
-                  if (!_isResumeUploaded()) {
+                  if (_isResumeUploaded()) {
                     _showQueueJoinBottomSheet(context: context);
-                  }else{
-
+                  } else {
+                    showCustomBottomSheet(
+                        heightFactor: 0.6,
+                        context: context,
+                        content: const ResumeUploadWidget());
                   }
                 }),
             const ThemeGap(50)
@@ -97,22 +99,7 @@ class _BioPageState extends State<BioPage> {
       context: context,
       content: BlocProvider.value(
         value: queueBloc,
-        child: const JoinQueueBottomsheet(),
-      ),
-      isScrollControlled: true,
-      isScrollable: true,
-    );
-  }
-
-    // Bottom sheets
-  void _showResumeUploadBottomSheet({required BuildContext context}) {
-    final queueBloc = BlocProvider.of<QueueBloc>(context);
-    showCustomBottomSheet(
-      heightFactor: 0.5,
-      context: context,
-      content: BlocProvider.value(
-        value: queueBloc,
-        child: const JoinQueueBottomsheet(),
+        child:  JoinQueueBottomsheet(bio: _bioController.text,),
       ),
       isScrollControlled: true,
       isScrollable: true,

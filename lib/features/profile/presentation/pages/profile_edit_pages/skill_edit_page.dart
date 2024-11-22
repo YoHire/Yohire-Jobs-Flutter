@@ -65,7 +65,7 @@ class _SkillEditPageState extends State<SkillEditPage> {
             ),
             const ThemeGap(10),
             ThemedButton(
-                text: 'Update',
+                text: 'Update Skills',
                 loading: false,
                 onPressed: () {
                   context

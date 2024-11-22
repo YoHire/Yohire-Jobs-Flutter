@@ -61,6 +61,7 @@ class _EducationPageState extends State<EducationPage> {
   }
 
   void _assignPreviousValues() {
+
     if (widget.data != null) {
       _institutionController.text = widget.data!.institution;
       _completionDateController.text =
@@ -84,14 +85,14 @@ class _EducationPageState extends State<EducationPage> {
 
   EducationModel _createEducationEntity(EducationBloc bloc) {
     return EducationModel(
-      id: '',
+      id: widget.data==null?'': widget.data!.id,
       userId: '',
       institution: _institutionController.text.trim(),
       courseData: bloc.selectedCourse!,
       dateOfCompletion: DateServices.convertStringToDateTime(
         _completionDateController.text,
       ),
-      certificateUrl: '',
+      certificateUrl: widget.data==null?'': widget.data!.certificateUrl,
     );
   }
 
@@ -142,10 +143,14 @@ class _EducationPageState extends State<EducationPage> {
         return Scaffold(
           appBar: AppBar(
             actions: [
-              IconButton(
+             state is EducationSaving? const SizedBox(
+              width: 30,
+              height: 30,
+              child:  CircularProgressIndicator()) :IconButton(
                 icon: const Icon(Icons.check),
                 onPressed: _handleEducationSave,
               ),
+              const SizedBox(width: 10,)
             ],
           ),
           body: _buildBody(context),

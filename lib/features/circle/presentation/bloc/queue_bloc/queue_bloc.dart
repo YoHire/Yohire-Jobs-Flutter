@@ -144,12 +144,16 @@ class QueueBloc extends Bloc<QueueEvent, QueueState> {
   ) async {
     emit(QueueJoining());
     try {
+      if (event.bio.isEmpty) {
+        emit(QueueError(error: 'Bio Cannot be empty'));
+        return;
+      }
       final result = await _createQueueUsecase(CreateQueueParams(
           jobRole: jobRole!,
           countries: countriesId,
           salaryStart: salaryStart,
           salaryEnd: salaryEnd,
-          bio: bio));
+          bio: event.bio));
 
       result.fold(
         (failure) {

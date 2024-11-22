@@ -24,6 +24,7 @@ import 'package:openbn/features/circle/data/datasource/circle_remote_datasource.
 import 'package:openbn/features/circle/data/repository/circle_repository_impl.dart';
 import 'package:openbn/features/circle/domain/repository/circle_repository.dart';
 import 'package:openbn/features/circle/domain/usecases/create_queue_usecase.dart';
+import 'package:openbn/features/circle/domain/usecases/delete_queue_usecase.dart';
 import 'package:openbn/features/circle/domain/usecases/get_all_invitation_usecase.dart';
 import 'package:openbn/features/circle/domain/usecases/get_all_queue_usecase.dart';
 import 'package:openbn/features/circle/presentation/bloc/circle_bloc/circle_bloc.dart';
@@ -32,14 +33,17 @@ import 'package:openbn/features/circle/presentation/bloc/queue_bloc/queue_bloc.d
 import 'package:openbn/features/education/data/datasource/education_remote_datasource.dart';
 import 'package:openbn/features/education/data/repository/education_repository_impl.dart';
 import 'package:openbn/features/education/domain/repository/education_repository.dart';
+import 'package:openbn/features/education/domain/usecase/delete_education.dart';
 import 'package:openbn/features/education/domain/usecase/get_categories_usecase.dart';
 import 'package:openbn/features/education/domain/usecase/get_subcategories_usecase.dart';
 import 'package:openbn/features/education/domain/usecase/save_education_usecase.dart';
+import 'package:openbn/features/education/domain/usecase/update_education.dart';
 import 'package:openbn/features/education/presentation/bloc/education_bloc.dart';
 import 'package:openbn/features/experience/data/datasource/experience_remote_datasource.dart';
 import 'package:openbn/features/experience/data/repository/experience_repository_impl.dart';
 import 'package:openbn/features/experience/domain/repository/work_experience_repository.dart';
 import 'package:openbn/features/experience/domain/usecases/delete_experience_usecase.dart';
+import 'package:openbn/features/experience/domain/usecases/edit_experience_usecase.dart';
 import 'package:openbn/features/experience/domain/usecases/save_experience_usecase.dart';
 import 'package:openbn/features/experience/presentation/bloc/experience_bloc.dart';
 import 'package:openbn/features/home/data/datasource/home_api_datasource.dart';
@@ -54,6 +58,7 @@ import 'package:openbn/features/home/domain/usecase/get_jobs_usecase.dart';
 import 'package:openbn/features/home/domain/usecase/get_more_jobs_usecase.dart';
 import 'package:openbn/features/home/domain/usecase/get_single_job_usecase.dart';
 import 'package:openbn/features/home/domain/usecase/save_job_usecase.dart';
+import 'package:openbn/features/home/domain/usecase/search_jobs_usecase.dart';
 import 'package:openbn/features/home/domain/usecase/unsave_job_usecase.dart';
 import 'package:openbn/features/home/presentation/bloc/home_bloc/home_bloc.dart';
 import 'package:openbn/features/home/presentation/bloc/job_bloc/job_bloc.dart';
@@ -67,7 +72,12 @@ import 'package:openbn/features/prefrences/presentation/bloc/prefrence_bloc.dart
 import 'package:openbn/features/profile/data/datasource/profile_datasource.dart';
 import 'package:openbn/features/profile/data/repository/profile_repository_impl.dart';
 import 'package:openbn/features/profile/domain/repository/profile_repository.dart';
+import 'package:openbn/features/profile/domain/usecase/get_applied_jobs_usecase.dart';
+import 'package:openbn/features/profile/domain/usecase/get_saved_jobs_usecase.dart';
+import 'package:openbn/features/profile/domain/usecase/update_document_usecase.dart';
 import 'package:openbn/features/profile/domain/usecase/update_jobpref_usecase.dart';
+import 'package:openbn/features/profile/domain/usecase/update_language_readwrite.dart';
+import 'package:openbn/features/profile/domain/usecase/update_language_speak.dart';
 import 'package:openbn/features/profile/domain/usecase/update_personal_details_usecase.dart';
 import 'package:openbn/features/profile/domain/usecase/update_skill_usecase.dart';
 import 'package:openbn/features/profile/presentation/bloc/profile_bloc.dart';
@@ -100,11 +110,11 @@ Future<void> initDependencies() async {
   __initCircleServices();
   _initHome();
   _initJob();
+  await _initGetStorage();
   await _initFirebaseMessaging();
   _initAuth();
   _initProfile();
   __initUserNameServices();
-  await _initGetStorage();
   _initTimer();
   await __initUserApiServices();
   await _setupUserServices();
@@ -135,7 +145,7 @@ _initPrefrences() {
   serviceLocator.registerFactory(() => SearchJobRolesUsecase(serviceLocator()));
   serviceLocator
       .registerFactory(() => CreateGuestUserUsecase(serviceLocator()));
-  serviceLocator.registerLazySingleton(() => PrefrenceBloc(
+  serviceLocator.registerFactory(() => PrefrenceBloc(
       jobRolesUseCase: serviceLocator(),
       createGuestUserUsecase: serviceLocator(),
       searchJobRolesUsecase: serviceLocator()));
@@ -151,8 +161,10 @@ _initHome() {
   serviceLocator.registerFactory(() => FilterJobsUsecase(serviceLocator()));
   serviceLocator.registerFactory(() => SaveJobUsecase(serviceLocator()));
   serviceLocator.registerFactory(() => UnSaveJobUsecase(serviceLocator()));
+  serviceLocator.registerFactory(() => SearchJobsUsecase(serviceLocator()));
   serviceLocator.registerLazySingleton(() => HomeBloc(
       saveJobUsecase: serviceLocator(),
+      searchJobsUsecase: serviceLocator(),
       unsaveJobUsecase: serviceLocator(),
       filterJobsUsecase: serviceLocator(),
       allJobsUsecase: serviceLocator(),
@@ -209,9 +221,21 @@ _initProfile() {
       .registerFactory(() => UpdatePersonalDetailsUsecase(serviceLocator()));
   serviceLocator.registerFactory(() => UpdateSkillUsecase(serviceLocator()));
   serviceLocator.registerFactory(() => UpdateJobprefUsecase(serviceLocator()));
+  serviceLocator
+      .registerFactory(() => UpdateLanguageReadwriteUsecase(serviceLocator()));
+  serviceLocator
+      .registerFactory(() => UpdateLanguageSpeakUsecase(serviceLocator()));
+  serviceLocator.registerFactory(() => UpdateDocumentUsecase(serviceLocator()));
+  serviceLocator.registerFactory(() => GetSavedJobsUsecase(serviceLocator()));
+  serviceLocator.registerFactory(() => GetAppliedJobsUsecase(serviceLocator()));
   serviceLocator.registerLazySingleton(() => ProfileBloc(
       updateSkillUsecase: serviceLocator(),
+      updateLanguageReadwriteUsecase: serviceLocator(),
+      updateLanguageSpeakUsecase: serviceLocator(),
       updateJobprefUsecase: serviceLocator(),
+      updateDocumentUsecase: serviceLocator(),
+      getSavedJobsUsecase: serviceLocator(),
+      getAppliedJobsUsecase: serviceLocator(),
       updatePersonalDetailsUsecase: serviceLocator()));
 }
 
@@ -233,10 +257,16 @@ __initEducationServices() {
   serviceLocator.registerFactory(() => GetCategoriesUseCase(serviceLocator()));
   serviceLocator.registerFactory(() => SaveEducationUsecase(serviceLocator()));
   serviceLocator
+      .registerFactory(() => UpdateEducationUsecase(serviceLocator()));
+  serviceLocator
+      .registerFactory(() => DeleteEducationUsecase(serviceLocator()));
+  serviceLocator
       .registerFactory(() => GetSubCategoriesUseCase(serviceLocator()));
   serviceLocator.registerFactory(() => GetCoursesUseCase(serviceLocator()));
   serviceLocator.registerFactory(() => EducationBloc(
       saveEducationUseCase: serviceLocator(),
+      updateEducationUsecase: serviceLocator(),
+      deleteEducationUsecase: serviceLocator(),
       getCoursesUseCase: serviceLocator(),
       getCategoriesUseCase: serviceLocator(),
       getSubCategoriesUseCase: serviceLocator()));
@@ -256,6 +286,11 @@ void __initExperienceServices() {
     ),
   );
   serviceLocator.registerFactory(
+    () => EditExperienceUsecase(
+      serviceLocator(),
+    ),
+  );
+  serviceLocator.registerFactory(
     () => DeleteExperienceUsecase(
       serviceLocator(),
     ),
@@ -265,6 +300,7 @@ void __initExperienceServices() {
     () => ExperienceBloc(
       deleteExperienceUsecase: serviceLocator(),
       saveExperienceUsecase: serviceLocator(),
+      editExperienceUsecase: serviceLocator(),
     ),
   );
 }
@@ -283,6 +319,11 @@ void __initCircleServices() {
     ),
   );
   serviceLocator.registerFactory(
+    () => DeleteQueueUsecase(
+      serviceLocator(),
+    ),
+  );
+  serviceLocator.registerFactory(
     () => GetAllInvitationUsecase(
       serviceLocator(),
     ),
@@ -295,6 +336,7 @@ void __initCircleServices() {
 
   serviceLocator.registerLazySingleton(
     () => CircleBloc(
+      deleteQueueUsecase: serviceLocator(),
       getAllQueueUsecase: serviceLocator(),
     ),
   );

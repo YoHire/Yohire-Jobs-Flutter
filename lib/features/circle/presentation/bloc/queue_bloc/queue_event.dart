@@ -27,4 +27,9 @@ class SetSalaryRange extends QueueEvent {
   SetSalaryRange({required this.startingSalary, required this.endingSalary});
 }
 
-class JoinQueue extends QueueEvent {}
+class JoinQueue extends QueueEvent {
+  final String bio;
+
+  JoinQueue({required this.bio});
+  
+}
